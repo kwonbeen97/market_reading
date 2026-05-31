@@ -606,18 +606,15 @@ def api_indicators():
                         result["btc_chg"] = chg
             except Exception as e2:
                 print(f"{sym} 오류: {e2}")
-        # Fear & Greed (alternative.me - 무료 공개 API)
+        # Fear & Greed - market_data.json에서 읽기 (fetch_data.py가 CNN에서 수집)
         try:
-            fng_url = "https://api.alternative.me/fng/?limit=2&format=json"
-            fng_req = urllib.request.Request(fng_url, headers={"User-Agent":"Mozilla/5.0"})
-            with urllib.request.urlopen(fng_req, timeout=5) as fr:
-                fd = json.loads(fr.read())
-            fng_data = fd["data"]
-            result["fng"] = int(fng_data[0]["value"])
-            result["fng_label"] = fng_data[0]["value_classification"]
-            result["fng_prev"] = int(fng_data[1]["value"]) if len(fng_data) > 1 else None
+            mdata = fetch_from_github("market_data.json")
+            if mdata and mdata.get("fng"):
+                result["fng"] = mdata["fng"]
+                result["fng_label"] = mdata.get("fng_label", "")
+                result["fng_prev"] = mdata.get("fng_prev")
         except Exception as fe:
-            print(f"FNG 오류: {fe}")
+            print(f"FNG 읽기 오류: {fe}")
     except Exception as e:
         print(f'indicators 오류: {e}')
     return jsonify(result)
