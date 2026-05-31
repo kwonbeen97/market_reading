@@ -216,7 +216,15 @@ result = {
     "nasdaq_sectors": by_sector(nasdaq_rows),
 }
 
+
 with open("market_data.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
 
-print(f"✅ 완료! market_data.json 저장됨")
+# 날짜별 히스토리 저장
+import os
+os.makedirs("history", exist_ok=True)
+hist_path = f"history/{TARGET_DATE}.json"
+with open(hist_path, "w", encoding="utf-8") as f:
+    json.dump(result, f, ensure_ascii=False, indent=2)
+
+print(f"✅ 완료! market_data.json + history/{TARGET_DATE}.json 저장됨")
