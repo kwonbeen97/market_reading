@@ -194,6 +194,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .h-up-1{background:#15803d;color:#dcfce7}.h-flat{background:#1e2235;color:#888}
 .h-dn-1{background:#7f1d1d;color:#fecaca}.h-dn-2{background:#991b1b;color:#fee2e2}.h-dn-3{background:#b91c1c;color:#fff}
 .updated{text-align:center;font-size:11px;color:#444;padding:12px 0 4px}
+#searchInput::placeholder{color:#555}
+#searchInput:focus{border-color:#2563eb}
+.search-item{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #1e2235;cursor:pointer;transition:background .15s}
+.search-item:hover{background:#222535}
+.search-item:last-child{border-bottom:none}
+.search-item-name{font-size:14px;font-weight:500;flex:1}
+.search-item-sector{font-size:11px;padding:1px 7px;border-radius:4px;font-weight:600;margin-right:10px}
+.search-item-chg{font-size:14px;font-weight:700;min-width:60px;text-align:right}
 /* 팝업 */
 .popup-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:100;align-items:flex-end;justify-content:center}
 .popup-overlay.show{display:flex}
@@ -242,6 +250,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="ai-summary-label">✦ AI 시장 요약</div>
   <div class="ai-loading" id="aiLoading"><span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span><span style="margin-left:4px">분석 중...</span></div>
   <div class="ai-summary-text" id="aiText" style="display:none"></div>
+</div>
+
+<!-- 검색 -->
+<div style="padding:10px 16px 0;position:relative">
+  <input type="text" id="searchInput" placeholder="🔍  종목 검색  (예: 삼성전자, NVDA)" 
+    oninput="onSearch(this.value)"
+    style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #2a2d3a;background:#1a1d27;color:#e8eaed;font-size:14px;outline:none">
+  <div id="searchResults" style="display:none;position:absolute;left:16px;right:16px;top:52px;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;z-index:50;overflow:hidden;max-height:280px;overflow-y:auto"></div>
 </div>
 
 <!-- 날짜 히스토리 -->
@@ -397,6 +413,74 @@ async function loadIndicators(){
 }
 
 // 팝업
+// 검색
+let _allStocks=[];
+function buildSearchIndex(){
+  if(!data) return;
+  const all=[
+    ...(data.kospi_up||[]),...(data.kospi_down||[]),
+    ...(data.nasdaq_up||[]),...(data.nasdaq_down||[])
+  ];
+  // dedupe by ticker
+  const seen=new Set();
+  _allStocks=[];
+  all.forEach(s=>{
+    const key=s.ticker||s.name||s['종목'];
+    if(!seen.has(key)){seen.add(key);_allStocks.push(s);}
+  });
+  // also add from sectors
+  ['kospi_sectors','nasdaq_sectors'].forEach(k=>{
+    (data[k]||[]).forEach(sec=>{
+      (sec.stocks||[]).forEach(s=>{
+        const key=s.ticker||s.name;
+        if(!seen.has(key)){seen.add(key);_allStocks.push(s);}
+      });
+    });
+  });
+}
+
+function onSearch(q){
+  const box=document.getElementById('searchResults');
+  if(!q.trim()){box.style.display='none';return;}
+  const kw=q.toLowerCase();
+  const hits=_allStocks.filter(s=>{
+    const nm=(s.name||s['종목']||s.ticker||'').toLowerCase();
+    const tk=(s.ticker||'').toLowerCase();
+    return nm.includes(kw)||tk.includes(kw);
+  }).slice(0,8);
+  if(!hits.length){
+    box.style.display='block';
+    box.innerHTML='<div style="padding:12px 14px;color:#555;font-size:13px">검색 결과 없음</div>';
+    return;
+  }
+  const SECTOR_COLORS_S={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','통신':'#06b6d4','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e'};
+  box.style.display='block';
+  box.innerHTML=hits.map(s=>{
+    const nm=s.name||s['종목']||s.ticker||'';
+    const sec=s.sector||s['섹터']||'';
+    const col=SECTOR_COLORS_S[sec]||'#666';
+    const isUp=s.chg_pct>=0;
+    const sd=JSON.stringify(s).replace(/"/g,'&quot;');
+    return '<div class="search-item" onclick="selectSearch(this)" data-stock="'+sd+'">'
+      +'<div class="search-item-name">'+nm+'</div>'
+      +'<span class="search-item-sector" style="background:'+col+'22;color:'+col+'">'+sec+'</span>'
+      +'<div class="search-item-chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div>'
+      +'</div>';
+  }).join('');
+}
+
+function selectSearch(el){
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchResults').style.display='none';
+  openPopup(el);
+}
+
+// 검색창 외부 클릭시 닫기
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#searchInput')&&!e.target.closest('#searchResults'))
+    document.getElementById('searchResults').style.display='none';
+});
+
 function openPopup(el){const s=JSON.parse(el.getAttribute('data-stock')||'{}');
   const nm=s.name||s['종목']||s.ticker||'';
   const sec=s.sector||s['섹터']||'';
@@ -473,6 +557,7 @@ function renderHeatmap(){
 function render(){
   if(!data)return;
   document.getElementById('updatedAt').textContent='마지막 업데이트: '+(data.updated_at||'');
+  buildSearchIndex();
   if(view==='list')renderList();else renderHeatmap();
 }
 
