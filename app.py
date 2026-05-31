@@ -176,6 +176,29 @@ body.light .updated{color:#aaa}
 body.light .rank{color:#bbb}
 .theme-btn{background:none;border:1px solid #2a2d3a;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;transition:all .2s}
 body.light .theme-btn{border-color:#e5e5ea}
+.cal-btn{padding:5px 12px;font-size:12px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid #2a2d3a;background:#1a1d27;color:#888;transition:all .2s;margin:10px 16px 0;display:inline-block}
+.cal-btn:hover{border-color:#2563eb;color:#2563eb}
+body.light .cal-btn{background:#fff;border-color:#e5e5ea}
+.cal-panel{display:none;margin:8px 16px 0;background:#1a1d27;border:1px solid #2a2d3a;border-radius:12px;overflow:hidden}
+.cal-panel.show{display:block}
+body.light .cal-panel{background:#fff;border-color:#e5e5ea}
+.cal-header{padding:10px 14px;font-size:12px;font-weight:700;color:#888;letter-spacing:.5px;border-bottom:1px solid #1e2235}
+body.light .cal-header{border-color:#f0f0f5;color:#aaa}
+.cal-item{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #1e2235;gap:10px}
+.cal-item:last-child{border-bottom:none}
+body.light .cal-item{border-color:#f0f0f5}
+.cal-item:hover{background:#222535}
+body.light .cal-item:hover{background:#f5f5f7}
+.cal-date{font-size:11px;color:#555;min-width:48px;font-weight:600}
+.cal-name{flex:1;font-size:13px;font-weight:500}
+body.light .cal-name{color:#1d1d1f}
+.cal-imp{font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px}
+.cal-imp.high{background:#7f1d1d;color:#fca5a5}
+.cal-imp.mid{background:#1e3a5f;color:#93c5fd}
+.cal-imp.low{background:#1a2a1a;color:#86efac}
+.cal-days{font-size:11px;color:#555;min-width:40px;text-align:right}
+.cal-today{background:#1e2a1e}
+body.light .cal-today{background:#f0fff0}
 .header{padding:16px 16px 0;border-bottom:1px solid #1e2235}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .header h1{font-size:18px;font-weight:700}
@@ -295,6 +318,12 @@ body.light .theme-btn{border-color:#e5e5ea}
   <div class="ai-summary-label">✦ AI 시장 요약</div>
   <div class="ai-loading" id="aiLoading"><span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span><span style="margin-left:4px">분석 중...</span></div>
   <div class="ai-summary-text" id="aiText" style="display:none"></div>
+</div>
+
+<button class="cal-btn" onclick="toggleCal()">📅 경제지표 캘린더</button>
+<div class="cal-panel" id="calPanel">
+  <div class="cal-header">🇺🇸 미국 주요 경제지표 일정</div>
+  <div id="calItems"></div>
 </div>
 
 <div class="search-wrap">
@@ -555,6 +584,75 @@ async function loadAISummary(){
     document.getElementById('aiText').style.display='block';
     document.getElementById('aiText').textContent='요약 불러오기 실패';
   }
+}
+
+// 경제지표 캘린더
+const ECON_EVENTS = [
+  // 2026년 주요 일정
+  {date:"2026-06-04",name:"ISM 서비스업 PMI",imp:"mid"},
+  {date:"2026-06-05",name:"ADP 민간고용",imp:"high"},
+  {date:"2026-06-06",name:"신규 실업수당 청구",imp:"mid"},
+  {date:"2026-06-06",name:"무역수지",imp:"mid"},
+  {date:"2026-06-10",name:"CPI (소비자물가지수)",imp:"high"},
+  {date:"2026-06-11",name:"Core CPI",imp:"high"},
+  {date:"2026-06-12",name:"PPI (생산자물가지수)",imp:"mid"},
+  {date:"2026-06-17",name:"소매판매",imp:"high"},
+  {date:"2026-06-17",name:"산업생산",imp:"mid"},
+  {date:"2026-06-18",name:"FOMC 금리결정",imp:"high"},
+  {date:"2026-06-18",name:"파월 의장 기자회견",imp:"high"},
+  {date:"2026-06-25",name:"GDP (1분기 확정)",imp:"high"},
+  {date:"2026-06-26",name:"PCE 물가지수",imp:"high"},
+  {date:"2026-06-30",name:"시카고 PMI",imp:"mid"},
+  {date:"2026-07-02",name:"비농업 고용 (NFP)",imp:"high"},
+  {date:"2026-07-02",name:"실업률",imp:"high"},
+  {date:"2026-07-08",name:"FOMC 의사록",imp:"mid"},
+  {date:"2026-07-10",name:"CPI (소비자물가지수)",imp:"high"},
+  {date:"2026-07-15",name:"소매판매",imp:"high"},
+  {date:"2026-07-28",name:"FOMC 금리결정",imp:"high"},
+  {date:"2026-07-28",name:"파월 의장 기자회견",imp:"high"},
+  {date:"2026-07-30",name:"GDP (2분기 속보)",imp:"high"},
+  {date:"2026-07-31",name:"PCE 물가지수",imp:"high"},
+  {date:"2026-08-06",name:"비농업 고용 (NFP)",imp:"high"},
+  {date:"2026-08-12",name:"CPI (소비자물가지수)",imp:"high"},
+  {date:"2026-08-26",name:"잭슨홀 심포지엄",imp:"high"},
+  {date:"2026-09-16",name:"FOMC 금리결정",imp:"high"},
+  {date:"2026-09-25",name:"PCE 물가지수",imp:"high"},
+];
+
+const IMP_LABEL = {high:"중요",mid:"보통",low:"낮음"};
+
+function renderCalendar(){
+  const now = new Date();
+  const today = now.toISOString().slice(0,10);
+  const upcoming = ECON_EVENTS
+    .filter(e => e.date >= today)
+    .slice(0,12);
+
+  const el = document.getElementById('calItems');
+  if(!upcoming.length){
+    el.innerHTML='<div style="padding:14px;text-align:center;color:#555;font-size:13px">예정된 일정 없음</div>';
+    return;
+  }
+
+  el.innerHTML = upcoming.map(e=>{
+    const eDate = new Date(e.date+'T00:00:00');
+    const diff = Math.round((eDate - now) / 86400000);
+    const isToday = e.date === today;
+    const daysStr = isToday ? '오늘' : diff===1 ? '내일' : diff+'일 후';
+    const dStr = e.date.slice(5).replace('-','/');
+    return '<div class="cal-item'+(isToday?' cal-today':'')+'">'
+      +'<div class="cal-date">'+dStr+'</div>'
+      +'<div class="cal-name">'+e.name+'</div>'
+      +'<span class="cal-imp '+e.imp+'">'+IMP_LABEL[e.imp]+'</span>'
+      +'<div class="cal-days">'+daysStr+'</div>'
+      +'</div>';
+  }).join('');
+}
+
+function toggleCal(){
+  const panel = document.getElementById('calPanel');
+  panel.classList.toggle('show');
+  if(panel.classList.contains('show')) renderCalendar();
 }
 
 // 테마 설정
