@@ -287,6 +287,55 @@ const SECTOR_COLORS={'반도체':'#6366f1','이차전지':'#22c55e','바이오':
 
 function switchMarket(m,el){market=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
 function switchView(v,el){view=v;document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('list-view').style.display=v==='list'?'':'none';document.getElementById('heatmap-view').style.display=v==='heatmap'?'':'none';render();}
+
+function getFngLabel(v){return v>=75?'Extreme Greed':v>=55?'Greed':v>=45?'Neutral':v>=25?'Fear':'Extreme Fear';}
+function getFngColor(v){return v>=75?'#22c55e':v>=55?'#86efac':v>=45?'#facc15':v>=25?'#f97316':'#ef4444';}
+
+function openFngPopup(d){
+  const val=d.fng, label=d.fng_label||getFngLabel(val), prev=d.fng_prev;
+  const col=getFngColor(val);
+  document.getElementById('fngBig').textContent=val;
+  document.getElementById('fngBig').style.color=col;
+  document.getElementById('fngBigLabel').textContent=label;
+  document.getElementById('fngBigLabel').style.color=col;
+  document.getElementById('fngPrev').textContent=prev||'—';
+  document.getElementById('fngCur').textContent=val;
+  document.getElementById('fngStat').textContent=label;
+  document.getElementById('fngOverlay').classList.add('show');
+  drawGauge(val, col);
+}
+
+function drawGauge(val, col){
+  const canvas=document.getElementById('fngGauge');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const cx=W/2, cy=H-20, r=120;
+  ctx.clearRect(0,0,W,H);
+  // Background arc segments
+  const segs=[{from:Math.PI,to:Math.PI*1.2,c:'#7f1d1d'},{from:Math.PI*1.2,to:Math.PI*1.4,c:'#f97316'},
+              {from:Math.PI*1.4,to:Math.PI*1.6,c:'#facc15'},{from:Math.PI*1.6,to:Math.PI*1.8,c:'#86efac'},
+              {from:Math.PI*1.8,to:Math.PI*2,c:'#15803d'}];
+  segs.forEach(s=>{
+    ctx.beginPath();ctx.arc(cx,cy,r,s.from,s.to);
+    ctx.arc(cx,cy,r-28,s.to,s.from,true);
+    ctx.fillStyle=s.c;ctx.fill();
+  });
+  // Needle
+  const angle=Math.PI+(val/100)*Math.PI;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(angle);
+  ctx.beginPath();ctx.moveTo(0,8);ctx.lineTo(r-10,0);ctx.lineTo(0,-4);
+  ctx.fillStyle='#e8eaed';ctx.fill();ctx.restore();
+  // Center dot
+  ctx.beginPath();ctx.arc(cx,cy,10,0,Math.PI*2);ctx.fillStyle='#1a1d27';ctx.fill();
+  ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
+  // Labels
+  ctx.fillStyle='#888';ctx.font='10px sans-serif';ctx.textAlign='center';
+  ctx.fillText('0',cx-r+8,cy+4);
+  ctx.fillText('50',cx,cy-r-6);
+  ctx.fillText('100',cx+r-8,cy+4);
+}
+
 function heatClass(v){if(v>5)return 'h-up-3';if(v>2)return 'h-up-2';if(v>0)return 'h-up-1';if(v>-2)return 'h-flat';if(v>-5)return 'h-dn-1';if(v>-8)return 'h-dn-2';return 'h-dn-3';}
 
 // 날짜 바
@@ -318,11 +367,17 @@ async function loadIndicators(){
     }
     if(d.usd) set('usd',d.usd.toLocaleString()+'원',d.usd_chg);
     if(d.fng){
-      document.getElementById('fng').textContent=d.fng;
+      const fngVal=d.fng;
+      const fngLabel=d.fng_label||getFngLabel(fngVal);
+      document.getElementById('fng').textContent=fngVal;
       const el=document.getElementById('fng-c');
-      const label=d.fng>=75?'극도 탐욕':d.fng>=55?'탐욕':d.fng>=45?'중립':d.fng>=25?'공포':'극도 공포';
-      el.textContent=label;
-      el.className='ind-chg '+(d.fng>=50?'up':'down');
+      el.textContent=fngLabel;
+      el.className='ind-chg '+(fngVal>=50?'up':'down');
+      // store for popup
+      window._fngData=d;
+      // make card clickable
+      document.getElementById('fng').closest('.ind-card').style.cursor='pointer';
+      document.getElementById('fng').closest('.ind-card').onclick=()=>openFngPopup(d);
     }
     if(d.oil) set('oil','$'+d.oil,d.oil_chg);
     if(d.gold) set('gold','$'+d.gold.toLocaleString(),d.gold_chg);
@@ -443,6 +498,37 @@ async function loadAll(){
 }
 loadAll();
 </script>
+
+<!-- 공포탐욕 게이지 팝업 -->
+<div class="popup-overlay" id="fngOverlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="popup" style="padding-bottom:24px">
+    <div class="popup-handle"></div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px">Fear & Greed Index</div>
+    <div style="font-size:12px;color:#666;margin-bottom:16px">시장 심리 지수 (0=극도공포 · 100=극도탐욕)</div>
+    <div style="position:relative;width:100%;height:160px;margin-bottom:12px">
+      <canvas id="fngGauge" width="320" height="160"></canvas>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:42px;font-weight:700" id="fngBig">—</div>
+      <div style="font-size:15px;font-weight:600;margin-top:4px" id="fngBigLabel">—</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:12px;border-top:1px solid #1e2235">
+      <div style="text-align:center">
+        <div style="font-size:11px;color:#666">전일</div>
+        <div style="font-size:16px;font-weight:600" id="fngPrev">—</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:11px;color:#666">현재</div>
+        <div style="font-size:16px;font-weight:600" id="fngCur">—</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:11px;color:#666">상태</div>
+        <div style="font-size:13px;font-weight:600" id="fngStat">—</div>
+      </div>
+    </div>
+    <button class="popup-close" style="margin-top:16px" onclick="document.getElementById('fngOverlay').classList.remove('show')">닫기</button>
+  </div>
+</div>
 </body>
 </html>"""
 
@@ -520,15 +606,18 @@ def api_indicators():
                         result["btc_chg"] = chg
             except Exception as e2:
                 print(f"{sym} 오류: {e2}")
-        # CNN Fear & Greed
+        # Fear & Greed (alternative.me - 무료 공개 API)
         try:
-            url5 = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
-            req5 = urllib.request.Request(url5, headers={"User-Agent":"Mozilla/5.0","referer":"https://www.cnn.com"})
-            with urllib.request.urlopen(req5, timeout=5) as r5:
-                d5 = json.loads(r5.read())
-            result["fng"] = round(d5["fear_and_greed"]["score"])
-        except:
-            pass
+            fng_url = "https://api.alternative.me/fng/?limit=2&format=json"
+            fng_req = urllib.request.Request(fng_url, headers={"User-Agent":"Mozilla/5.0"})
+            with urllib.request.urlopen(fng_req, timeout=5) as fr:
+                fd = json.loads(fr.read())
+            fng_data = fd["data"]
+            result["fng"] = int(fng_data[0]["value"])
+            result["fng_label"] = fng_data[0]["value_classification"]
+            result["fng_prev"] = int(fng_data[1]["value"]) if len(fng_data) > 1 else None
+        except Exception as fe:
+            print(f"FNG 오류: {fe}")
     except Exception as e:
         print(f'indicators 오류: {e}')
     return jsonify(result)
