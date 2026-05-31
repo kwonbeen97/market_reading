@@ -163,10 +163,9 @@ NASDAQ_RAW = [
 ]
 
 def get_leaders(raw_list):
-    end   = TARGET + timedelta(days=1)
-    start = TARGET - timedelta(days=7)
+    end   = TARGET + timedelta(days=2)
+    start = TARGET - timedelta(days=10)
     rows  = []
-
     for ticker, name in raw_list:
         try:
             df = yf.download(ticker, start=start, end=end,
@@ -175,27 +174,21 @@ def get_leaders(raw_list):
                 continue
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = df.columns.get_level_values(0)
-            day = df[df.index.date == TARGET.date()]
-            if day.empty:
+            df = df.dropna(subset=["Close"])
+            if len(df) < 2:
                 continue
-            prev = df[df.index < day.index[0]]
-            if prev.empty:
-                continue
-            prev_close = float(prev["Close"].iloc[-1])
-            close      = float(day["Close"].iloc[0])
+            close      = float(df["Close"].iloc[-1])
+            prev_close = float(df["Close"].iloc[-2])
             chg_pct    = round((close - prev_close) / prev_close * 100, 2)
-            volume     = int(day["Volume"].iloc[0])
             rows.append({
                 "name"   : name,
                 "ticker" : ticker,
-                "sector" : sector,
+                "sector" : get_sector(ticker),
                 "close"  : round(close, 2),
                 "chg_pct": chg_pct,
-                "volume" : volume,
             })
         except:
             continue
-
     return rows
 
 print(f"[데이터 수집] {TARGET_DATE}")
