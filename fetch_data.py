@@ -118,7 +118,7 @@ def find_last_trading_day():
 TARGET_DATE_OBJ = find_last_trading_day()
 TARGET = datetime.combine(TARGET_DATE_OBJ, datetime.min.time())
 print(f"최근 거래일: {TARGET_DATE_OBJ}")
-TARGET_DATE = TARGET.strftime("%Y-%m-%d")
+TARGET_DATE = TARGET_DATE_OBJ.strftime("%Y-%m-%d")
 
 # ── 코스피 대형주 티커 + 이름 (섹터는 yfinance 자동) ─────────
 KOSPI_RAW = [
