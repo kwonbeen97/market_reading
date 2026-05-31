@@ -186,7 +186,7 @@ NASDAQ_TICKERS = [
     ("ANSS","ANSYS","AI/소프트웨어"),
     ("ZM","Zoom","AI/소프트웨어"),
     ("DOCU","DocuSign","AI/소프트웨어"),
-    ("SMCI","Super Micro","AI/소프트웨어")
+    ("SMCI","Super Micro","AI/소프트웨어"),
     # 전기차/에너지
     ("TSLA","Tesla","전기차/에너지"),
     ("ENPH","Enphase","전기차/에너지"),
