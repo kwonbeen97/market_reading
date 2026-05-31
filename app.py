@@ -127,7 +127,7 @@ HTML = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>시장 주도 종목</title>
+<title>데일리 마켓 브리핑</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e8eaed;min-height:100vh}
@@ -217,7 +217,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <body>
 <div class="header">
   <div class="header-top">
-    <h1>📈 시장 주도 종목</h1>
+    <h1>📊 데일리 마켓 브리핑</h1>
     <button class="refresh-btn" onclick="loadAll()">새로고침</button>
   </div>
   <div class="tabs">
@@ -231,7 +231,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="ind-card"><div class="ind-label">코스피</div><div class="ind-value" id="kospi-idx">—</div><div class="ind-chg neutral" id="kospi-idx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">나스닥</div><div class="ind-value" id="nasdaq-idx">—</div><div class="ind-chg neutral" id="nasdaq-idx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">USD/KRW</div><div class="ind-value" id="usd">—</div><div class="ind-chg neutral" id="usd-c">로딩중</div></div>
-  <div class="ind-card"><div class="ind-label">공포탐욕지수</div><div class="ind-value" id="fng">—</div><div class="ind-chg neutral" id="fng-c">로딩중</div></div>
+  <div class="ind-card"><div class="ind-label">미국 10년물</div><div class="ind-value" id="tnx">—</div><div class="ind-chg neutral" id="tnx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">WTI 원유</div><div class="ind-value" id="oil">—</div><div class="ind-chg neutral" id="oil-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">금 (Gold)</div><div class="ind-value" id="gold">—</div><div class="ind-chg neutral" id="gold-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">비트코인</div><div class="ind-value" id="btc">—</div><div class="ind-chg neutral" id="btc-c">로딩중</div></div>
@@ -383,18 +383,12 @@ async function loadIndicators(){
       }
     }
     if(d.usd) set('usd',d.usd.toLocaleString()+'원',d.usd_chg);
-    if(d.fng){
-      const fngVal=d.fng;
-      const fngLabel=d.fng_label||getFngLabel(fngVal);
-      document.getElementById('fng').textContent=fngVal;
-      const el=document.getElementById('fng-c');
-      el.textContent=fngLabel;
-      el.className='ind-chg '+(fngVal>=50?'up':'down');
-      // store for popup
-      window._fngData=d;
-      // make card clickable
-      document.getElementById('fng').closest('.ind-card').style.cursor='pointer';
-      document.getElementById('fng').closest('.ind-card').onclick=()=>openFngPopup(d);
+    if(d.tnx){
+      const isUp=d.tnx_chg>=0;
+      document.getElementById('tnx').textContent=d.tnx+'%';
+      const el=document.getElementById('tnx-c');
+      el.textContent=(isUp?'+':'')+d.tnx_chg+'%p';
+      el.className='ind-chg '+(isUp?'down':'up'); // 금리 오르면 주식엔 부정적
     }
     if(d.oil) set('oil','$'+d.oil,d.oil_chg);
     if(d.gold) set('gold','$'+d.gold.toLocaleString(),d.gold_chg);
@@ -599,7 +593,7 @@ def api_indicators():
         from datetime import datetime, timedelta
         end = datetime.today()
         start = end - timedelta(days=5)
-        symbols = {"KRW=X": "usd", "CL=F": "oil", "GC=F": "gold", "BTC-USD": "btc"}
+        symbols = {"KRW=X": "usd", "CL=F": "oil", "GC=F": "gold", "BTC-USD": "btc", "^TNX": "tnx"}
         for sym, key in symbols.items():
             try:
                 df = yf.download(sym, start=start, end=end, auto_adjust=True, progress=False)
@@ -621,6 +615,9 @@ def api_indicators():
                     elif key == "btc":
                         result["btc"] = round(float(v))
                         result["btc_chg"] = chg
+                    elif key == "tnx":
+                        result["tnx"] = round(float(v), 2)
+                        result["tnx_chg"] = round((closes[-1]-closes[-2])*100)/100
             except Exception as e2:
                 print(f"{sym} 오류: {e2}")
         # Fear & Greed - market_data.json에서 읽기 (GitHub Actions가 CNN에서 수집)
