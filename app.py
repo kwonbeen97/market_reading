@@ -141,12 +141,14 @@ function renderList(){
     return arr.map((s,i)=>{
       const col=SECTOR_COLORS[s.sector]||'#666';
       const pct=Math.abs(s.chg_pct)/max*100;
+      const sname=s.name||s.종목||s.ticker||'';
+      const ssector=s.sector||s.섹터||'';
       const price=typeof s.close==='number'?s.close.toLocaleString():'';
       return `<div class="stock-row">
         <div class="rank">${i+1}</div>
         <div class="info">
-          <div class="name">${s.name}</div>
-          <span class="sector-tag" style="background:${col}22;color:${col}">${s.sector}</span>
+          <div class="name">${sname}</div>
+          <span class="sector-tag" ...>${ssector}</span>
         </div>
         <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${isUp?'#22c55e':'#ef4444'}"></div></div></div>
         <div class="price">${price}</div>
