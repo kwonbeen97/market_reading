@@ -287,6 +287,11 @@ body.light .cal-today{background:#f0fff0}
 .badge-streak-up{display:inline-block;font-size:10px;font-weight:700;background:#14532d;color:#86efac;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-streak-dn{display:inline-block;font-size:10px;font-weight:700;background:#7f1d1d;color:#fecaca;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-vol{display:inline-block;font-size:10px;font-weight:700;background:#1e3a5f;color:#60a5fa;padding:1px 5px;border-radius:4px;margin-left:4px}
+.sector-chart{display:none;padding:8px 12px;border-top:1px solid rgba(255,255,255,.06)}
+.sector-chart.show{display:block}
+.sector-chart canvas{width:100%;height:48px;display:block}
+.sector-header{cursor:pointer}
+.sector-header:hover{opacity:.85}
 </style>
 </head>
 <body>
@@ -524,6 +529,43 @@ function renderHeatmap(){
     const scol=SECTOR_COLORS[sec.sector]||'#6b7280';
     return '<div class="sector-block" style="border-color:'+scol+'44"><div class="sector-header" style="background:'+scol+'18;border-bottom-color:'+scol+'33"><span class="sector-name" style="color:'+scol+'">'+sec.sector+'</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></div><div class="stocks-grid">'+cells+'</div></div>';
   }).join('');
+}
+
+function toggleSectorChart(sid, hist5, col){
+  const el = document.getElementById(sid);
+  if(!el) return;
+  el.classList.toggle('show');
+  if(!el.classList.contains('show')) return;
+  const cv = document.getElementById('cv-'+sid);
+  if(!cv || !hist5.length) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.offsetWidth || 300;
+  cv.width = W; cv.height = 48;
+  const max = Math.max(...hist5.map(Math.abs), 0.1);
+  const mid = 24;
+  ctx.clearRect(0,0,W,48);
+  // zero line
+  ctx.strokeStyle='rgba(255,255,255,.1)';
+  ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();
+  // bars
+  const bw = W/hist5.length - 4;
+  hist5.forEach((v,i)=>{
+    const x = i*(W/hist5.length)+2;
+    const h = Math.abs(v)/max*20;
+    ctx.fillStyle = v>=0?'#22c55e':'#ef4444';
+    if(v>=0) ctx.fillRect(x, mid-h, bw, h);
+    else ctx.fillRect(x, mid, bw, h);
+  });
+  // line
+  ctx.strokeStyle=col;ctx.lineWidth=2;ctx.lineJoin='round';
+  ctx.beginPath();
+  hist5.forEach((v,i)=>{
+    const x = i*(W/hist5.length)+(W/hist5.length)/2;
+    const y = mid - (v/max)*20;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
 }
 
 function render(){
