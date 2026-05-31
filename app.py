@@ -223,14 +223,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hist-label{font-size:11px;color:#666}
 .hist-val{font-size:12px;font-weight:600}
 .popup-close{width:100%;padding:12px;background:#2563eb;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
-.news-section{padding-top:12px;border-top:1px solid #1e2235;margin-top:4px}
-.news-label{font-size:11px;font-weight:700;color:#555;letter-spacing:.5px;margin-bottom:8px}
-.news-item{padding:8px 0;border-bottom:1px solid #1e2235;cursor:pointer}
-.news-item:last-child{border-bottom:none}
-.news-title{font-size:13px;color:#ccc;line-height:1.5;margin-bottom:3px}
-.news-title:hover{color:#3b82f6}
-.news-meta{font-size:11px;color:#555}
-.news-loading{font-size:12px;color:#555;padding:8px 0;display:flex;align-items:center;gap:6px}
+.badge-streak-up{display:inline-block;font-size:10px;font-weight:700;background:#14532d;color:#86efac;padding:1px 5px;border-radius:4px;margin-left:4px}
+.badge-streak-dn{display:inline-block;font-size:10px;font-weight:700;background:#7f1d1d;color:#fecaca;padding:1px 5px;border-radius:4px;margin-left:4px}
+.badge-vol{display:inline-block;font-size:10px;font-weight:700;background:#1e3a5f;color:#60a5fa;padding:1px 5px;border-radius:4px;margin-left:4px}
 </style>
 </head>
 <body>
@@ -296,12 +291,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div><div class="popup-price-label">현재가</div><div class="popup-price-val" id="popupPrice"></div></div>
       <div style="text-align:right"><div class="popup-price-label">티커</div><div class="popup-price-val" id="popupTicker"></div></div>
     </div>
+    <div style="margin:8px 0" id="popupExtra"></div>
     <div class="popup-desc" id="popupDesc"></div>
     <div id="popupHist"></div>
-    <div class="news-section" id="newsSection" style="display:none">
-      <div class="news-label">📰 최근 뉴스</div>
-      <div id="newsContent"><div class="news-loading"><span class="ai-dot"></span>불러오는 중...</div></div>
-    </div>
+
     <button class="popup-close" onclick="document.getElementById('popupOverlay').classList.remove('show')">닫기</button>
   </div>
 </div>
@@ -404,6 +397,13 @@ function openPopup(el){
   document.getElementById('popupChg').className='popup-chg '+(isUp?'up':'down');
   document.getElementById('popupPrice').textContent=cl?Number(cl).toLocaleString()+' '+(market==='kospi'?'원':'USD'):'–';
   document.getElementById('popupTicker').textContent=s.ticker||'–';
+  // streak/vol 정보
+  let extraInfo='';
+  if(s.streak>=2) extraInfo+='<span class="badge-streak-up">🔥'+s.streak+'일 연속 상승</span> ';
+  else if(s.streak<=-2) extraInfo+='<span class="badge-streak-dn">📉'+Math.abs(s.streak)+'일 연속 하락</span> ';
+  if(s.vol_surge>=2) extraInfo+='<span class="badge-vol">⚡거래량 '+s.vol_surge+'배 급증</span>';
+  const extraEl=document.getElementById('popupExtra');
+  if(extraEl) extraEl.innerHTML=extraInfo;
   document.getElementById('popupDesc').textContent=DESC[nm]||'종목 설명 준비 중입니다.';
   let histHtml='';
   [...dates].sort().reverse().forEach(d=>{
@@ -415,22 +415,7 @@ function openPopup(el){
   });
   document.getElementById('popupHist').innerHTML=histHtml?'<div style="margin-top:8px;font-size:11px;color:#555;font-weight:700;letter-spacing:.5px">과거 등락률</div>'+histHtml:'';
   document.getElementById('popupOverlay').classList.add('show');
-  // 뉴스 로드
-  const newsSection = document.getElementById('newsSection');
-  const newsContent = document.getElementById('newsContent');
-  newsSection.style.display = 'block';
-  newsContent.innerHTML = '<div class="news-loading"><span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span><span style="margin-left:4px">뉴스 불러오는 중...</span></div>';
-  fetch('/api/news?ticker=' + encodeURIComponent(s.ticker||'') + '&name=' + encodeURIComponent(nm))
-    .then(r => r.json())
-    .then(news => {
-      if(!news.length){newsContent.innerHTML='<div style="font-size:12px;color:#555;padding:6px 0">관련 뉴스 없음</div>';return;}
-      newsContent.innerHTML = news.map(n=>`
-        <div class="news-item" onclick="window.open('${n.url}','_blank')">
-          <div class="news-title">${n.title}</div>
-          <div class="news-meta">${n.source} · ${n.time}</div>
-        </div>`).join('');
-    })
-    .catch(()=>{newsContent.innerHTML='<div style="font-size:12px;color:#555;padding:6px 0">뉴스 로드 실패</div>';});
+
 }
 
 function renderList(){
@@ -668,89 +653,6 @@ def api_search():
             results.append({"name":name,"ticker":ticker,"close":round(close,2),"chg_pct":chg,"sector":"코스피" if ticker.endswith(".KS") else "나스닥","live":True})
     except:pass
     return jsonify(results[:10])
-
-@app.route("/api/news")
-def api_news():
-    ticker = request.args.get("ticker", "")
-    name   = request.args.get("name", "")
-    is_kr  = ticker.endswith(".KS") or ticker.endswith(".KQ")
-    results = []
-
-    if is_kr:
-        # 코스피 → 네이버 금융 뉴스
-        try:
-            import re
-            search_name = name or ticker
-            url = f"https://finance.naver.com/item/news_news.naver?code={ticker.replace('.KS','').replace('.KQ','')}&page=1"
-            req = urllib.request.Request(url, headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Referer": "https://finance.naver.com"
-            })
-            with urllib.request.urlopen(req, timeout=8) as r:
-                html = r.read().decode("euc-kr", errors="ignore")
-
-            # 뉴스 파싱
-            pattern = r'<td class="title"><a[^>]+href="([^"]+)"[^>]*>([^<]+)</a></td>.*?<td class="info">([^<]+)</td>.*?<td class="date">([^<]+)</td>'
-            matches = re.findall(pattern, html, re.DOTALL)
-            for m in matches[:3]:
-                link, title, source, date = m
-                full_url = "https://finance.naver.com" + link if link.startswith("/") else link
-                results.append({
-                    "title": title.strip(),
-                    "url": full_url,
-                    "source": source.strip(),
-                    "time": date.strip()
-                })
-        except Exception as e:
-            print(f"네이버 뉴스 오류: {e}")
-
-    else:
-        # 나스닥 → Finviz 뉴스
-        try:
-            import re, time
-            url = f"https://finviz.com/quote.ashx?t={ticker}&p=d"
-            req = urllib.request.Request(url, headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Referer": "https://finviz.com"
-            })
-            with urllib.request.urlopen(req, timeout=8) as r:
-                html = r.read().decode("utf-8", errors="ignore")
-
-            # Finviz 뉴스 테이블 파싱
-            pattern = r'class=\"news-link-right\"[^>]*href=\"([^\"]+)\"[^>]*>([^<]+)</a>.*?<td[^>]*>(\d{2}/\d{2}/\d{2} \d{2}:\d{2}(?:AM|PM)?)</td>'
-            matches = re.findall(pattern, html, re.DOTALL)
-
-            if not matches:
-                # 대안 패턴
-                pattern2 = r'<a[^>]+href="(https?://[^"]+)"[^>]*class="[^"]*news[^"]*"[^>]*>([^<]{10,})</a>'
-                matches2 = re.findall(pattern2, html)
-                for url_m, title_m in matches2[:3]:
-                    results.append({"title": title_m.strip(), "url": url_m, "source": "Finviz", "time": ""})
-            else:
-                for url_m, title_m, date_m in matches[:3]:
-                    results.append({"title": title_m.strip(), "url": url_m, "source": "Finviz", "time": date_m.strip()})
-
-        except Exception as e:
-            print(f"Finviz 뉴스 오류: {e}")
-            # Fallback: yfinance
-            try:
-                import yfinance as yf, time
-                t = yf.Ticker(ticker)
-                news = t.news or []
-                for n in news[:3]:
-                    cd = n.get("content", {})
-                    title = cd.get("title", n.get("title", ""))
-                    url_n = cd.get("canonicalUrl", {}).get("url", "") or n.get("link", "")
-                    ptime = n.get("providerPublishTime", 0)
-                    diff = int(time.time()) - ptime if ptime else 0
-                    tstr = f"{diff//3600}시간 전" if diff < 86400 else f"{diff//86400}일 전"
-                    provider = cd.get("provider", {}).get("displayName", n.get("publisher", ""))
-                    if title and url_n:
-                        results.append({"title": title, "url": url_n, "source": provider, "time": tstr})
-            except:
-                pass
-
-    return jsonify(results)
 
 @app.route("/manifest.json")
 def manifest():
