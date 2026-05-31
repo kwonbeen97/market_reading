@@ -1,9 +1,13 @@
 {
   "date": "2026-05-29",
-  "updated_at": "2026-05-31 08:05",
+  "updated_at": "2026-05-31 08:11",
   "fng": null,
   "fng_label": null,
   "fng_prev": null,
+  "kospi_index": 8476.15,
+  "kospi_chg": 3.55,
+  "nasdaq_index": 26972.62,
+  "nasdaq_chg": 0.2,
   "kospi_up": [
     {
       "name": "LG전자",
@@ -112,7 +116,7 @@
     {
       "name": "SK텔레콤",
       "ticker": "017670.KS",
-      "sector": "철강/소재",
+      "sector": "통신",
       "close": 100600.0,
       "chg_pct": 3.82,
       "volume": 1964174
@@ -540,6 +544,36 @@
       ]
     },
     {
+      "sector": "철강/소재",
+      "avg_chg": 9.27,
+      "stocks": [
+        {
+          "name": "LG",
+          "ticker": "003550.KS",
+          "sector": "철강/소재",
+          "close": 146600.0,
+          "chg_pct": 26.6,
+          "volume": 6182816
+        },
+        {
+          "name": "POSCO홀딩스",
+          "ticker": "005490.KS",
+          "sector": "철강/소재",
+          "close": 423500.0,
+          "chg_pct": 0.83,
+          "volume": 775543
+        },
+        {
+          "name": "S-Oil",
+          "ticker": "010950.KS",
+          "sector": "철강/소재",
+          "close": 107400.0,
+          "chg_pct": 0.37,
+          "volume": 908028
+        }
+      ]
+    },
+    {
       "sector": "자동차",
       "avg_chg": 7.03,
       "stocks": [
@@ -586,52 +620,6 @@
       ]
     },
     {
-      "sector": "철강/소재",
-      "avg_chg": 6.67,
-      "stocks": [
-        {
-          "name": "LG",
-          "ticker": "003550.KS",
-          "sector": "철강/소재",
-          "close": 146600.0,
-          "chg_pct": 26.6,
-          "volume": 6182816
-        },
-        {
-          "name": "SK텔레콤",
-          "ticker": "017670.KS",
-          "sector": "철강/소재",
-          "close": 100600.0,
-          "chg_pct": 3.82,
-          "volume": 1964174
-        },
-        {
-          "name": "KT",
-          "ticker": "030200.KS",
-          "sector": "철강/소재",
-          "close": 52800.0,
-          "chg_pct": 1.73,
-          "volume": 550164
-        },
-        {
-          "name": "POSCO홀딩스",
-          "ticker": "005490.KS",
-          "sector": "철강/소재",
-          "close": 423500.0,
-          "chg_pct": 0.83,
-          "volume": 775543
-        },
-        {
-          "name": "S-Oil",
-          "ticker": "010950.KS",
-          "sector": "철강/소재",
-          "close": 107400.0,
-          "chg_pct": 0.37,
-          "volume": 908028
-        }
-      ]
-    },
-    {
       "sector": "반도체",
       "avg_chg": 3.5,
       "stocks": [
@@ -674,6 +662,28 @@
           "close": 282000.0,
           "chg_pct": -3.59,
           "volume": 1603208
+        }
+      ]
+    },
+    {
+      "sector": "통신",
+      "avg_chg": 2.77,
+      "stocks": [
+        {
+          "name": "SK텔레콤",
+          "ticker": "017670.KS",
+          "sector": "통신",
+          "close": 100600.0,
+          "chg_pct": 3.82,
+          "volume": 1964174
+        },
+        {
+          "name": "KT",
+          "ticker": "030200.KS",
+          "sector": "통신",
+          "close": 52800.0,
+          "chg_pct": 1.73,
+          "volume": 550164
         }
       ]
     },
