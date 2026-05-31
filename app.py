@@ -223,6 +223,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .hist-label{font-size:11px;color:#666}
 .hist-val{font-size:12px;font-weight:600}
 .popup-close{width:100%;padding:12px;background:#2563eb;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
+.news-section{padding-top:12px;border-top:1px solid #1e2235;margin-top:4px}
+.news-label{font-size:11px;font-weight:700;color:#555;letter-spacing:.5px;margin-bottom:8px}
+.news-item{padding:8px 0;border-bottom:1px solid #1e2235;cursor:pointer}
+.news-item:last-child{border-bottom:none}
+.news-title{font-size:13px;color:#ccc;line-height:1.5;margin-bottom:3px}
+.news-title:hover{color:#3b82f6}
+.news-meta{font-size:11px;color:#555}
+.news-loading{font-size:12px;color:#555;padding:8px 0;display:flex;align-items:center;gap:6px}
 </style>
 </head>
 <body>
@@ -290,6 +298,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="popup-desc" id="popupDesc"></div>
     <div id="popupHist"></div>
+    <div class="news-section" id="newsSection" style="display:none">
+      <div class="news-label">📰 최근 뉴스</div>
+      <div id="newsContent"><div class="news-loading"><span class="ai-dot"></span>불러오는 중...</div></div>
+    </div>
     <button class="popup-close" onclick="document.getElementById('popupOverlay').classList.remove('show')">닫기</button>
   </div>
 </div>
@@ -403,6 +415,22 @@ function openPopup(el){
   });
   document.getElementById('popupHist').innerHTML=histHtml?'<div style="margin-top:8px;font-size:11px;color:#555;font-weight:700;letter-spacing:.5px">과거 등락률</div>'+histHtml:'';
   document.getElementById('popupOverlay').classList.add('show');
+  // 뉴스 로드
+  const newsSection = document.getElementById('newsSection');
+  const newsContent = document.getElementById('newsContent');
+  newsSection.style.display = 'block';
+  newsContent.innerHTML = '<div class="news-loading"><span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span><span style="margin-left:4px">뉴스 불러오는 중...</span></div>';
+  fetch('/api/news?ticker=' + encodeURIComponent(s.ticker||'') + '&name=' + encodeURIComponent(nm))
+    .then(r => r.json())
+    .then(news => {
+      if(!news.length){newsContent.innerHTML='<div style="font-size:12px;color:#555;padding:6px 0">관련 뉴스 없음</div>';return;}
+      newsContent.innerHTML = news.map(n=>`
+        <div class="news-item" onclick="window.open('${n.url}','_blank')">
+          <div class="news-title">${n.title}</div>
+          <div class="news-meta">${n.source} · ${n.time}</div>
+        </div>`).join('');
+    })
+    .catch(()=>{newsContent.innerHTML='<div style="font-size:12px;color:#555;padding:6px 0">뉴스 로드 실패</div>';});
 }
 
 function renderList(){
@@ -640,6 +668,69 @@ def api_search():
             results.append({"name":name,"ticker":ticker,"close":round(close,2),"chg_pct":chg,"sector":"코스피" if ticker.endswith(".KS") else "나스닥","live":True})
     except:pass
     return jsonify(results[:10])
+
+@app.route("/api/news")
+def api_news():
+    ticker = request.args.get("ticker", "")
+    name   = request.args.get("name", "")
+    results = []
+    try:
+        import yfinance as yf
+        from datetime import datetime, timezone
+        import time
+
+        # 티커로 뉴스 시도
+        search_ticker = ticker
+        if not search_ticker:
+            return jsonify([])
+
+        t = yf.Ticker(search_ticker)
+        news = t.news or []
+
+        # 뉴스가 없으면 한국 종목은 영문명으로 검색
+        if not news and name:
+            try:
+                results_search = yf.Search(name, news_count=5)
+                news = results_search.news or []
+            except:
+                pass
+
+        for n in news[:3]:
+            try:
+                content_data = n.get("content", {})
+                title = content_data.get("title", n.get("title", ""))
+                url   = content_data.get("canonicalUrl", {}).get("url", "") or n.get("link", "")
+                pub   = content_data.get("pubDate", "") or ""
+                provider = content_data.get("provider", {}).get("displayName", "") or n.get("publisher", "")
+
+                # 시간 포맷
+                time_str = ""
+                if pub:
+                    try:
+                        dt = datetime.fromisoformat(pub.replace("Z","+00:00"))
+                        now = datetime.now(timezone.utc)
+                        diff = int((now - dt).total_seconds())
+                        if diff < 3600:
+                            time_str = f"{diff//60}분 전"
+                        elif diff < 86400:
+                            time_str = f"{diff//3600}시간 전"
+                        else:
+                            time_str = f"{diff//86400}일 전"
+                    except:
+                        time_str = pub[:10]
+                elif n.get("providerPublishTime"):
+                    diff = int(time.time()) - n["providerPublishTime"]
+                    if diff < 3600: time_str = f"{diff//60}분 전"
+                    elif diff < 86400: time_str = f"{diff//3600}시간 전"
+                    else: time_str = f"{diff//86400}일 전"
+
+                if title and url:
+                    results.append({"title": title, "url": url, "source": provider, "time": time_str})
+            except:
+                continue
+    except Exception as e:
+        print(f"뉴스 오류: {e}")
+    return jsonify(results)
 
 @app.route("/manifest.json")
 def manifest():
