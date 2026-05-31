@@ -529,6 +529,9 @@ def api_indicators():
             result["fng"] = round(d5["fear_and_greed"]["score"])
         except:
             pass
+    except Exception as e:
+        print(f'indicators 오류: {e}')
+    return jsonify(result)
 @app.route("/api/summary")
 def api_summary():
     market = request.args.get("market", "kospi")
