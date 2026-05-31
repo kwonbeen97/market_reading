@@ -281,6 +281,13 @@ def get_leaders(tickers_input):
                     else:
                         break
 
+            # 5일 등락률 히스토리
+            hist5 = []
+            for i in range(min(5, len(df)-1), 0, -1):
+                c = float(df["Close"].iloc[-i])
+                p = float(df["Close"].iloc[-i-1])
+                hist5.append(round((c-p)/p*100, 2))
+
             rows.append({
                 "name"     : name,
                 "ticker"   : ticker,
@@ -289,6 +296,7 @@ def get_leaders(tickers_input):
                 "chg_pct"  : chg_pct,
                 "vol_surge": vol_surge,
                 "streak"   : streak,
+                "hist5"    : hist5,
             })
         except:
             continue
