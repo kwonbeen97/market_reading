@@ -673,63 +673,83 @@ def api_search():
 def api_news():
     ticker = request.args.get("ticker", "")
     name   = request.args.get("name", "")
+    is_kr  = ticker.endswith(".KS") or ticker.endswith(".KQ")
     results = []
-    try:
-        import yfinance as yf
-        from datetime import datetime, timezone
-        import time
 
-        # 티커로 뉴스 시도
-        search_ticker = ticker
-        if not search_ticker:
-            return jsonify([])
+    if is_kr:
+        # 코스피 → 네이버 금융 뉴스
+        try:
+            import re
+            search_name = name or ticker
+            url = f"https://finance.naver.com/item/news_news.naver?code={ticker.replace('.KS','').replace('.KQ','')}&page=1"
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Referer": "https://finance.naver.com"
+            })
+            with urllib.request.urlopen(req, timeout=8) as r:
+                html = r.read().decode("euc-kr", errors="ignore")
 
-        t = yf.Ticker(search_ticker)
-        news = t.news or []
+            # 뉴스 파싱
+            pattern = r'<td class="title"><a[^>]+href="([^"]+)"[^>]*>([^<]+)</a></td>.*?<td class="info">([^<]+)</td>.*?<td class="date">([^<]+)</td>'
+            matches = re.findall(pattern, html, re.DOTALL)
+            for m in matches[:3]:
+                link, title, source, date = m
+                full_url = "https://finance.naver.com" + link if link.startswith("/") else link
+                results.append({
+                    "title": title.strip(),
+                    "url": full_url,
+                    "source": source.strip(),
+                    "time": date.strip()
+                })
+        except Exception as e:
+            print(f"네이버 뉴스 오류: {e}")
 
-        # 뉴스가 없으면 한국 종목은 영문명으로 검색
-        if not news and name:
+    else:
+        # 나스닥 → Finviz 뉴스
+        try:
+            import re, time
+            url = f"https://finviz.com/quote.ashx?t={ticker}&p=d"
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Referer": "https://finviz.com"
+            })
+            with urllib.request.urlopen(req, timeout=8) as r:
+                html = r.read().decode("utf-8", errors="ignore")
+
+            # Finviz 뉴스 테이블 파싱
+            pattern = r'class=\"news-link-right\"[^>]*href=\"([^\"]+)\"[^>]*>([^<]+)</a>.*?<td[^>]*>(\d{2}/\d{2}/\d{2} \d{2}:\d{2}(?:AM|PM)?)</td>'
+            matches = re.findall(pattern, html, re.DOTALL)
+
+            if not matches:
+                # 대안 패턴
+                pattern2 = r'<a[^>]+href="(https?://[^"]+)"[^>]*class="[^"]*news[^"]*"[^>]*>([^<]{10,})</a>'
+                matches2 = re.findall(pattern2, html)
+                for url_m, title_m in matches2[:3]:
+                    results.append({"title": title_m.strip(), "url": url_m, "source": "Finviz", "time": ""})
+            else:
+                for url_m, title_m, date_m in matches[:3]:
+                    results.append({"title": title_m.strip(), "url": url_m, "source": "Finviz", "time": date_m.strip()})
+
+        except Exception as e:
+            print(f"Finviz 뉴스 오류: {e}")
+            # Fallback: yfinance
             try:
-                results_search = yf.Search(name, news_count=5)
-                news = results_search.news or []
+                import yfinance as yf, time
+                t = yf.Ticker(ticker)
+                news = t.news or []
+                for n in news[:3]:
+                    cd = n.get("content", {})
+                    title = cd.get("title", n.get("title", ""))
+                    url_n = cd.get("canonicalUrl", {}).get("url", "") or n.get("link", "")
+                    ptime = n.get("providerPublishTime", 0)
+                    diff = int(time.time()) - ptime if ptime else 0
+                    tstr = f"{diff//3600}시간 전" if diff < 86400 else f"{diff//86400}일 전"
+                    provider = cd.get("provider", {}).get("displayName", n.get("publisher", ""))
+                    if title and url_n:
+                        results.append({"title": title, "url": url_n, "source": provider, "time": tstr})
             except:
                 pass
 
-        for n in news[:3]:
-            try:
-                content_data = n.get("content", {})
-                title = content_data.get("title", n.get("title", ""))
-                url   = content_data.get("canonicalUrl", {}).get("url", "") or n.get("link", "")
-                pub   = content_data.get("pubDate", "") or ""
-                provider = content_data.get("provider", {}).get("displayName", "") or n.get("publisher", "")
-
-                # 시간 포맷
-                time_str = ""
-                if pub:
-                    try:
-                        dt = datetime.fromisoformat(pub.replace("Z","+00:00"))
-                        now = datetime.now(timezone.utc)
-                        diff = int((now - dt).total_seconds())
-                        if diff < 3600:
-                            time_str = f"{diff//60}분 전"
-                        elif diff < 86400:
-                            time_str = f"{diff//3600}시간 전"
-                        else:
-                            time_str = f"{diff//86400}일 전"
-                    except:
-                        time_str = pub[:10]
-                elif n.get("providerPublishTime"):
-                    diff = int(time.time()) - n["providerPublishTime"]
-                    if diff < 3600: time_str = f"{diff//60}분 전"
-                    elif diff < 86400: time_str = f"{diff//3600}시간 전"
-                    else: time_str = f"{diff//86400}일 전"
-
-                if title and url:
-                    results.append({"title": title, "url": url, "source": provider, "time": time_str})
-            except:
-                continue
-    except Exception as e:
-        print(f"뉴스 오류: {e}")
     return jsonify(results)
 
 @app.route("/manifest.json")
