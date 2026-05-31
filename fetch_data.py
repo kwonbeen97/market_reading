@@ -103,17 +103,10 @@ today = datetime.today()
 
 # 가장 최근 거래일 자동 탐색 (최대 7일 전까지)
 def find_last_trading_day():
-    import yfinance as _yf
-    df = _yf.download("005930.KS", period="7d", auto_adjust=True, progress=False)
-    if isinstance(df.columns, __import__('pandas').MultiIndex):
-        df.columns = df.columns.get_level_values(0)
-    if not df.empty:
-        return df.index[-1].date()
-    # fallback
-    d = today - timedelta(days=1)
+    d = datetime.today().date()
     while d.weekday() >= 5:
         d -= timedelta(days=1)
-    return d.date()
+    return d
 
 TARGET_DATE_OBJ = find_last_trading_day()
 TARGET = datetime.combine(TARGET_DATE_OBJ, datetime.min.time())
