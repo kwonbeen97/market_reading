@@ -375,6 +375,7 @@ function renderList(){
       const pct=Math.abs(s.chg_pct)/max*100;
       const cl=s.close||s['종가']||0;
       const sd=JSON.stringify(s).replace(/"/g,'&quot;');
+      const price=cl?Number(cl).toLocaleString():'';
       return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'">'
         +'<div class="rank">'+(i+1)+'</div>'
         +'<div class="info"><div class="sname">'+nm+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div>'
@@ -491,54 +492,43 @@ def api_data():
 def api_indicators():
     result = {}
     try:
-        import urllib.request
-        # USD/KRW
-        url = "https://query1.finance.yahoo.com/v8/finance/chart/KRW=X?interval=1d&range=2d"
-        req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=5) as r:
-            d = json.loads(r.read())
-        closes = d["chart"]["result"][0]["indicators"]["quote"][0]["close"]
-        closes = [c for c in closes if c]
-        if len(closes) >= 2:
-            result["usd"] = round(closes[-1])
-            result["usd_chg"] = round((closes[-1]-closes[-2])/closes[-2]*100, 2)
-        # WTI
-        url2 = "https://query1.finance.yahoo.com/v8/finance/chart/CL=F?interval=1d&range=2d"
-        req2 = urllib.request.Request(url2, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req2, timeout=5) as r2:
-            d2 = json.loads(r2.read())
-        c2 = [c for c in d2["chart"]["result"][0]["indicators"]["quote"][0]["close"] if c]
-        if len(c2) >= 2:
-            result["oil"] = round(c2[-1], 2)
-            result["oil_chg"] = round((c2[-1]-c2[-2])/c2[-2]*100, 2)
-        # Gold
-        url3 = "https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1d&range=2d"
-        req3 = urllib.request.Request(url3, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req3, timeout=5) as r3:
-            d3 = json.loads(r3.read())
-        c3 = [c for c in d3["chart"]["result"][0]["indicators"]["quote"][0]["close"] if c]
-        if len(c3) >= 2:
-            result["gold"] = round(c3[-1])
-            result["gold_chg"] = round((c3[-1]-c3[-2])/c3[-2]*100, 2)
-        # BTC
-        url4 = "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?interval=1d&range=2d"
-        req4 = urllib.request.Request(url4, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req4, timeout=5) as r4:
-            d4 = json.loads(r4.read())
-        c4 = [c for c in d4["chart"]["result"][0]["indicators"]["quote"][0]["close"] if c]
-        if len(c4) >= 2:
-            result["btc"] = round(c4[-1])
-            result["btc_chg"] = round((c4[-1]-c4[-2])/c4[-2]*100, 2)
+        import yfinance as yf
+        from datetime import datetime, timedelta
+        end = datetime.today()
+        start = end - timedelta(days=5)
+        symbols = {"KRW=X": "usd", "CL=F": "oil", "GC=F": "gold", "BTC-USD": "btc"}
+        for sym, key in symbols.items():
+            try:
+                df = yf.download(sym, start=start, end=end, auto_adjust=True, progress=False)
+                if isinstance(df.columns, __import__('pandas').MultiIndex):
+                    df.columns = df.columns.get_level_values(0)
+                closes = df["Close"].dropna().tolist()
+                if len(closes) >= 2:
+                    v = closes[-1]
+                    chg = round((closes[-1]-closes[-2])/closes[-2]*100, 2)
+                    if key == "usd":
+                        result["usd"] = round(v)
+                        result["usd_chg"] = chg
+                    elif key == "oil":
+                        result["oil"] = round(float(v), 2)
+                        result["oil_chg"] = chg
+                    elif key == "gold":
+                        result["gold"] = round(float(v))
+                        result["gold_chg"] = chg
+                    elif key == "btc":
+                        result["btc"] = round(float(v))
+                        result["btc_chg"] = chg
+            except Exception as e2:
+                print(f"{sym} 오류: {e2}")
         # CNN Fear & Greed
-        url5 = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
-        req5 = urllib.request.Request(url5, headers={"User-Agent":"Mozilla/5.0","referer":"https://www.cnn.com"})
-        with urllib.request.urlopen(req5, timeout=5) as r5:
-            d5 = json.loads(r5.read())
-        result["fng"] = round(d5["fear_and_greed"]["score"])
-    except Exception as e:
-        pass
-    return jsonify(result)
-
+        try:
+            url5 = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+            req5 = urllib.request.Request(url5, headers={"User-Agent":"Mozilla/5.0","referer":"https://www.cnn.com"})
+            with urllib.request.urlopen(req5, timeout=5) as r5:
+                d5 = json.loads(r5.read())
+            result["fng"] = round(d5["fear_and_greed"]["score"])
+        except:
+            pass
 @app.route("/api/summary")
 def api_summary():
     market = request.args.get("market", "kospi")
