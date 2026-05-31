@@ -228,6 +228,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- 시장 지표 -->
 <div class="indicators" id="indicators">
+  <div class="ind-card"><div class="ind-label">코스피</div><div class="ind-value" id="kospi-idx">—</div><div class="ind-chg neutral" id="kospi-idx-c">로딩중</div></div>
+  <div class="ind-card"><div class="ind-label">나스닥</div><div class="ind-value" id="nasdaq-idx">—</div><div class="ind-chg neutral" id="nasdaq-idx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">USD/KRW</div><div class="ind-value" id="usd">—</div><div class="ind-chg neutral" id="usd-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">공포탐욕지수</div><div class="ind-value" id="fng">—</div><div class="ind-chg neutral" id="fng-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">WTI 원유</div><div class="ind-value" id="oil">—</div><div class="ind-chg neutral" id="oil-c">로딩중</div></div>
@@ -283,7 +285,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <script>
 let data=null, market='kospi', view='list', dates=[], currentDate='', allData={};
 const DESC=__STOCK_DESC__;
-const SECTOR_COLORS={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e'};
+const SECTOR_COLORS={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','통신':'#06b6d4','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e'};
 
 function switchMarket(m,el){market=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
 function switchView(v,el){view=v;document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('list-view').style.display=v==='list'?'':'none';document.getElementById('heatmap-view').style.display=v==='heatmap'?'':'none';render();}
@@ -356,6 +358,21 @@ async function loadIndicators(){
   try{
     const r=await fetch('/api/indicators');
     const d=await r.json();
+    // 코스피/나스닥 지수 from market_data
+    try{
+      const md=await fetch('/api/data');
+      const mdd=await md.json();
+      function setIdx(id,val,chg){
+        if(!val) return;
+        const isUp=chg>=0;
+        document.getElementById(id).textContent=val.toLocaleString();
+        const el=document.getElementById(id+'-c');
+        el.textContent=(isUp?'+':'')+chg+'%';
+        el.className='ind-chg '+(isUp?'up':'down');
+      }
+      setIdx('kospi-idx', mdd.kospi_index, mdd.kospi_chg);
+      setIdx('nasdaq-idx', mdd.nasdaq_index, mdd.nasdaq_chg);
+    }catch(e2){}
     function set(id,val,chg,unit=''){
       document.getElementById(id).textContent=val?val+unit:'—';
       const el=document.getElementById(id+'-c');
@@ -606,12 +623,12 @@ def api_indicators():
                         result["btc_chg"] = chg
             except Exception as e2:
                 print(f"{sym} 오류: {e2}")
-        # Fear & Greed - market_data.json에서 읽기 (fetch_data.py가 CNN에서 수집)
+        # Fear & Greed - market_data.json에서 읽기 (GitHub Actions가 CNN에서 수집)
         try:
             mdata = fetch_from_github("market_data.json")
             if mdata and mdata.get("fng"):
                 result["fng"] = mdata["fng"]
-                result["fng_label"] = mdata.get("fng_label", "")
+                result["fng_label"] = mdata.get("fng_label","")
                 result["fng_prev"] = mdata.get("fng_prev")
         except Exception as fe:
             print(f"FNG 읽기 오류: {fe}")
