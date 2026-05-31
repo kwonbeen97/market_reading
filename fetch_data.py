@@ -205,9 +205,32 @@ def by_sector(rows):
         })
     return sorted(result, key=lambda x: x["avg_chg"], reverse=True)
 
+# CNN Fear & Greed 수집
+fng_value = None
+fng_label = None
+fng_prev  = None
+try:
+    import urllib.request as _ur
+    _url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+    _req = _ur.Request(_url, headers={"User-Agent":"Mozilla/5.0","Referer":"https://www.cnn.com"})
+    with _ur.urlopen(_req, timeout=8) as _r:
+        _d = json.loads(_r.read())
+    fng_value = round(_d["fear_and_greed"]["score"])
+    fng_label = _d["fear_and_greed"]["rating"]
+    # previous close
+    hist = _d.get("fear_and_greed_historical", {}).get("data", [])
+    if len(hist) >= 2:
+        fng_prev = round(float(hist[-2]["y"]))
+    print(f"CNN Fear & Greed: {fng_value} ({fng_label})")
+except Exception as e:
+    print(f"CNN FNG 수집 실패: {e}")
+
 result = {
     "date"        : TARGET_DATE,
     "updated_at"  : datetime.now().strftime("%Y-%m-%d %H:%M"),
+    "fng"         : fng_value,
+    "fng_label"   : fng_label,
+    "fng_prev"    : fng_prev,
     "kospi_up"    : top_n(kospi_rows, TOP_N),
     "kospi_down"  : top_n(kospi_rows, TOP_N, ascending=True),
     "nasdaq_up"   : top_n(nasdaq_rows, TOP_N),
