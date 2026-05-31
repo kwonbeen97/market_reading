@@ -3,7 +3,7 @@
 """
 import pandas as pd
 import yfinance as yf
-import json, warnings
+import json, os, warnings
 from datetime import datetime, timedelta
 warnings.filterwarnings("ignore")
 
