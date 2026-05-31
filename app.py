@@ -1,11 +1,21 @@
 from flask import Flask, jsonify, render_template_string, request
-import json, os, urllib.request, glob
+import json, os, urllib.request, glob, threading
 from datetime import datetime
 
 app = Flask(__name__)
 DATA_DIR = "history"
 DATA_FILE = "market_data.json"
 os.makedirs(DATA_DIR, exist_ok=True)
+
+# 서버 시작 시 데이터 없으면 자동 수집
+def auto_fetch():
+    if not os.path.exists(DATA_FILE):
+        print("[자동] market_data.json 없음 → fetch_data.py 실행")
+        os.system("python fetch_data.py")
+    else:
+        print("[자동] market_data.json 존재 → 수집 생략")
+
+threading.Thread(target=auto_fetch, daemon=True).start()
 
 STOCK_DESC = {
     "삼성전자":"한국 최대 반도체·스마트폰 기업. 메모리 반도체 세계 1위.",
