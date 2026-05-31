@@ -331,7 +331,7 @@ async function loadIndicators(){
 }
 
 // 팝업
-function openPopup(s){
+function openPopup(el){const s=JSON.parse(el.getAttribute('data-stock')||'{}');
   const nm=s.name||s['종목']||s.ticker||'';
   const sec=s.sector||s['섹터']||'';
   const col=SECTOR_COLORS[sec]||'#888';
@@ -374,7 +374,8 @@ function renderList(){
       const col=SECTOR_COLORS[sec]||'#666';
       const pct=Math.abs(s.chg_pct)/max*100;
       const cl=s.close||s['종가']||0;
-      const price=cl?Number(cl).toLocaleString():'';
+      const sd=JSON.stringify(s).replace(/"/g,'&quot;');
+      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'">'
       return '<div class="stock-row" onclick=\'openPopup('+JSON.stringify(s)+')\'>'
         +'<div class="rank">'+(i+1)+'</div>'
         +'<div class="info"><div class="sname">'+nm+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div>'
@@ -395,7 +396,8 @@ function renderHeatmap(){
     const avgCls=sec.avg_chg>=0?'up':'down';
     const cells=sec.stocks.map(s=>{
       const nm=s.name||s['종목']||s.ticker||'';
-      return '<div class="heat-cell '+heatClass(s.chg_pct)+'" onclick=\'openPopup('+JSON.stringify(s)+')\'>'
+      const sd2=JSON.stringify(s).replace(/"/g,'&quot;');
+      return '<div class="heat-cell '+heatClass(s.chg_pct)+'" onclick="openPopup(this)" data-stock="'+sd2+'">'
         +'<div class="heat-name">'+nm+'</div><div class="heat-chg">'+(s.chg_pct>0?'+':'')+s.chg_pct+'%</div></div>';
     }).join('');
     return '<div class="sector-block"><div class="sector-header"><span class="sector-name">'+sec.sector+'</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></div><div class="stocks-grid">'+cells+'</div></div>';
