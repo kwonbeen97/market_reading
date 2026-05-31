@@ -531,41 +531,43 @@ function renderHeatmap(){
   }).join('');
 }
 
-function toggleSectorChart(sid, hist5, col){
-  const el = document.getElementById(sid);
+function toggleSectorChart(sid){
+  const el = document.getElementById('chart-'+sid);
   if(!el) return;
   el.classList.toggle('show');
   if(!el.classList.contains('show')) return;
+  const info = (window._sectorCharts||{})[sid];
+  if(!info) return;
+  const hist5=info.hist5, col=info.col;
   const cv = document.getElementById('cv-'+sid);
   if(!cv || !hist5.length) return;
-  const ctx = cv.getContext('2d');
-  const W = cv.offsetWidth || 300;
-  cv.width = W; cv.height = 48;
-  const max = Math.max(...hist5.map(Math.abs), 0.1);
-  const mid = 24;
-  ctx.clearRect(0,0,W,48);
-  // zero line
-  ctx.strokeStyle='rgba(255,255,255,.1)';
-  ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();
-  // bars
-  const bw = W/hist5.length - 4;
-  hist5.forEach((v,i)=>{
-    const x = i*(W/hist5.length)+2;
-    const h = Math.abs(v)/max*20;
-    ctx.fillStyle = v>=0?'#22c55e':'#ef4444';
-    if(v>=0) ctx.fillRect(x, mid-h, bw, h);
-    else ctx.fillRect(x, mid, bw, h);
-  });
-  // line
-  ctx.strokeStyle=col;ctx.lineWidth=2;ctx.lineJoin='round';
-  ctx.beginPath();
-  hist5.forEach((v,i)=>{
-    const x = i*(W/hist5.length)+(W/hist5.length)/2;
-    const y = mid - (v/max)*20;
-    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-  });
-  ctx.stroke();
+  setTimeout(()=>{
+    const W = cv.parentElement.offsetWidth || 300;
+    cv.width = W; cv.height = 48;
+    const ctx = cv.getContext('2d');
+    const max = Math.max(...hist5.map(Math.abs), 0.1);
+    const mid = 24;
+    ctx.clearRect(0,0,W,48);
+    ctx.strokeStyle='rgba(128,128,128,.2)';
+    ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();
+    const bw = Math.max(W/hist5.length - 6, 4);
+    hist5.forEach((v,i)=>{
+      const x = i*(W/hist5.length)+3;
+      const h = Math.abs(v)/max*18;
+      ctx.fillStyle = v>=0?'rgba(34,197,94,.6)':'rgba(239,68,68,.6)';
+      if(v>=0) ctx.fillRect(x, mid-h, bw, h);
+      else ctx.fillRect(x, mid, bw, h);
+    });
+    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.lineJoin='round';
+    ctx.beginPath();
+    hist5.forEach((v,i)=>{
+      const x = i*(W/hist5.length)+(W/hist5.length)/2;
+      const y = mid-(v/max)*18;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+  }, 50);
 }
 
 function render(){
