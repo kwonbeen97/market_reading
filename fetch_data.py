@@ -159,13 +159,13 @@ NASDAQ_TICKERS = [
     ("INTC","Intel","반도체"),
     ("ARM","Arm Holdings","반도체"),
     ("SNDK","SanDisk","반도체"),
-    ("WDC","Western Digital","반도체"),
     # 빅테크
     ("AAPL","Apple","빅테크"),
     ("MSFT","Microsoft","빅테크"),
     ("GOOGL","Alphabet","빅테크"),
     ("AMZN","Amazon","빅테크"),
     ("META","Meta","빅테크"),
+    ("SMCI","Super Micro","빅테크"),
     # AI/소프트웨어 (사이버보안 통합)
     ("PLTR","Palantir","AI/소프트웨어"),
     ("CRWD","CrowdStrike","AI/소프트웨어"),
@@ -186,7 +186,6 @@ NASDAQ_TICKERS = [
     ("ANSS","ANSYS","AI/소프트웨어"),
     ("ZM","Zoom","AI/소프트웨어"),
     ("DOCU","DocuSign","AI/소프트웨어"),
-    ("SMCI","Super Micro","AI/소프트웨어"),
     # 전기차/에너지
     ("TSLA","Tesla","전기차/에너지"),
     ("ENPH","Enphase","전기차/에너지"),
@@ -248,7 +247,7 @@ print(f"[데이터 수집] {TARGET_DATE}")
 
 def get_leaders(tickers_input):
     end   = datetime.today()
-    start = end - timedelta(days=10)
+    start = end - timedelta(days=14)  # 연속일수 계산위해 더 길게
     rows  = []
     for ticker, name, sector in tickers_input:
         try:
@@ -261,15 +260,35 @@ def get_leaders(tickers_input):
             df = df.dropna(subset=["Close"])
             if len(df) < 2:
                 continue
+
             close      = float(df["Close"].iloc[-1])
             prev_close = float(df["Close"].iloc[-2])
             chg_pct    = round((close - prev_close) / prev_close * 100, 2)
+
+            # 거래량 급증 (오늘 거래량 vs 5일 평균)
+            vol_today = float(df["Volume"].iloc[-1]) if "Volume" in df.columns else 0
+            vol_avg5  = float(df["Volume"].iloc[-6:-1].mean()) if len(df) >= 6 and "Volume" in df.columns else vol_today
+            vol_surge = round(vol_today / vol_avg5, 1) if vol_avg5 > 0 else 1.0
+
+            # 연속 상승/하락 일수
+            streak = 0
+            closes = df["Close"].tolist()
+            if len(closes) >= 2:
+                direction = 1 if closes[-1] > closes[-2] else -1
+                for i in range(len(closes)-1, 0, -1):
+                    if (closes[i] > closes[i-1]) == (direction == 1):
+                        streak += direction
+                    else:
+                        break
+
             rows.append({
-                "name"   : name,
-                "ticker" : ticker,
-                "sector" : sector,
-                "close"  : round(close, 2),
-                "chg_pct": chg_pct,
+                "name"     : name,
+                "ticker"   : ticker,
+                "sector"   : sector,
+                "close"    : round(close, 2),
+                "chg_pct"  : chg_pct,
+                "vol_surge": vol_surge,
+                "streak"   : streak,
             })
         except:
             continue
