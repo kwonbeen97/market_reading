@@ -137,7 +137,45 @@ HTML = """<!DOCTYPE html>
 <link rel="manifest" href="/manifest.json">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e8eaed;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e8eaed;min-height:100vh;transition:background .3s,color .3s}
+body.light{background:#f5f5f7;color:#1d1d1f}
+body.light .header{border-color:#e5e5ea}
+body.light .tab{color:#999;border-color:#e5e5ea}
+body.light .tab.active{color:#1d1d1f;border-color:#2563eb}
+body.light .ind-card{background:#fff;border-color:#e5e5ea}
+body.light .ind-label{color:#999}
+body.light .ai-summary{background:#fff;border-color:#e5e5ea}
+body.light .ai-summary-text{color:#444}
+body.light #searchInput{background:#fff;border-color:#e5e5ea;color:#1d1d1f}
+body.light #searchResults{background:#fff;border-color:#e5e5ea}
+body.light .search-item:hover{background:#f5f5f7}
+body.light .date-chip{background:#fff;border-color:#e5e5ea;color:#999}
+body.light .date-chip.active{background:#2563eb;color:#fff}
+body.light .view-tab{background:#fff;border-color:#e5e5ea;color:#999}
+body.light .view-tab.active{background:#2563eb;color:#fff}
+body.light .card{background:#fff;border-color:#e5e5ea}
+body.light .stock-row{border-color:#f0f0f5}
+body.light .stock-row:hover{background:#f5f5f7}
+body.light .sname{color:#1d1d1f}
+body.light .bar-bg{background:#e5e5ea}
+body.light .price{color:#999}
+body.light .section-label{color:#999}
+body.light .sector-block{background:#fff;border-color:#e5e5ea}
+body.light .sector-header{border-color:#f0f0f5}
+body.light .sector-name{color:#1d1d1f}
+body.light .h-flat{background:#e5e5ea;color:#666}
+body.light .popup{background:#fff;border-color:#e5e5ea}
+body.light .popup-handle{background:#e5e5ea}
+body.light .popup-name{color:#1d1d1f}
+body.light .popup-price-row{border-color:#f0f0f5}
+body.light .popup-price-label{color:#999}
+body.light .popup-price-val{color:#1d1d1f}
+body.light .popup-desc{color:#666;border-color:#f0f0f5}
+body.light .hist-label{color:#999}
+body.light .updated{color:#aaa}
+body.light .rank{color:#bbb}
+.theme-btn{background:none;border:1px solid #2a2d3a;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;transition:all .2s}
+body.light .theme-btn{border-color:#e5e5ea}
 .header{padding:16px 16px 0;border-bottom:1px solid #1e2235}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .header h1{font-size:18px;font-weight:700}
@@ -232,7 +270,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="header">
   <div class="header-top">
     <h1>📊 데일리 마켓 브리핑</h1>
-    <button class="refresh-btn" onclick="loadAll()">새로고침</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="라이트/다크 모드">🌙</button>
+      <button class="refresh-btn" onclick="loadAll()">새로고침</button>
+    </div>
   </div>
   <div class="tabs">
     <div class="tab active" onclick="switchMarket('kospi',this)">코스피</div>
@@ -515,6 +556,21 @@ async function loadAISummary(){
     document.getElementById('aiText').textContent='요약 불러오기 실패';
   }
 }
+
+// 테마 설정
+function initTheme(){
+  const saved = localStorage.getItem('theme') || 'dark';
+  if(saved === 'light'){
+    document.body.classList.add('light');
+    document.getElementById('themeBtn').textContent = '☀️';
+  }
+}
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light');
+  document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+initTheme();
 
 async function loadAll(){
   try{
