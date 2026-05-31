@@ -397,21 +397,15 @@ function openPopup(el){
   document.getElementById('popupChg').className='popup-chg '+(isUp?'up':'down');
   document.getElementById('popupPrice').textContent=cl?Number(cl).toLocaleString()+' '+(market==='kospi'?'원':'USD'):'–';
   document.getElementById('popupTicker').textContent=s.ticker||'–';
-  // streak/vol 정보
-  let extraInfo='';
-  if(s.streak>=2) extraInfo+='<span class="badge-streak-up">🔥'+s.streak+'일 연속 상승</span> ';
-  else if(s.streak<=-2) extraInfo+='<span class="badge-streak-dn">📉'+Math.abs(s.streak)+'일 연속 하락</span> ';
-  if(s.vol_surge>=2) extraInfo+='<span class="badge-vol">⚡거래량 '+s.vol_surge+'배 급증</span>';
-  const extraEl=document.getElementById('popupExtra');
-  if(extraEl) extraEl.innerHTML=extraInfo;
+
   document.getElementById('popupDesc').textContent=DESC[nm]||'종목 설명 준비 중입니다.';
   // streak/vol 뱃지
   let extraHtml='';
   if(s.streak>=2) extraHtml+='<span class="badge-streak-up">🔥'+s.streak+'일 연속 상승</span> ';
   else if(s.streak<=-2) extraHtml+='<span class="badge-streak-dn">📉'+Math.abs(s.streak)+'일 연속 하락</span> ';
   if(s.vol_surge>=2) extraHtml+='<span class="badge-vol">⚡거래량 '+s.vol_surge+'배 급증</span>';
-  const extraEl=document.getElementById('popupExtra');
-  if(extraEl) extraEl.innerHTML=extraHtml;
+  const extraElDiv=document.getElementById('popupExtra');
+  if(extraElDiv) extraElDiv.innerHTML=extraHtml;
   let histHtml='';
   [...dates].sort().reverse().forEach(d=>{
     if(d===currentDate)return;
