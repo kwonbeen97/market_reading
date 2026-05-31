@@ -77,8 +77,8 @@ KOSPI_TICKERS = [
     ("005490.KS","POSCO홀딩스","철강/소재"),
     ("010950.KS","S-Oil","철강/소재"),
     ("003550.KS","LG","철강/소재"),
-    ("017670.KS","SK텔레콤","철강/소재"),
-    ("030200.KS","KT","철강/소재"),
+    ("017670.KS","SK텔레콤","통신"),
+    ("030200.KS","KT","통신"),
 ]
 
 # ── 나스닥 대형주 (섹터 포함) ─────────────────────────────────
@@ -179,6 +179,34 @@ def get_leaders(tickers_input):
     return rows
 
 print(f"[데이터 수집] {TARGET_DATE}")
+
+# 코스피/나스닥 지수 수집
+kospi_index = None
+kospi_chg   = None
+nasdaq_index = None
+nasdaq_chg   = None
+try:
+    import yfinance as _yf
+    for sym, key in [("^KS11","kospi"),("^IXIC","nasdaq")]:
+        _df = _yf.download(sym, start=TARGET-timedelta(days=7), end=TARGET+timedelta(days=1),
+                           auto_adjust=True, progress=False)
+        if isinstance(_df.columns, __import__('pandas').MultiIndex):
+            _df.columns = _df.columns.get_level_values(0)
+        _day = _df[_df.index.date == TARGET.date()]
+        if not _day.empty:
+            _prev = _df[_df.index < _day.index[0]]
+            _c = float(_day["Close"].iloc[0])
+            _p = float(_prev["Close"].iloc[-1]) if not _prev.empty else _c
+            _chg = round((_c - _p) / _p * 100, 2)
+            if key == "kospi":
+                kospi_index = round(_c, 2)
+                kospi_chg   = _chg
+            else:
+                nasdaq_index = round(_c, 2)
+                nasdaq_chg   = _chg
+    print(f"코스피: {kospi_index} ({kospi_chg}%), 나스닥: {nasdaq_index} ({nasdaq_chg}%)")
+except Exception as e:
+    print(f"지수 수집 실패: {e}")
 print("코스피 수집 중...")
 kospi_rows = get_leaders(KOSPI_TICKERS)
 print("나스닥 수집 중...")
@@ -229,6 +257,12 @@ result = {
     "date"        : TARGET_DATE,
     "updated_at"  : datetime.now().strftime("%Y-%m-%d %H:%M"),
     "fng"         : fng_value,
+    "fng_label"   : fng_label,
+    "fng_prev"    : fng_prev,
+    "kospi_index" : kospi_index,
+    "kospi_chg"   : kospi_chg,
+    "nasdaq_index": nasdaq_index,
+    "nasdaq_chg"  : nasdaq_chg,
     "fng_label"   : fng_label,
     "fng_prev"    : fng_prev,
     "kospi_up"    : top_n(kospi_rows, TOP_N),
