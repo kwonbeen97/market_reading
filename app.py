@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template_string, request
-import json, os, urllib.request, glob, threading
+import json, os, urllib.request, glob
 from datetime import datetime
 
 app = Flask(__name__)
@@ -7,15 +7,19 @@ DATA_DIR = "history"
 DATA_FILE = "market_data.json"
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# 서버 시작 시 데이터 없으면 자동 수집
-def auto_fetch():
-    if not os.path.exists(DATA_FILE):
-        print("[자동] market_data.json 없음 → fetch_data.py 실행")
-        os.system("python fetch_data.py")
-    else:
-        print("[자동] market_data.json 존재 → 수집 생략")
+GITHUB_USER   = "kwonbeen97"
+GITHUB_REPO   = "market_reading"
+GITHUB_BRANCH = "main"
 
-threading.Thread(target=auto_fetch, daemon=True).start()
+def fetch_from_github(filename):
+    url = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{filename}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            return json.loads(r.read().decode("utf-8"))
+    except Exception as e:
+        print(f"GitHub fetch 실패 ({filename}): {e}")
+        return None
 
 STOCK_DESC = {
     "삼성전자":"한국 최대 반도체·스마트폰 기업. 메모리 반도체 세계 1위.",
@@ -447,32 +451,39 @@ def index():
 
 @app.route("/api/history")
 def api_history():
-    files = sorted(glob.glob(os.path.join(DATA_DIR, "*.json")))
-    # 최신 파일도 포함
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            latest = json.load(f)
+    all_data = {}
+    dates = []
+    # GitHub에서 최신 데이터 읽기
+    latest = fetch_from_github("market_data.json")
+    if latest:
         d = latest.get("date", "")
-        all_data = {d: latest}
-        dates = [d]
-    else:
-        all_data = {}
-        dates = []
-    for fp in files[-6:]:
-        with open(fp, "r", encoding="utf-8") as f:
-            d = json.load(f)
-        date = d.get("date", "")
-        if date and date not in all_data:
-            all_data[date] = d
-            dates.append(date)
+        if d:
+            all_data[d] = latest
+            dates.append(d)
+    # history 폴더 파일 목록 (GitHub API)
+    try:
+        api_url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/history"
+        req = urllib.request.Request(api_url, headers={"User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            files = json.loads(r.read())
+        for f in sorted(files, key=lambda x: x["name"])[-6:]:
+            fname = "history/" + f["name"]
+            d = fetch_from_github(fname)
+            if d:
+                date = d.get("date","")
+                if date and date not in all_data:
+                    all_data[date] = d
+                    dates.append(date)
+    except Exception as e:
+        print(f"history 목록 실패: {e}")
     dates = sorted(set(dates))
     return jsonify({"dates": dates, "data": all_data})
 
 @app.route("/api/data")
 def api_data():
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            return jsonify(json.load(f))
+    data = fetch_from_github("market_data.json")
+    if data:
+        return jsonify(data)
     return jsonify({"error": "데이터 없음"}), 404
 
 @app.route("/api/indicators")
@@ -533,13 +544,10 @@ def api_summary():
     date   = request.args.get("date", "")
     # 해당 날짜 데이터 찾기
     data = None
-    hist_path = os.path.join(DATA_DIR, f"{date}.json")
-    if date and os.path.exists(hist_path):
-        with open(hist_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-    elif os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
+    if date:
+        data = fetch_from_github(f"history/{date}.json")
+    if not data:
+        data = fetch_from_github("market_data.json")
     if not data:
         return jsonify({"summary": "데이터 없음"})
 
