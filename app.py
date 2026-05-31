@@ -376,7 +376,6 @@ function renderList(){
       const cl=s.close||s['종가']||0;
       const sd=JSON.stringify(s).replace(/"/g,'&quot;');
       return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'">'
-      return '<div class="stock-row" onclick=\'openPopup('+JSON.stringify(s)+')\'>'
         +'<div class="rank">'+(i+1)+'</div>'
         +'<div class="info"><div class="sname">'+nm+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div>'
         +'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div>'
