@@ -1,5 +1,5 @@
 """
-데이터 수집 스크립트 - 코스피/나스닥 주도 종목 추출
+데이터 수집 스크립트 - 코스피200 + 나스닥100
 """
 import pandas as pd
 import yfinance as yf
@@ -9,61 +9,140 @@ warnings.filterwarnings("ignore")
 
 TOP_N = 15
 
-# ── 코스피 대형주 (섹터 직접 지정) ──────────────────────────
+# ── 코스피 200 (섹터 직접 지정) ──────────────────────────────
 KOSPI_TICKERS = [
-    ("000660.KS","SK하이닉스","반도체"),
+    # 반도체
     ("005930.KS","삼성전자","반도체"),
-    ("009150.KS","삼성전기","반도체장비"),
-    ("058470.KS","리노공업","반도체장비"),
-    ("042700.KS","한미반도체","반도체장비"),
-    ("012450.KS","한화에어로스페이스","방산/항공"),
-    ("034020.KS","두산에너빌리티","에너지/발전"),
-    ("015760.KS","한국전력","에너지/발전"),
-    ("267260.KS","현대일렉트릭","전력기기"),
-    ("047050.KS","포스코인터내셔널","무역/자원"),
+    ("000660.KS","SK하이닉스","반도체"),
+    ("009150.KS","삼성전기","반도체"),
+    ("042700.KS","한미반도체","반도체"),
+    ("058470.KS","리노공업","반도체"),
+    ("036830.KS","솔브레인홀딩스","반도체"),
+    ("357780.KS","솔브레인","반도체"),
+    ("240810.KS","원익IPS","반도체"),
+    ("036490.KS","SK머티리얼즈","반도체"),
+    ("140860.KS","파크시스템스","반도체"),
+    # 이차전지
     ("373220.KS","LG에너지솔루션","이차전지"),
     ("006400.KS","삼성SDI","이차전지"),
     ("051910.KS","LG화학","이차전지"),
     ("247540.KS","에코프로비엠","이차전지"),
     ("086520.KS","에코프로","이차전지"),
+    ("096770.KS","SK이노베이션","이차전지"),
+    ("003670.KS","포스코퓨처엠","이차전지"),
+    ("298050.KS","효성첨단소재","이차전지"),
+    ("456040.KS","OCI홀딩스","이차전지"),
+    ("272450.KS","배터리솔루션","이차전지"),
+    # 바이오/제약
     ("207940.KS","삼성바이오로직스","바이오"),
     ("068270.KS","셀트리온","바이오"),
     ("000100.KS","유한양행","제약"),
     ("128940.KS","한미약품","제약"),
     ("096530.KS","씨젠","바이오"),
+    ("326030.KS","SK바이오팜","바이오"),
+    ("145020.KS","휴젤","바이오"),
+    ("196170.KS","알테오젠","바이오"),
+    ("009420.KS","한올바이오파마","제약"),
+    ("185750.KS","종근당","제약"),
+    ("000220.KS","유유제약","제약"),
+    ("064550.KS","바이오니아","바이오"),
+    # 자동차
     ("005380.KS","현대차","자동차"),
     ("000270.KS","기아","자동차"),
     ("012330.KS","현대모비스","자동차부품"),
     ("011210.KS","현대위아","자동차부품"),
     ("018880.KS","한온시스템","자동차부품"),
+    ("204320.KS","만도","자동차부품"),
+    ("007340.KS","LS전선아시아","자동차부품"),
+    ("023810.KS","인팩","자동차부품"),
+    # IT/플랫폼
     ("035420.KS","NAVER","IT플랫폼"),
     ("035720.KS","카카오","IT플랫폼"),
-    ("259960.KS","크래프톤","게임/엔터"),
     ("018260.KS","삼성SDS","IT서비스"),
     ("066570.KS","LG전자","가전/전자"),
+    ("034220.KS","LG디스플레이","디스플레이"),
+    ("030200.KS","KT","통신"),
+    ("017670.KS","SK텔레콤","통신"),
+    ("032640.KS","LG유플러스","통신"),
+    ("259960.KS","크래프톤","게임"),
+    ("036570.KS","엔씨소프트","게임"),
+    ("251270.KS","넷마블","게임"),
+    ("263750.KS","펄어비스","게임"),
+    # 금융/보험
     ("105560.KS","KB금융","금융"),
     ("055550.KS","신한지주","금융"),
     ("086790.KS","하나금융","금융"),
     ("316140.KS","우리금융","금융"),
+    ("024110.KS","기업은행","금융"),
+    ("138930.KS","BNK금융","금융"),
+    ("139130.KS","DGB금융","금융"),
     ("032830.KS","삼성생명","보험"),
+    ("000810.KS","삼성화재","보험"),
+    ("000060.KS","메리츠화재","보험"),
+    ("005830.KS","DB손보","보험"),
+    ("082640.KS","동양생명","보험"),
+    # 조선/해운
     ("329180.KS","현대중공업","조선"),
     ("042660.KS","한화오션","조선"),
     ("010140.KS","삼성중공업","조선"),
-    ("028260.KS","삼성물산","건설/지주"),
+    ("267250.KS","HD현대","조선/지주"),
+    ("009540.KS","HD한국조선해양","조선"),
     ("011200.KS","HMM","해운"),
+    ("003490.KS","대한항공","항공"),
+    ("020560.KS","아시아나항공","항공"),
+    # 방산/에너지
+    ("012450.KS","한화에어로스페이스","방산"),
+    ("047050.KS","포스코인터내셔널","방산/무역"),
+    ("034020.KS","두산에너빌리티","에너지/발전"),
+    ("015760.KS","한국전력","에너지/발전"),
+    ("267260.KS","현대일렉트릭","전력기기"),
+    ("028050.KS","삼성중공업우","에너지"),
+    ("298040.KS","효성중공업","전력기기"),
+    ("010690.KS","화신","방산"),
+    # 철강/소재
+    ("005490.KS","POSCO홀딩스","철강"),
+    ("010130.KS","고려아연","비철금속"),
+    ("004020.KS","현대제철","철강"),
+    ("006260.KS","LS","소재/지주"),
+    ("011780.KS","금호석유","화학"),
+    ("011170.KS","롯데케미칼","화학"),
+    ("010950.KS","S-Oil","정유"),
+    ("078930.KS","GS","에너지/지주"),
+    ("096640.KS","한국가스공사","에너지"),
+    ("071050.KS","한국금융지주","금융"),
+    # 건설/부동산
+    ("000720.KS","현대건설","건설"),
+    ("028260.KS","삼성물산","건설/지주"),
+    ("047040.KS","대우건설","건설"),
+    ("000080.KS","하이트진로","음식료"),
+    ("097950.KS","CJ제일제당","음식료"),
+    ("004370.KS","농심","음식료"),
+    ("271560.KS","오리온","음식료"),
+    ("280360.KS","롯데웰푸드","음식료"),
+    # 엔터/미디어
     ("352820.KS","하이브","엔터"),
     ("041510.KS","에스엠","엔터"),
     ("035900.KS","JYP엔터","엔터"),
     ("122870.KS","와이지엔터","엔터"),
-    ("005490.KS","POSCO홀딩스","철강"),
-    ("010950.KS","S-Oil","정유"),
+    ("041960.KS","블리자드","엔터"),
+    # 유통/서비스
+    ("023530.KS","롯데쇼핑","유통"),
+    ("069960.KS","현대백화점","유통"),
+    ("004170.KS","신세계","유통"),
+    ("282330.KS","BGF리테일","유통"),
+    ("007070.KS","GS리테일","유통"),
+    # 지주사
     ("003550.KS","LG","지주사"),
-    ("017670.KS","SK텔레콤","통신"),
-    ("030200.KS","KT","통신"),
+    ("034730.KS","SK","지주사"),
+    ("000030.KS","우리은행","금융"),
+    ("005940.KS","NH투자증권","증권"),
+    ("016360.KS","삼성증권","증권"),
+    ("071840.KS","롯데하이마트","유통"),
 ]
 
-# ── 나스닥 대형주 (섹터 직접 지정) ──────────────────────────
+# ── 나스닥 100 (섹터 직접 지정) ──────────────────────────────
 NASDAQ_TICKERS = [
+    # 반도체
     ("NVDA","NVIDIA","반도체"),
     ("AMD","AMD","반도체"),
     ("AVGO","Broadcom","반도체"),
@@ -74,11 +153,19 @@ NASDAQ_TICKERS = [
     ("MU","Micron","반도체"),
     ("MRVL","Marvell","반도체"),
     ("NXPI","NXP Semi","반도체"),
+    ("ON","ON Semi","반도체"),
+    ("MCHP","Microchip Tech","반도체"),
+    ("ADI","Analog Devices","반도체"),
+    ("TXN","Texas Instruments","반도체"),
+    ("INTC","Intel","반도체"),
+    ("SWKS","Skyworks","반도체"),
+    # 빅테크
     ("AAPL","Apple","빅테크"),
     ("MSFT","Microsoft","빅테크"),
     ("GOOGL","Alphabet","빅테크"),
     ("AMZN","Amazon","빅테크"),
     ("META","Meta","빅테크"),
+    # AI/소프트웨어
     ("PLTR","Palantir","AI/소프트웨어"),
     ("CRWD","CrowdStrike","사이버보안"),
     ("PANW","Palo Alto","사이버보안"),
@@ -89,10 +176,21 @@ NASDAQ_TICKERS = [
     ("INTU","Intuit","소프트웨어"),
     ("CDNS","Cadence","소프트웨어"),
     ("SNPS","Synopsys","소프트웨어"),
+    ("FTNT","Fortinet","사이버보안"),
+    ("OKTA","Okta","사이버보안"),
+    ("TEAM","Atlassian","소프트웨어"),
+    ("WDAY","Workday","소프트웨어"),
+    ("SNOW","Snowflake","소프트웨어"),
+    ("NOW","ServiceNow","소프트웨어"),
+    # AI 인프라
+    ("SMCI","Super Micro","AI인프라"),
+    ("ARM","Arm Holdings","반도체"),
+    ("DELL","Dell","AI인프라"),
+    # 전기차/에너지
     ("TSLA","Tesla","전기차"),
     ("ENPH","Enphase","신재생에너지"),
     ("FSLR","First Solar","신재생에너지"),
-    ("ON","ON Semi","반도체"),
+    # 바이오/헬스
     ("AMGN","Amgen","바이오"),
     ("GILD","Gilead","바이오"),
     ("VRTX","Vertex","바이오"),
@@ -100,23 +198,43 @@ NASDAQ_TICKERS = [
     ("ISRG","Intuitive Surgical","의료기기"),
     ("MRNA","Moderna","바이오"),
     ("IDXX","IDEXX Labs","의료기기"),
+    ("ILMN","Illumina","바이오"),
+    ("BIIB","Biogen","바이오"),
+    ("SGEN","Seagen","바이오"),
+    # 소비재/유통
     ("COST","Costco","유통"),
     ("SBUX","Starbucks","소비재"),
     ("ORLY","O'Reilly Auto","소비재"),
     ("MNST","Monster Beverage","소비재"),
     ("MELI","MercadoLibre","이커머스"),
+    ("DLTR","Dollar Tree","유통"),
+    ("ROST","Ross Stores","유통"),
+    ("CPRT","Copart","소비재"),
+    # 금융/핀테크
     ("COIN","Coinbase","핀테크"),
-    ("SMCI","Super Micro","서버/AI인프라"),
-    ("ARM","Arm Holdings","반도체"),
+    ("PYPL","PayPal","핀테크"),
+    # 미디어/엔터
     ("NFLX","Netflix","미디어"),
     ("CSCO","Cisco","네트워크"),
-    ("TXN","Texas Instruments","반도체"),
-    ("ADP","ADP","HR/서비스"),
-    ("PAYX","Paychex","HR/서비스"),
+    ("ADP","ADP","HR서비스"),
+    ("PAYX","Paychex","HR서비스"),
+    ("FAST","Fastenal","산업재"),
+    ("PCAR","PACCAR","산업재"),
+    ("ODFL","Old Dominion","물류"),
+    ("VRSK","Verisk","데이터분석"),
+    ("ANSS","ANSYS","소프트웨어"),
+    ("BKNG","Booking","여행"),
+    ("ABNB","Airbnb","여행"),
+    ("LULU","Lululemon","패션/소비재"),
+    ("PEP","PepsiCo","소비재"),
+    ("MDLZ","Mondelez","소비재"),
+    ("KDP","Keurig Dr Pepper","소비재"),
+    ("EBAY","eBay","이커머스"),
+    ("ZM","Zoom","소프트웨어"),
+    ("DOCU","DocuSign","소프트웨어"),
 ]
 
 def find_last_trading_day():
-    """실제 마지막 거래일 자동 탐색"""
     df = yf.download("005930.KS", period="10d", auto_adjust=True, progress=False)
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = df.columns.get_level_values(0)
@@ -128,7 +246,6 @@ def find_last_trading_day():
     return d
 
 TARGET_DATE_OBJ = find_last_trading_day()
-TARGET = datetime.combine(TARGET_DATE_OBJ, datetime.min.time())
 TARGET_DATE = TARGET_DATE_OBJ.strftime("%Y-%m-%d")
 print(f"[데이터 수집] {TARGET_DATE}")
 
@@ -181,7 +298,7 @@ def by_sector(rows):
         })
     return sorted(result, key=lambda x: x["avg_chg"], reverse=True)
 
-# 코스피/나스닥 지수 수집
+# 코스피/나스닥 지수
 kospi_index = nasdaq_index = kospi_chg = nasdaq_chg = None
 try:
     for sym, key in [("^KS11","kospi"),("^IXIC","nasdaq")]:
@@ -216,26 +333,27 @@ try:
 except Exception as e:
     print(f"CNN FNG 수집 실패: {e}")
 
-print("코스피 수집 중...")
+print(f"코스피 수집 중... ({len(KOSPI_TICKERS)}개)")
 kospi_rows = get_leaders(KOSPI_TICKERS)
-print("나스닥 수집 중...")
+print(f"나스닥 수집 중... ({len(NASDAQ_TICKERS)}개)")
 nasdaq_rows = get_leaders(NASDAQ_TICKERS)
+print(f"코스피 {len(kospi_rows)}개, 나스닥 {len(nasdaq_rows)}개 수집됨")
 
 result = {
-    "date"         : TARGET_DATE,
-    "updated_at"   : datetime.now().strftime("%Y-%m-%d %H:%M"),
-    "fng"          : fng_value,
-    "fng_label"    : fng_label,
-    "fng_prev"     : fng_prev,
-    "kospi_index"  : kospi_index,
-    "kospi_chg"    : kospi_chg,
-    "nasdaq_index" : nasdaq_index,
-    "nasdaq_chg"   : nasdaq_chg,
-    "kospi_up"     : top_n(kospi_rows, TOP_N),
-    "kospi_down"   : top_n(kospi_rows, TOP_N, ascending=True),
-    "nasdaq_up"    : top_n(nasdaq_rows, TOP_N),
-    "nasdaq_down"  : top_n(nasdaq_rows, TOP_N, ascending=True),
-    "kospi_sectors": by_sector(kospi_rows),
+    "date"          : TARGET_DATE,
+    "updated_at"    : datetime.now().strftime("%Y-%m-%d %H:%M"),
+    "fng"           : fng_value,
+    "fng_label"     : fng_label,
+    "fng_prev"      : fng_prev,
+    "kospi_index"   : kospi_index,
+    "kospi_chg"     : kospi_chg,
+    "nasdaq_index"  : nasdaq_index,
+    "nasdaq_chg"    : nasdaq_chg,
+    "kospi_up"      : top_n(kospi_rows, TOP_N),
+    "kospi_down"    : top_n(kospi_rows, TOP_N, ascending=True),
+    "nasdaq_up"     : top_n(nasdaq_rows, TOP_N),
+    "nasdaq_down"   : top_n(nasdaq_rows, TOP_N, ascending=True),
+    "kospi_sectors" : by_sector(kospi_rows),
     "nasdaq_sectors": by_sector(nasdaq_rows),
 }
 
