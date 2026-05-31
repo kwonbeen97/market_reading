@@ -62,19 +62,41 @@ SECTOR_MAP = {
     "Real Estate": "부동산",
 }
 
+SECTOR_FILE = "sectors.json"
 _sector_cache = {}
 
+def load_sector_cache():
+    global _sector_cache
+    if os.path.exists(SECTOR_FILE):
+        with open(SECTOR_FILE, "r") as f:
+            _sector_cache = json.load(f)
+        print(f"섹터 캐시 로드: {len(_sector_cache)}개")
+
+def save_sector_cache():
+    with open(SECTOR_FILE, "w") as f:
+        json.dump(_sector_cache, f)
+
+def prefetch_sectors(tickers):
+    missing = [t for t in tickers if t not in _sector_cache]
+    if not missing:
+        print(f"섹터 캐시 사용 ({len(_sector_cache)}개)")
+        return
+    print(f"새 섹터 수집: {len(missing)}개")
+    for ticker in missing:
+        try:
+            info = yf.Ticker(ticker).info
+            raw = info.get("industry") or info.get("sector") or ""
+            mapped = SECTOR_MAP.get(raw, raw[:6] if raw else "기타")
+            _sector_cache[ticker] = mapped
+            print(f"  {ticker}: {mapped}")
+        except:
+            _sector_cache[ticker] = "기타"
+    save_sector_cache()
+
 def get_sector(ticker):
-    if ticker in _sector_cache:
-        return _sector_cache[ticker]
-    try:
-        info = yf.Ticker(ticker).info
-        raw = info.get("industry") or info.get("sector") or ""
-        mapped = SECTOR_MAP.get(raw, raw[:8] if raw else "기타")
-        _sector_cache[ticker] = mapped
-        return mapped
-    except:
-        return "기타"
+    return _sector_cache.get(ticker, "기타")
+
+load_sector_cache()
 
 
 today = datetime.today()
@@ -192,8 +214,12 @@ try:
     print(f"코스피: {kospi_index} ({kospi_chg}%), 나스닥: {nasdaq_index} ({nasdaq_chg}%)")
 except Exception as e:
     print(f"지수 수집 실패: {e}")
+print("코스피 섹터 사전 수집 중...")
+prefetch_sectors([t for t,_ in KOSPI_RAW])
 print("코스피 수집 중...")
 kospi_rows = get_leaders(KOSPI_RAW)
+print("나스닥 섹터 사전 수집 중...")
+prefetch_sectors([t for t,_ in NASDAQ_RAW])
 print("나스닥 수집 중...")
 nasdaq_rows = get_leaders(NASDAQ_RAW)
 
