@@ -405,6 +405,13 @@ function openPopup(el){
   const extraEl=document.getElementById('popupExtra');
   if(extraEl) extraEl.innerHTML=extraInfo;
   document.getElementById('popupDesc').textContent=DESC[nm]||'종목 설명 준비 중입니다.';
+  // streak/vol 뱃지
+  let extraHtml='';
+  if(s.streak>=2) extraHtml+='<span class="badge-streak-up">🔥'+s.streak+'일 연속 상승</span> ';
+  else if(s.streak<=-2) extraHtml+='<span class="badge-streak-dn">📉'+Math.abs(s.streak)+'일 연속 하락</span> ';
+  if(s.vol_surge>=2) extraHtml+='<span class="badge-vol">⚡거래량 '+s.vol_surge+'배 급증</span>';
+  const extraEl=document.getElementById('popupExtra');
+  if(extraEl) extraEl.innerHTML=extraHtml;
   let histHtml='';
   [...dates].sort().reverse().forEach(d=>{
     if(d===currentDate)return;
@@ -428,7 +435,11 @@ function renderList(){
       const col=SECTOR_COLORS[sec]||'#666';const pct=Math.abs(s.chg_pct)/max*100;
       const cl=s.close||0;const price=cl?Number(cl).toLocaleString():'';
       const sd=JSON.stringify(s).replace(/"/g,'&quot;');
-      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'"><div class="rank">'+(i+1)+'</div><div class="info"><div class="sname">'+nm+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div><div class="price">'+price+'</div><div class="chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
+      let badges='';
+      if(s.streak>=3) badges+='<span class="badge-streak-up">🔥'+s.streak+'일</span>';
+      else if(s.streak<=-3) badges+='<span class="badge-streak-dn">📉'+Math.abs(s.streak)+'일</span>';
+      if(s.vol_surge>=2) badges+='<span class="badge-vol">⚡'+s.vol_surge+'x</span>';
+      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'"><div class="rank">'+(i+1)+'</div><div class="info"><div class="sname">'+nm+' '+badges+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div><div class="price">'+price+'</div><div class="chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
     }).join('');
   }
   document.getElementById('up-list').innerHTML=rows(up,true);
