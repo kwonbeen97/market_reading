@@ -471,7 +471,7 @@ function onSearch(q){
   }, 500);
 }
 
-const SECTOR_COLORS_S={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','통신':'#06b6d4','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e','코스피':'#6366f1','나스닥':'#3b82f6'};
+const SECTOR_COLORS_S=SECTOR_COLORS;
 
 function renderSearchResults(hits, box){
   if(!hits.length){
