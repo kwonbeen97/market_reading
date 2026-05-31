@@ -1,9 +1,9 @@
-from flask import Flask, jsonify, render_template_string, request
+from flask import Flask, jsonify, render_template_string, request, Response
 import json, os, urllib.request, glob
 from datetime import datetime
 
 app = Flask(__name__)
-DATA_DIR = "history"
+DATA_DIR  = "history"
 DATA_FILE = "market_data.json"
 os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -45,7 +45,7 @@ STOCK_DESC = {
     "현대차":"국내 1위 완성차. 전기차·수소차 전환 중.",
     "기아":"현대차그룹 계열 완성차. EV6 등 전기차 글로벌 호평.",
     "현대모비스":"현대차그룹 핵심 부품사. 전동화 부품 전환 중.",
-    "현대위아":"현대차그룹 파워트레인 부품사. 전기차 전환 기회·위기 공존.",
+    "현대위아":"현대차그룹 파워트레인 부품사.",
     "한온시스템":"자동차 열관리 시스템 전문. 전기차 냉각 수요 수혜.",
     "NAVER":"국내 최대 포털·IT 플랫폼. 네이버페이·웹툰 등 사업 다각화.",
     "카카오":"카카오톡 기반 플랫폼 기업. 게임·금융·콘텐츠 계열사 다수.",
@@ -81,14 +81,16 @@ STOCK_DESC = {
     "Micron":"메모리 반도체(DRAM·NAND) 미국 유일 생산사. HBM 공급 확대.",
     "Marvell":"데이터센터 네트워킹 반도체. AI 클러스터 연결 칩 공급.",
     "NXP Semi":"차량용 반도체 세계 1위. 전기차·자율주행 수혜.",
+    "Western Digital":" HDD·SSD 제조사.",
+    "SanDisk":"낸드플래시·SSD 세계 2위. SanDisk 브랜드로 소비자 스토리지 시장 선도.",
     "Apple":"스마트폰·PC·웨어러블 세계 1위. 서비스 매출 고성장.",
     "Microsoft":"클라우드(Azure) 2위. OpenAI 투자로 AI 선도.",
     "Alphabet":"구글 모회사. 검색 광고·클라우드·유튜브 보유.",
     "Amazon":"이커머스·클라우드(AWS) 1위. AI 인프라 대규모 투자.",
     "Meta":"페이스북·인스타그램·왓츠앱 운영. AI·AR 글래스 투자.",
+    "Super Micro":"AI 서버 조립·공급 전문. NVIDIA GPU 서버 최대 공급사.",
     "Palantir":"AI 데이터 분석 플랫폼. 미 정부·군 계약 강점.",
     "CrowdStrike":"클라우드 기반 사이버보안 1위. AI 위협 탐지 선도.",
-    "SanDisk":"낸드플래시·SSD 세계 2위. SanDisk 브랜드로 소비자 스토리지 시장 선도.",
     "Palo Alto":"네트워크 보안 대기업. 제로트러스트·SASE 플랫폼.",
     "Datadog":"클라우드 모니터링·관측 플랫폼. 개발자 필수 툴.",
     "Zscaler":"클라우드 보안 접근 전문. 재택근무 확산 수혜.",
@@ -100,7 +102,6 @@ STOCK_DESC = {
     "Tesla":"전기차·에너지저장·자율주행 선도. 로보택시 기대감.",
     "Enphase":"태양광 마이크로인버터 1위. 분산 에너지 저장 시스템.",
     "First Solar":"박막 태양광 패널 미국 1위. IRA 수혜 국내 생산.",
-    "ON Semi":"전력 반도체·이미지센서. 전기차 파워트레인 공급.",
     "Amgen":"바이오의약품 선도 기업. 비만치료제 파이프라인 보유.",
     "Gilead":"항바이러스·항암제 전문. HIV 치료제 시장 독점.",
     "Vertex":"낭포성섬유증 치료제 독점. 신장질환·통증 파이프라인.",
@@ -114,11 +115,9 @@ STOCK_DESC = {
     "Monster Beverage":"에너지 음료 북미 1위. 코카콜라 유통망 활용.",
     "MercadoLibre":"중남미 이커머스·핀테크 1위. 아마존·페이팔의 남미판.",
     "Coinbase":"미국 최대 암호화폐 거래소. 비트코인 ETF 수탁 서비스.",
-    "Super Micro":"AI 서버 조립·공급 전문. NVIDIA GPU 서버 최대 공급사.",
     "Arm Holdings":"스마트폰 AP 설계 아키텍처 독점. AI 엣지 칩 확산 수혜.",
     "Netflix":"글로벌 OTT 1위. 광고 요금제·게임 서비스 확대.",
     "Cisco":"네트워크 장비·소프트웨어 1위. AI 데이터센터 네트워킹 수혜.",
-    "Texas Instruments":"아날로그 반도체 1위. 산업·자동차용 칩 안정적 수익.",
     "ADP":"급여·인사관리 소프트웨어 1위. 고용 시장 지표와 연동.",
     "Paychex":"중소기업 급여·HR 서비스. 금리 수혜형 안정 성장주.",
 }
@@ -131,11 +130,11 @@ HTML = """<!DOCTYPE html>
 <title>데일리 마켓 브리핑</title>
 <meta name="description" content="코스피·나스닥 주도 종목 실시간 분석">
 <meta name="theme-color" content="#0f1117">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="마켓 브리핑">
 <link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/icon.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e8eaed;min-height:100vh}
@@ -146,28 +145,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tabs{display:flex}
 .tab{flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:#666;border-bottom:2px solid transparent;transition:all .2s}
 .tab.active{color:#e8eaed;border-bottom-color:#2563eb}
-/* 시장 지표 */
 .indicators{display:flex;gap:6px;padding:10px 16px;overflow-x:auto;scrollbar-width:none}
 .indicators::-webkit-scrollbar{display:none}
-.ind-card{flex-shrink:0;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;padding:8px 12px;min-width:100px}
+.ind-card{flex-shrink:0;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;padding:8px 12px;min-width:90px}
 .ind-label{font-size:10px;color:#666;margin-bottom:3px;white-space:nowrap}
 .ind-value{font-size:14px;font-weight:700;white-space:nowrap}
 .ind-chg{font-size:11px;margin-top:2px}
 .up{color:#22c55e}.down{color:#ef4444}.neutral{color:#888}
-/* AI 요약 */
-.ai-summary{margin:0 16px 0;background:#1a1d27;border-radius:12px;border:1px solid #2a2d3a;padding:12px 14px}
+.ai-summary{margin:0 16px;background:#1a1d27;border-radius:12px;border:1px solid #2a2d3a;padding:12px 14px}
 .ai-summary-label{font-size:10px;font-weight:700;color:#2563eb;letter-spacing:.8px;margin-bottom:6px}
 .ai-summary-text{font-size:13px;color:#ccc;line-height:1.6}
 .ai-loading{display:flex;align-items:center;gap:6px;color:#555;font-size:13px}
 .ai-dot{width:5px;height:5px;border-radius:50%;background:#2563eb;animation:pulse 1.2s infinite}
 .ai-dot:nth-child(2){animation-delay:.2s}.ai-dot:nth-child(3){animation-delay:.4s}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-/* 날짜 히스토리 */
+.search-wrap{padding:10px 16px 0;position:relative}
+#searchInput{width:100%;padding:10px 14px;border-radius:10px;border:1px solid #2a2d3a;background:#1a1d27;color:#e8eaed;font-size:14px;outline:none}
+#searchInput::placeholder{color:#555}
+#searchInput:focus{border-color:#2563eb}
+#searchResults{display:none;position:absolute;left:16px;right:16px;top:52px;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;z-index:50;overflow:hidden;max-height:280px;overflow-y:auto}
+.search-item{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #1e2235;cursor:pointer;transition:background .15s}
+.search-item:hover{background:#222535}
+.search-item:last-child{border-bottom:none}
+.search-item-name{font-size:14px;font-weight:500;flex:1}
+.search-item-sector{font-size:10px;padding:1px 7px;border-radius:4px;font-weight:600;margin-right:10px}
+.search-item-chg{font-size:14px;font-weight:700;min-width:60px;text-align:right}
 .date-bar{display:flex;gap:6px;padding:10px 16px 0;overflow-x:auto;scrollbar-width:none}
 .date-bar::-webkit-scrollbar{display:none}
 .date-chip{flex-shrink:0;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2a2d3a;background:#1a1d27;color:#888;transition:all .2s}
 .date-chip.active{background:#2563eb;color:#fff;border-color:#2563eb}
-/* 뷰 탭 */
 .view-tabs{display:flex;gap:6px;padding:10px 16px 0}
 .view-tab{padding:6px 14px;font-size:12px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid #2a2d3a;background:#1a1d27;color:#888;transition:all .2s}
 .view-tab.active{background:#2563eb;color:#fff;border-color:#2563eb}
@@ -187,11 +193,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .bar-fill{height:3px;border-radius:2px}
 .price{font-size:12px;color:#666;margin-right:10px;white-space:nowrap}
 .chg{font-size:14px;font-weight:700;min-width:64px;text-align:right;white-space:nowrap}
-/* 히트맵 */
 .heatmap{display:grid;gap:4px;margin-top:8px}
 .sector-block{background:#1a1d27;border-radius:10px;border:1px solid #2a2d3a;overflow:hidden}
-.sector-header{padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1e2235}
-.sector-name{font-size:12px;font-weight:700;color:#ccc}
+.sector-header{padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
+.sector-name{font-size:12px;font-weight:700;color:#fff}
 .sector-avg{font-size:13px;font-weight:700}
 .stocks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:3px;padding:6px}
 .heat-cell{border-radius:6px;padding:6px 8px;min-height:52px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:opacity .15s}
@@ -202,15 +207,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .h-up-1{background:#15803d;color:#dcfce7}.h-flat{background:#1e2235;color:#888}
 .h-dn-1{background:#7f1d1d;color:#fecaca}.h-dn-2{background:#991b1b;color:#fee2e2}.h-dn-3{background:#b91c1c;color:#fff}
 .updated{text-align:center;font-size:11px;color:#444;padding:12px 0 4px}
-#searchInput::placeholder{color:#555}
-#searchInput:focus{border-color:#2563eb}
-.search-item{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #1e2235;cursor:pointer;transition:background .15s}
-.search-item:hover{background:#222535}
-.search-item:last-child{border-bottom:none}
-.search-item-name{font-size:14px;font-weight:500;flex:1}
-.search-item-sector{font-size:11px;padding:1px 7px;border-radius:4px;font-weight:600;margin-right:10px}
-.search-item-chg{font-size:14px;font-weight:700;min-width:60px;text-align:right}
-/* 팝업 */
 .popup-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:100;align-items:flex-end;justify-content:center}
 .popup-overlay.show{display:flex}
 .popup{background:#1a1d27;border-radius:16px 16px 0 0;border:1px solid #2a2d3a;padding:20px;width:100%;max-width:540px;animation:slideUp .25s ease}
@@ -223,7 +219,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .popup-price-label{font-size:12px;color:#666}
 .popup-price-val{font-size:14px;font-weight:500}
 .popup-desc{font-size:13px;color:#aaa;line-height:1.7;padding:12px 0;border-top:1px solid #1e2235;margin-top:4px}
-/* 히스토리 비교 */
 .hist-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-top:1px solid #1e2235}
 .hist-label{font-size:11px;color:#666}
 .hist-val{font-size:12px;font-weight:600}
@@ -242,7 +237,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- 시장 지표 -->
 <div class="indicators" id="indicators">
   <div class="ind-card"><div class="ind-label">코스피</div><div class="ind-value" id="kospi-idx">—</div><div class="ind-chg neutral" id="kospi-idx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">나스닥</div><div class="ind-value" id="nasdaq-idx">—</div><div class="ind-chg neutral" id="nasdaq-idx-c">로딩중</div></div>
@@ -253,22 +247,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="ind-card"><div class="ind-label">비트코인</div><div class="ind-value" id="btc">—</div><div class="ind-chg neutral" id="btc-c">로딩중</div></div>
 </div>
 
-<!-- AI 요약 -->
-<div class="ai-summary" style="margin:10px 16px 0">
+<div class="ai-summary" style="margin-top:10px">
   <div class="ai-summary-label">✦ AI 시장 요약</div>
   <div class="ai-loading" id="aiLoading"><span class="ai-dot"></span><span class="ai-dot"></span><span class="ai-dot"></span><span style="margin-left:4px">분석 중...</span></div>
   <div class="ai-summary-text" id="aiText" style="display:none"></div>
 </div>
 
-<!-- 검색 -->
-<div style="padding:10px 16px 0;position:relative">
-  <input type="text" id="searchInput" placeholder="🔍  종목 검색  (예: 삼성전자, NVDA)" 
-    oninput="onSearch(this.value)"
-    style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #2a2d3a;background:#1a1d27;color:#e8eaed;font-size:14px;outline:none">
-  <div id="searchResults" style="display:none;position:absolute;left:16px;right:16px;top:52px;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;z-index:50;overflow:hidden;max-height:280px;overflow-y:auto"></div>
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="🔍  종목 검색  (예: 삼성전자, NVDA)" oninput="onSearch(this.value)">
+  <div id="searchResults"></div>
 </div>
 
-<!-- 날짜 히스토리 -->
 <div class="date-bar" id="dateBar"></div>
 
 <div class="view-tabs">
@@ -289,8 +278,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="updated" id="updatedAt"></div>
 </div>
 
-<!-- 팝업 -->
-<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+<div class="popup-overlay" id="popupOverlay" onclick="if(event.target===this)this.classList.remove('show')">
   <div class="popup">
     <div class="popup-handle"></div>
     <div class="popup-name" id="popupName"></div>
@@ -307,213 +295,97 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-let data=null, market='kospi', view='list', dates=[], currentDate='', allData={};
+let data=null,market='kospi',view='list',dates=[],currentDate='',allData={};
 const DESC=__STOCK_DESC__;
-const SECTOR_COLORS={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','통신':'#06b6d4','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e'};
+const SECTOR_COLORS={
+  // 반도체/IT (보라계열)
+  '반도체':'#6366f1','반도체장비':'#818cf8',
+  'AI/소프트웨어':'#8b5cf6','소프트웨어':'#8b5cf6',
+  'IT플랫폼':'#3b82f6','IT서비스':'#60a5fa',
+  '가전/전자':'#38bdf8','디스플레이':'#7dd3fc',
+  '게임':'#a78bfa','게임/엔터':'#a78bfa',
+  '사이버보안':'#06b6d4','네트워크':'#0891b2','AI인프라':'#7c3aed',
+  // 이차전지/에너지 (초록계열)
+  '이차전지':'#22c55e','전기차/에너지':'#10b981',
+  '신재생에너지':'#16a34a','에너지/발전':'#4ade80',
+  '전력기기':'#86efac','정유':'#84cc16','에너지':'#65a30d',
+  // 바이오/헬스 (핑크/빨강계열)
+  '바이오':'#ec4899','바이오/헬스':'#ec4899',
+  '제약':'#f472b6','의료기기':'#fb7185',
+  // 자동차 (청록계열)
+  '자동차':'#14b8a6','자동차부품':'#2dd4bf','전기차':'#0d9488',
+  // 금융 (연보라계열)
+  '금융':'#818cf8','보험':'#a855f7','증권':'#9333ea',
+  '금융/핀테크':'#c084fc','핀테크':'#c084fc',
+  // 소비재/유통 (주황/노랑계열)
+  '소비재':'#f97316','소비재/유통':'#f97316',
+  '유통':'#fb923c','음식료':'#fbbf24','이커머스':'#fcd34d',
+  // 방산/산업재 (하늘색계열)
+  '방산':'#38bdf8','방산/항공':'#7dd3fc','방산/무역':'#bae6fd',
+  '조선':'#0ea5e9','해운':'#0284c7','항공':'#60a5fa',
+  '건설':'#f59e0b','건설/지주':'#d97706',
+  '무역/자원':'#a3e635',
+  // 소재/철강 (갈색/회색계열)
+  '철강':'#f87171','비철금속':'#fca5a5',
+  '화학':'#fb923c','소재/지주':'#fdba74',
+  // 엔터/미디어/통신
+  '엔터':'#f43f5e','미디어/통신':'#fb7185',
+  '통신':'#34d399','미디어':'#6ee7b7',
+  // 지주/기타
+  '빅테크':'#3b82f6','지주사':'#94a3b8',
+  'IT기술':'#6366f1','기타':'#6b7280',
+  '코스피':'#6366f1','나스닥':'#3b82f6',
+};
 
 function switchMarket(m,el){market=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
 function switchView(v,el){view=v;document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('list-view').style.display=v==='list'?'':'none';document.getElementById('heatmap-view').style.display=v==='heatmap'?'':'none';render();}
-
-function getFngLabel(v){return v>=75?'Extreme Greed':v>=55?'Greed':v>=45?'Neutral':v>=25?'Fear':'Extreme Fear';}
-function getFngColor(v){return v>=75?'#22c55e':v>=55?'#86efac':v>=45?'#facc15':v>=25?'#f97316':'#ef4444';}
-
-function openFngPopup(d){
-  const val=d.fng, label=d.fng_label||getFngLabel(val), prev=d.fng_prev;
-  const col=getFngColor(val);
-  document.getElementById('fngBig').textContent=val;
-  document.getElementById('fngBig').style.color=col;
-  document.getElementById('fngBigLabel').textContent=label;
-  document.getElementById('fngBigLabel').style.color=col;
-  document.getElementById('fngPrev').textContent=prev||'—';
-  document.getElementById('fngCur').textContent=val;
-  document.getElementById('fngStat').textContent=label;
-  document.getElementById('fngOverlay').classList.add('show');
-  drawGauge(val, col);
-}
-
-function drawGauge(val, col){
-  const canvas=document.getElementById('fngGauge');
-  if(!canvas) return;
-  const ctx=canvas.getContext('2d');
-  const W=canvas.width, H=canvas.height;
-  const cx=W/2, cy=H-20, r=120;
-  ctx.clearRect(0,0,W,H);
-  // Background arc segments
-  const segs=[{from:Math.PI,to:Math.PI*1.2,c:'#7f1d1d'},{from:Math.PI*1.2,to:Math.PI*1.4,c:'#f97316'},
-              {from:Math.PI*1.4,to:Math.PI*1.6,c:'#facc15'},{from:Math.PI*1.6,to:Math.PI*1.8,c:'#86efac'},
-              {from:Math.PI*1.8,to:Math.PI*2,c:'#15803d'}];
-  segs.forEach(s=>{
-    ctx.beginPath();ctx.arc(cx,cy,r,s.from,s.to);
-    ctx.arc(cx,cy,r-28,s.to,s.from,true);
-    ctx.fillStyle=s.c;ctx.fill();
-  });
-  // Needle
-  const angle=Math.PI+(val/100)*Math.PI;
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(angle);
-  ctx.beginPath();ctx.moveTo(0,8);ctx.lineTo(r-10,0);ctx.lineTo(0,-4);
-  ctx.fillStyle='#e8eaed';ctx.fill();ctx.restore();
-  // Center dot
-  ctx.beginPath();ctx.arc(cx,cy,10,0,Math.PI*2);ctx.fillStyle='#1a1d27';ctx.fill();
-  ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
-  // Labels
-  ctx.fillStyle='#888';ctx.font='10px sans-serif';ctx.textAlign='center';
-  ctx.fillText('0',cx-r+8,cy+4);
-  ctx.fillText('50',cx,cy-r-6);
-  ctx.fillText('100',cx+r-8,cy+4);
-}
-
 function heatClass(v){if(v>5)return 'h-up-3';if(v>2)return 'h-up-2';if(v>0)return 'h-up-1';if(v>-2)return 'h-flat';if(v>-5)return 'h-dn-1';if(v>-8)return 'h-dn-2';return 'h-dn-3';}
 
-// 날짜 바
-function renderDateBar(){
-  const bar=document.getElementById('dateBar');
-  bar.innerHTML=dates.map(d=>`<div class="date-chip${d===currentDate?' active':''}" onclick="selectDate('${d}')">${d.slice(5)}</div>`).join('');
-}
-function selectDate(d){
-  currentDate=d;
-  data=allData[d]||null;
-  renderDateBar();
-  render();
-  loadAISummary();
-}
-
-// 시장 지표
-async function loadIndicators(){
-  try{
-    const r=await fetch('/api/indicators');
-    const d=await r.json();
-    // 코스피/나스닥 지수 from market_data
-    try{
-      const md=await fetch('/api/data');
-      const mdd=await md.json();
-      function setIdx(id,val,chg){
-        if(!val) return;
-        const isUp=chg>=0;
-        document.getElementById(id).textContent=val.toLocaleString();
-        const el=document.getElementById(id+'-c');
-        el.textContent=(isUp?'+':'')+chg+'%';
-        el.className='ind-chg '+(isUp?'up':'down');
-      }
-      setIdx('kospi-idx', mdd.kospi_index, mdd.kospi_chg);
-      setIdx('nasdaq-idx', mdd.nasdaq_index, mdd.nasdaq_chg);
-    }catch(e2){}
-    function set(id,val,chg,unit=''){
-      document.getElementById(id).textContent=val?val+unit:'—';
-      const el=document.getElementById(id+'-c');
-      if(chg!==null&&chg!==undefined){
-        const isUp=chg>=0;
-        el.textContent=(isUp?'+':'')+chg+'%';
-        el.className='ind-chg '+(isUp?'up':'down');
-      }
-    }
-    if(d.usd) set('usd',d.usd.toLocaleString()+'원',d.usd_chg);
-    if(d.tnx){
-      const isUp=d.tnx_chg>=0;
-      document.getElementById('tnx').textContent=d.tnx+'%';
-      const el=document.getElementById('tnx-c');
-      el.textContent=(isUp?'+':'')+d.tnx_chg+'%p';
-      el.className='ind-chg '+(isUp?'down':'up'); // 금리 오르면 주식엔 부정적
-    }
-    if(d.oil) set('oil','$'+d.oil,d.oil_chg);
-    if(d.gold) set('gold','$'+d.gold.toLocaleString(),d.gold_chg);
-    if(d.btc) set('btc','$'+Math.round(d.btc/1000)+'K',d.btc_chg);
-  }catch(e){}
-}
-
-// 팝업
 // 검색
-let _allStocks=[];
+let _allStocks=[],_searchTimer=null;
 function buildSearchIndex(){
-  if(!data) return;
-  const all=[
-    ...(data.kospi_up||[]),...(data.kospi_down||[]),
-    ...(data.nasdaq_up||[]),...(data.nasdaq_down||[])
-  ];
-  // dedupe by ticker
-  const seen=new Set();
-  _allStocks=[];
-  all.forEach(s=>{
-    const key=s.ticker||s.name||s['종목'];
-    if(!seen.has(key)){seen.add(key);_allStocks.push(s);}
-  });
-  // also add from sectors
-  ['kospi_sectors','nasdaq_sectors'].forEach(k=>{
-    (data[k]||[]).forEach(sec=>{
-      (sec.stocks||[]).forEach(s=>{
-        const key=s.ticker||s.name;
-        if(!seen.has(key)){seen.add(key);_allStocks.push(s);}
-      });
-    });
-  });
+  if(!data)return;
+  const seen=new Set();_allStocks=[];
+  const all=[...(data.kospi_up||[]),...(data.kospi_down||[]),...(data.nasdaq_up||[]),...(data.nasdaq_down||[])];
+  all.forEach(s=>{const k=s.ticker||s.name;if(!seen.has(k)){seen.add(k);_allStocks.push(s);}});
+  ['kospi_sectors','nasdaq_sectors'].forEach(k=>{(data[k]||[]).forEach(sec=>{(sec.stocks||[]).forEach(s=>{const k2=s.ticker||s.name;if(!seen.has(k2)){seen.add(k2);_allStocks.push(s);}});});});
 }
-
-let _searchTimer=null;
 function onSearch(q){
   const box=document.getElementById('searchResults');
   if(!q.trim()){box.style.display='none';return;}
-  // 로컬 즉시 검색
   const kw=q.toLowerCase();
-  const localHits=_allStocks.filter(s=>{
-    const nm=(s.name||s['종목']||s.ticker||'').toLowerCase();
-    const tk=(s.ticker||'').toLowerCase();
-    return nm.includes(kw)||tk.includes(kw);
-  }).slice(0,8);
-  renderSearchResults(localHits, box);
-  // 0.5초 후 서버 검색 (더 많은 종목)
+  const local=_allStocks.filter(s=>(s.name||s.ticker||'').toLowerCase().includes(kw)||(s.ticker||'').toLowerCase().includes(kw)).slice(0,8);
+  renderSearchResults(local,box);
   clearTimeout(_searchTimer);
   _searchTimer=setTimeout(async()=>{
     try{
-      box.innerHTML+='<div id="searchLoading" style="padding:8px 14px;font-size:12px;color:#555">🔍 더 찾는 중...</div>';
+      box.innerHTML+='<div id="sload" style="padding:8px 14px;font-size:12px;color:#555">🔍 더 찾는 중...</div>';
       const res=await fetch('/api/search?q='+encodeURIComponent(q));
       const hits=await res.json();
-      document.getElementById('searchLoading')?.remove();
-      if(hits.length>localHits.length) renderSearchResults(hits, box);
+      document.getElementById('sload')?.remove();
+      if(hits.length>local.length)renderSearchResults(hits,box);
     }catch(e){}
-  }, 500);
+  },500);
 }
-
-const SECTOR_COLORS_S=SECTOR_COLORS;
-
-function renderSearchResults(hits, box){
-  if(!hits.length){
-    box.style.display='block';
-    box.innerHTML='<div style="padding:12px 14px;color:#555;font-size:13px">검색 결과 없음</div>';
-    return;
-  }
+function renderSearchResults(hits,box){
+  if(!hits.length){box.style.display='block';box.innerHTML='<div style="padding:12px 14px;color:#555;font-size:13px">검색 결과 없음</div>';return;}
   box.style.display='block';
   box.innerHTML=hits.map(s=>{
-    const nm=s.name||s['종목']||s.ticker||'';
-    const sec=s.sector||s['섹터']||'';
-    const col=SECTOR_COLORS_S[sec]||'#666';
-    const isUp=s.chg_pct>=0;
+    const nm=s.name||s.ticker||'';const sec=s.sector||'';
+    const col=SECTOR_COLORS[sec]||'#666';const isUp=s.chg_pct>=0;
     const live=s.live?'<span style="font-size:10px;color:#2563eb;margin-left:4px">실시간</span>':'';
     const sd=JSON.stringify(s).replace(/"/g,'&quot;');
-    return '<div class="search-item" onclick="selectSearch(this)" data-stock="'+sd+'">'
-      +'<div class="search-item-name">'+nm+live+'</div>'
-      +'<span class="search-item-sector" style="background:'+col+'22;color:'+col+'">'+sec+'</span>'
-      +'<div class="search-item-chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div>'
-      +'</div>';
+    return '<div class="search-item" onclick="selectSearch(this)" data-stock="'+sd+'"><div class="search-item-name">'+nm+live+'</div><span class="search-item-sector" style="background:'+col+'22;color:'+col+'">'+sec+'</span><div class="search-item-chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
   }).join('');
 }
+function selectSearch(el){document.getElementById('searchInput').value='';document.getElementById('searchResults').style.display='none';openPopup(el);}
+document.addEventListener('click',e=>{if(!e.target.closest('#searchInput')&&!e.target.closest('#searchResults'))document.getElementById('searchResults').style.display='none';});
 
-function selectSearch(el){
-  document.getElementById('searchInput').value='';
-  document.getElementById('searchResults').style.display='none';
-  openPopup(el);
-}
-
-// 검색창 외부 클릭시 닫기
-document.addEventListener('click',e=>{
-  if(!e.target.closest('#searchInput')&&!e.target.closest('#searchResults'))
-    document.getElementById('searchResults').style.display='none';
-});
-
-function openPopup(el){const s=JSON.parse(el.getAttribute('data-stock')||'{}');
-  const nm=s.name||s['종목']||s.ticker||'';
-  const sec=s.sector||s['섹터']||'';
-  const col=SECTOR_COLORS[sec]||'#888';
-  const cl=s.close||s['종가']||0;
-  const isUp=s.chg_pct>=0;
+// 팝업
+function openPopup(el){
+  const s=JSON.parse(el.getAttribute('data-stock')||'{}');
+  const nm=s.name||s.ticker||'';const sec=s.sector||'';
+  const col=SECTOR_COLORS[sec]||'#888';const cl=s.close||0;const isUp=s.chg_pct>=0;
   document.getElementById('popupName').textContent=nm;
   document.getElementById('popupSector').innerHTML='<span style="background:'+col+'22;color:'+col+';padding:2px 8px;border-radius:4px;font-weight:600">'+sec+'</span>';
   document.getElementById('popupChg').textContent=(isUp?'+':'')+s.chg_pct+'%';
@@ -521,24 +393,17 @@ function openPopup(el){const s=JSON.parse(el.getAttribute('data-stock')||'{}');
   document.getElementById('popupPrice').textContent=cl?Number(cl).toLocaleString()+' '+(market==='kospi'?'원':'USD'):'–';
   document.getElementById('popupTicker').textContent=s.ticker||'–';
   document.getElementById('popupDesc').textContent=DESC[nm]||'종목 설명 준비 중입니다.';
-  // 히스토리 비교
   let histHtml='';
-  const sortedDates=[...dates].sort().reverse();
-  sortedDates.forEach(d=>{
-    if(d===currentDate) return;
-    const hd=allData[d];
-    if(!hd) return;
+  [...dates].sort().reverse().forEach(d=>{
+    if(d===currentDate)return;
+    const hd=allData[d];if(!hd)return;
     const all=[...(hd[market+'_up']||[]),...(hd[market+'_down']||[])];
-    const found=all.find(x=>(x.name||x['종목']||x.ticker)===nm);
-    if(found){
-      const isU=found.chg_pct>=0;
-      histHtml+='<div class="hist-row"><span class="hist-label">'+d+'</span><span class="hist-val '+(isU?'up':'down')+'">'+(isU?'+':'')+found.chg_pct+'%</span></div>';
-    }
+    const found=all.find(x=>(x.name||x.ticker)===nm);
+    if(found){const isU=found.chg_pct>=0;histHtml+='<div class="hist-row"><span class="hist-label">'+d+'</span><span class="hist-val '+(isU?'up':'down')+'">'+(isU?'+':'')+found.chg_pct+'%</span></div>';}
   });
   document.getElementById('popupHist').innerHTML=histHtml?'<div style="margin-top:8px;font-size:11px;color:#555;font-weight:700;letter-spacing:.5px">과거 등락률</div>'+histHtml:'';
   document.getElementById('popupOverlay').classList.add('show');
 }
-function closePopup(e){if(e.target===document.getElementById('popupOverlay'))document.getElementById('popupOverlay').classList.remove('show');}
 
 function renderList(){
   const up=data[market+'_up']||[],dn=data[market+'_down']||[];
@@ -546,19 +411,11 @@ function renderList(){
   function rows(arr,isUp){
     if(!arr.length)return '<div style="padding:14px;text-align:center;color:#444;font-size:13px">데이터 없음</div>';
     return arr.map((s,i)=>{
-      const nm=s.name||s['종목']||s.ticker||'';
-      const sec=s.sector||s['섹터']||'';
-      const col=SECTOR_COLORS[sec]||'#666';
-      const pct=Math.abs(s.chg_pct)/max*100;
-      const cl=s.close||s['종가']||0;
+      const nm=s.name||s.ticker||'';const sec=s.sector||'';
+      const col=SECTOR_COLORS[sec]||'#666';const pct=Math.abs(s.chg_pct)/max*100;
+      const cl=s.close||0;const price=cl?Number(cl).toLocaleString():'';
       const sd=JSON.stringify(s).replace(/"/g,'&quot;');
-      const price=cl?Number(cl).toLocaleString():'';
-      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'">'
-        +'<div class="rank">'+(i+1)+'</div>'
-        +'<div class="info"><div class="sname">'+nm+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div>'
-        +'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div>'
-        +'<div class="price">'+price+'</div>'
-        +'<div class="chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
+      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'"><div class="rank">'+(i+1)+'</div><div class="info"><div class="sname">'+nm+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div><div class="price">'+price+'</div><div class="chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
     }).join('');
   }
   document.getElementById('up-list').innerHTML=rows(up,true);
@@ -572,12 +429,12 @@ function renderHeatmap(){
   grid.innerHTML=sectors.map(sec=>{
     const avgCls=sec.avg_chg>=0?'up':'down';
     const cells=sec.stocks.map(s=>{
-      const nm=s.name||s['종목']||s.ticker||'';
-      const sd2=JSON.stringify(s).replace(/"/g,'&quot;');
-      return '<div class="heat-cell '+heatClass(s.chg_pct)+'" onclick="openPopup(this)" data-stock="'+sd2+'">'
-        +'<div class="heat-name">'+nm+'</div><div class="heat-chg">'+(s.chg_pct>0?'+':'')+s.chg_pct+'%</div></div>';
+      const nm=s.name||s.ticker||'';
+      const sd=JSON.stringify(s).replace(/"/g,'&quot;');
+      return '<div class="heat-cell '+heatClass(s.chg_pct)+'" onclick="openPopup(this)" data-stock="'+sd+'"><div class="heat-name">'+nm+'</div><div class="heat-chg">'+(s.chg_pct>0?'+':'')+s.chg_pct+'%</div></div>';
     }).join('');
-    return '<div class="sector-block"><div class="sector-header"><span class="sector-name">'+sec.sector+'</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></div><div class="stocks-grid">'+cells+'</div></div>';
+    const scol=SECTOR_COLORS[sec.sector]||'#6b7280';
+    return '<div class="sector-block" style="border-color:'+scol+'44"><div class="sector-header" style="background:'+scol+'18;border-bottom-color:'+scol+'33"><span class="sector-name" style="color:'+scol+'">'+sec.sector+'</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></div><div class="stocks-grid">'+cells+'</div></div>';
   }).join('');
 }
 
@@ -586,6 +443,42 @@ function render(){
   document.getElementById('updatedAt').textContent='마지막 업데이트: '+(data.updated_at||'');
   buildSearchIndex();
   if(view==='list')renderList();else renderHeatmap();
+}
+
+function renderDateBar(){
+  const bar=document.getElementById('dateBar');
+  bar.innerHTML=dates.map(d=>'<div class="date-chip'+(d===currentDate?' active':'')+'" onclick="selectDate(\''+d+'\')">'+d.slice(5)+'</div>').join('');
+}
+function selectDate(d){currentDate=d;data=allData[d]||null;renderDateBar();render();loadAISummary();}
+
+async function loadIndicators(){
+  try{
+    const res=await fetch('/api/indicators');
+    const d=await res.json();
+    function set(id,val,chg){
+      document.getElementById(id).textContent=val||'—';
+      const el=document.getElementById(id+'-c');
+      if(chg!=null){const isUp=chg>=0;el.textContent=(isUp?'+':'')+chg+'%';el.className='ind-chg '+(isUp?'up':'down');}
+    }
+    if(d.usd) set('usd',d.usd.toLocaleString()+'원',d.usd_chg);
+    if(d.tnx){document.getElementById('tnx').textContent=d.tnx+'%';const el=document.getElementById('tnx-c');const isUp=d.tnx_chg>=0;el.textContent=(isUp?'+':'')+d.tnx_chg+'%p';el.className='ind-chg '+(isUp?'down':'up');}
+    if(d.oil) set('oil','$'+d.oil,d.oil_chg);
+    if(d.gold) set('gold','$'+d.gold.toLocaleString(),d.gold_chg);
+    if(d.btc) set('btc','$'+Math.round(d.btc/1000)+'K',d.btc_chg);
+    // 코스피/나스닥 지수
+    try{
+      const md=await fetch('/api/data');const mdd=await md.json();
+      function setIdx(id,val,chg){
+        if(!val)return;
+        const isUp=chg>=0;
+        document.getElementById(id).textContent=val.toLocaleString();
+        const el=document.getElementById(id+'-c');
+        el.textContent=(isUp?'+':'')+chg+'%';el.className='ind-chg '+(isUp?'up':'down');
+      }
+      setIdx('kospi-idx',mdd.kospi_index,mdd.kospi_chg);
+      setIdx('nasdaq-idx',mdd.nasdaq_index,mdd.nasdaq_chg);
+    }catch(e2){}
+  }catch(e){}
 }
 
 async function loadAISummary(){
@@ -607,55 +500,14 @@ async function loadAISummary(){
 
 async function loadAll(){
   try{
-    const r=await fetch('/api/history');
-    const h=await r.json();
-    dates=h.dates||[];
-    allData=h.data||{};
+    const r=await fetch('/api/history');const h=await r.json();
+    dates=h.dates||[];allData=h.data||{};
     currentDate=dates[dates.length-1]||'';
     data=allData[currentDate]||null;
-    renderDateBar();
-    render();
-    loadAISummary();
-    loadIndicators();
+    renderDateBar();render();loadAISummary();loadIndicators();
   }catch(e){}
 }
 loadAll();
-</script>
-
-<!-- 공포탐욕 게이지 팝업 -->
-<div class="popup-overlay" id="fngOverlay" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="popup" style="padding-bottom:24px">
-    <div class="popup-handle"></div>
-    <div style="font-size:16px;font-weight:700;margin-bottom:4px">Fear & Greed Index</div>
-    <div style="font-size:12px;color:#666;margin-bottom:16px">시장 심리 지수 (0=극도공포 · 100=극도탐욕)</div>
-    <div style="position:relative;width:100%;height:160px;margin-bottom:12px">
-      <canvas id="fngGauge" width="320" height="160"></canvas>
-    </div>
-    <div style="text-align:center">
-      <div style="font-size:42px;font-weight:700" id="fngBig">—</div>
-      <div style="font-size:15px;font-weight:600;margin-top:4px" id="fngBigLabel">—</div>
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:12px;border-top:1px solid #1e2235">
-      <div style="text-align:center">
-        <div style="font-size:11px;color:#666">전일</div>
-        <div style="font-size:16px;font-weight:600" id="fngPrev">—</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-size:11px;color:#666">현재</div>
-        <div style="font-size:16px;font-weight:600" id="fngCur">—</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-size:11px;color:#666">상태</div>
-        <div style="font-size:13px;font-weight:600" id="fngStat">—</div>
-      </div>
-    </div>
-    <button class="popup-close" style="margin-top:16px" onclick="document.getElementById('fngOverlay').classList.remove('show')">닫기</button>
-  </div>
-</div>
-<script>
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/sw.js').catch(()=>{});
-}
 </script>
 </body>
 </html>"""
@@ -667,277 +519,143 @@ def index():
 
 @app.route("/api/history")
 def api_history():
-    all_data = {}
-    dates = []
-    # GitHub에서 최신 데이터 읽기
-    latest = fetch_from_github("market_data.json")
+    all_data={};dates=[]
+    latest=fetch_from_github("market_data.json")
     if latest:
-        d = latest.get("date", "")
-        if d:
-            all_data[d] = latest
-            dates.append(d)
-    # history 폴더 파일 목록 (GitHub API)
+        d=latest.get("date","")
+        if d:all_data[d]=latest;dates.append(d)
     try:
-        api_url = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/history"
-        req = urllib.request.Request(api_url, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=8) as r:
-            files = json.loads(r.read())
-        for f in sorted(files, key=lambda x: x["name"])[-6:]:
-            fname = "history/" + f["name"]
-            d = fetch_from_github(fname)
+        api_url=f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/history"
+        req=urllib.request.Request(api_url,headers={"User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req,timeout=8) as r:
+            files=json.loads(r.read())
+        for f in sorted(files,key=lambda x:x["name"])[-6:]:
+            d=fetch_from_github("history/"+f["name"])
             if d:
-                date = d.get("date","")
-                if date and date not in all_data:
-                    all_data[date] = d
-                    dates.append(date)
+                date=d.get("date","")
+                if date and date not in all_data:all_data[date]=d;dates.append(date)
     except Exception as e:
         print(f"history 목록 실패: {e}")
-    dates = sorted(set(dates))
-    return jsonify({"dates": dates, "data": all_data})
+    dates=sorted(set(dates))
+    return jsonify({"dates":dates,"data":all_data})
 
 @app.route("/api/data")
 def api_data():
-    data = fetch_from_github("market_data.json")
-    if data:
-        return jsonify(data)
-    return jsonify({"error": "데이터 없음"}), 404
+    data=fetch_from_github("market_data.json")
+    if data:return jsonify(data)
+    return jsonify({"error":"데이터 없음"}),404
 
 @app.route("/api/indicators")
 def api_indicators():
-    result = {}
+    result={}
     try:
         import yfinance as yf
-        from datetime import datetime, timedelta
-        end = datetime.today()
-        start = end - timedelta(days=5)
-        symbols = {"KRW=X": "usd", "CL=F": "oil", "GC=F": "gold", "BTC-USD": "btc", "^TNX": "tnx"}
-        for sym, key in symbols.items():
+        from datetime import timedelta
+        symbols={"KRW=X":"usd","CL=F":"oil","GC=F":"gold","BTC-USD":"btc","^TNX":"tnx"}
+        for sym,key in symbols.items():
             try:
-                df = yf.download(sym, start=start, end=end, auto_adjust=True, progress=False)
-                if isinstance(df.columns, __import__('pandas').MultiIndex):
-                    df.columns = df.columns.get_level_values(0)
-                closes = df["Close"].dropna().tolist()
-                if len(closes) >= 2:
-                    v = closes[-1]
-                    chg = round((closes[-1]-closes[-2])/closes[-2]*100, 2)
-                    if key == "usd":
-                        result["usd"] = round(v)
-                        result["usd_chg"] = chg
-                    elif key == "oil":
-                        result["oil"] = round(float(v), 2)
-                        result["oil_chg"] = chg
-                    elif key == "gold":
-                        result["gold"] = round(float(v))
-                        result["gold_chg"] = chg
-                    elif key == "btc":
-                        result["btc"] = round(float(v))
-                        result["btc_chg"] = chg
-                    elif key == "tnx":
-                        result["tnx"] = round(float(v), 2)
-                        result["tnx_chg"] = round((closes[-1]-closes[-2])*100)/100
+                df=yf.download(sym,period="5d",auto_adjust=True,progress=False)
+                if isinstance(df.columns,__import__('pandas').MultiIndex):
+                    df.columns=df.columns.get_level_values(0)
+                closes=df["Close"].dropna().tolist()
+                if len(closes)>=2:
+                    v=closes[-1];chg=round((closes[-1]-closes[-2])/closes[-2]*100,2)
+                    if key=="usd":result["usd"]=round(v);result["usd_chg"]=chg
+                    elif key=="oil":result["oil"]=round(float(v),2);result["oil_chg"]=chg
+                    elif key=="gold":result["gold"]=round(float(v));result["gold_chg"]=chg
+                    elif key=="btc":result["btc"]=round(float(v));result["btc_chg"]=chg
+                    elif key=="tnx":result["tnx"]=round(float(v),2);result["tnx_chg"]=round((closes[-1]-closes[-2])*100)/100
             except Exception as e2:
                 print(f"{sym} 오류: {e2}")
-        # Fear & Greed - market_data.json에서 읽기 (GitHub Actions가 CNN에서 수집)
-        try:
-            mdata = fetch_from_github("market_data.json")
-            if mdata and mdata.get("fng"):
-                result["fng"] = mdata["fng"]
-                result["fng_label"] = mdata.get("fng_label","")
-                result["fng_prev"] = mdata.get("fng_prev")
-        except Exception as fe:
-            print(f"FNG 읽기 오류: {fe}")
     except Exception as e:
-        print(f'indicators 오류: {e}')
+        print(f"indicators 오류: {e}")
     return jsonify(result)
+
 @app.route("/api/summary")
 def api_summary():
-    market = request.args.get("market", "kospi")
-    date   = request.args.get("date", "")
-    # 해당 날짜 데이터 찾기
-    data = None
-    if date:
-        data = fetch_from_github(f"history/{date}.json")
-    if not data:
-        data = fetch_from_github("market_data.json")
-    if not data:
-        return jsonify({"summary": "데이터 없음"})
-
-    up      = data.get(f"{market}_up",   [])[:5]
-    down    = data.get(f"{market}_down", [])[:5]
-    sectors = data.get(f"{market}_sectors", [])
-    market_name = "코스피" if market == "kospi" else "나스닥"
-    up_str   = ", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in up])
-    down_str = ", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
-    sector_str = ", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
-    prompt = f"""{data.get('date','')} {market_name} 시장 데이터입니다.
+    market=request.args.get("market","kospi")
+    date=request.args.get("date","")
+    data=None
+    if date:data=fetch_from_github(f"history/{date}.json")
+    if not data:data=fetch_from_github("market_data.json")
+    if not data:return jsonify({"summary":"데이터 없음"})
+    up=data.get(f"{market}_up",[])[:5];down=data.get(f"{market}_down",[])[:5]
+    sectors=data.get(f"{market}_sectors",[])
+    market_name="코스피" if market=="kospi" else "나스닥"
+    up_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in up])
+    down_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
+    sector_str=", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
+    prompt=f"""{data.get('date','')} {market_name} 시장 데이터입니다.
 상위 상승: {up_str}
 상위 하락: {down_str}
 섹터별 평균: {sector_str}
-위 데이터를 바탕으로 오늘 {market_name} 시장 분위기를 초보 투자자도 이해할 수 있게 2~3문장으로 한국어로 요약해주세요. 어떤 섹터가 강세/약세인지, 주목할 흐름이 무엇인지 포함해주세요."""
-
+위 데이터를 바탕으로 오늘 {market_name} 시장 분위기를 초보 투자자도 이해할 수 있게 2~3문장으로 한국어로 요약해주세요."""
     try:
-        api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-        if not api_key:
-            return jsonify({"summary": f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
-        import urllib.request
-        payload = json.dumps({"model":"claude-haiku-4-5-20251001","max_tokens":300,"messages":[{"role":"user","content":prompt}]}).encode()
-        req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=payload,
+        api_key=os.environ.get("ANTHROPIC_API_KEY","")
+        if not api_key:return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+        payload=json.dumps({"model":"claude-haiku-4-5-20251001","max_tokens":300,"messages":[{"role":"user","content":prompt}]}).encode()
+        req=urllib.request.Request("https://api.anthropic.com/v1/messages",data=payload,
             headers={"Content-Type":"application/json","x-api-key":api_key,"anthropic-version":"2023-06-01"})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            res = json.loads(r.read())
-        return jsonify({"summary": res["content"][0]["text"]})
+        with urllib.request.urlopen(req,timeout=15) as r:
+            res=json.loads(r.read())
+        return jsonify({"summary":res["content"][0]["text"]})
     except:
-        return jsonify({"summary": f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
-
-# 코스피 종목명 → 티커 매핑 (주요 종목)
-KR_STOCKS = {
-    "삼성전자":"005930.KS","SK하이닉스":"000660.KS","삼성바이오로직스":"207940.KS",
-    "LG에너지솔루션":"373220.KS","삼성전기":"009150.KS","현대차":"005380.KS",
-    "기아":"000270.KS","POSCO홀딩스":"005490.KS","NAVER":"035420.KS",
-    "카카오":"035720.KS","LG화학":"051910.KS","삼성SDI":"006400.KS",
-    "현대모비스":"012330.KS","KB금융":"105560.KS","신한지주":"055550.KS",
-    "하나금융":"086790.KS","우리금융":"316140.KS","삼성생명":"032830.KS",
-    "에코프로비엠":"247540.KS","에코프로":"086520.KS","LG전자":"066570.KS",
-    "삼성SDS":"018260.KS","한화에어로스페이스":"012450.KS","두산에너빌리티":"034020.KS",
-    "현대중공업":"329180.KS","한화오션":"042660.KS","삼성중공업":"010140.KS",
-    "삼성물산":"028260.KS","HMM":"011200.KS","크래프톤":"259960.KS",
-    "하이브":"352820.KS","에스엠":"041510.KS","JYP엔터":"035900.KS",
-    "와이지엔터":"122870.KS","셀트리온":"068270.KS","유한양행":"000100.KS",
-    "한미약품":"128940.KS","씨젠":"096530.KS","리노공업":"058470.KS",
-    "한미반도체":"042700.KS","SK이노베이션":"096770.KS","S-Oil":"010950.KS",
-    "LG":"003550.KS","SK텔레콤":"017670.KS","KT":"030200.KS",
-    "포스코인터내셔널":"047050.KS","현대일렉트릭":"267260.KS","한국전력":"015760.KS",
-    "현대위아":"011210.KS","한온시스템":"018880.KS","대한항공":"003490.KS",
-    "카카오뱅크":"323410.KS","카카오페이":"377300.KS","엔씨소프트":"036570.KS",
-    "넷마블":"251270.KS","펄어비스":"263750.KS","콘텐츠리":"950190.KS",
-    "SK바이오팜":"326030.KS","고려아연":"010130.KS","OCI홀딩스":"456040.KS",
-    "HD현대":"267250.KS","LS":"006260.KS","효성첨단소재":"298050.KS",
-    "롯데케미칼":"011170.KS","금호석유":"011780.KS","LG디스플레이":"034220.KS",
-    "삼성화재":"000810.KS","메리츠화재":"000060.KS","DB손보":"005830.KS",
-    "기업은행":"024110.KS","BNK금융":"138930.KS","DGB금융":"139130.KS",
-}
+        return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
 
 @app.route("/api/search")
 def api_search():
-    q = request.args.get("q", "").strip()
-    if not q or len(q) < 1:
-        return jsonify([])
-
+    q=request.args.get("q","").strip()
+    if not q:return jsonify([])
     import yfinance as yf
-    from datetime import datetime, timedelta
-    results = []
-
-    # 1. 로컬 데이터에서 먼저 검색 (빠름)
-    mdata = fetch_from_github("market_data.json")
+    from datetime import timedelta
+    results=[]
+    mdata=fetch_from_github("market_data.json")
     if mdata:
-        all_stocks = []
+        all_stocks=[]
         for key in ["kospi_up","kospi_down","nasdaq_up","nasdaq_down"]:
-            all_stocks.extend(mdata.get(key, []))
-        for sec in mdata.get("kospi_sectors",[]) + mdata.get("nasdaq_sectors",[]):
+            all_stocks.extend(mdata.get(key,[]))
+        for sec in mdata.get("kospi_sectors",[])+mdata.get("nasdaq_sectors",[]):
             all_stocks.extend(sec.get("stocks",[]))
-        seen = set()
-        kw = q.lower()
+        seen=set();kw=q.lower()
         for s in all_stocks:
-            nm = s.get("name","")
-            tk = s.get("ticker","")
-            key = tk or nm
-            if key in seen: continue
-            if kw in nm.lower() or kw in tk.lower():
-                seen.add(key)
-                results.append(s)
-
-    if results:
-        return jsonify(results[:10])
-
-    # 2. 한글 종목명 → 티커 매핑
-    ticker = None
-    for name, tk in KR_STOCKS.items():
-        if q in name:
-            ticker = tk
-            break
-
-    # 3. 영문이면 직접 yfinance
-    if not ticker:
-        ticker = q.upper()
-        if not ticker.endswith(".KS") and len(ticker) <= 6:
-            pass  # 나스닥으로 시도
-
+            nm=s.get("name","");tk=s.get("ticker","");key=tk or nm
+            if key in seen:continue
+            if kw in nm.lower() or kw in tk.lower():seen.add(key);results.append(s)
+    if results:return jsonify(results[:10])
+    KR_STOCKS={"삼성전자":"005930.KS","SK하이닉스":"000660.KS","삼성바이오로직스":"207940.KS","LG에너지솔루션":"373220.KS","삼성전기":"009150.KS","현대차":"005380.KS","기아":"000270.KS","POSCO홀딩스":"005490.KS","NAVER":"035420.KS","카카오":"035720.KS","LG화학":"051910.KS","삼성SDI":"006400.KS","현대모비스":"012330.KS","KB금융":"105560.KS","신한지주":"055550.KS","하나금융":"086790.KS","우리금융":"316140.KS","삼성생명":"032830.KS","에코프로비엠":"247540.KS","에코프로":"086520.KS","LG전자":"066570.KS","삼성SDS":"018260.KS","한화에어로스페이스":"012450.KS","두산에너빌리티":"034020.KS","현대중공업":"329180.KS","한화오션":"042660.KS","삼성중공업":"010140.KS","삼성물산":"028260.KS","HMM":"011200.KS","크래프톤":"259960.KS","하이브":"352820.KS","에스엠":"041510.KS","JYP엔터":"035900.KS","와이지엔터":"122870.KS","셀트리온":"068270.KS","유한양행":"000100.KS","한미약품":"128940.KS","씨젠":"096530.KS","리노공업":"058470.KS","한미반도체":"042700.KS","SK텔레콤":"017670.KS","KT":"030200.KS","포스코인터내셔널":"047050.KS","현대일렉트릭":"267260.KS","한국전력":"015760.KS"}
+    ticker=None
+    for name,tk in KR_STOCKS.items():
+        if q in name:ticker=tk;break
+    if not ticker:ticker=q.upper()
     try:
-        end = datetime.today()
-        start = end - timedelta(days=7)
-        df = yf.download(ticker, start=start, end=end, auto_adjust=True, progress=False)
-        if isinstance(df.columns, __import__('pandas').MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        if not df.empty and len(df) >= 2:
-            close = float(df["Close"].iloc[-1])
-            prev  = float(df["Close"].iloc[-2])
-            chg   = round((close - prev) / prev * 100, 2)
-            name  = next((n for n,t in KR_STOCKS.items() if t==ticker), ticker)
-            results.append({
-                "name": name,
-                "ticker": ticker,
-                "close": round(close, 2),
-                "chg_pct": chg,
-                "sector": "코스피" if ticker.endswith(".KS") else "나스닥",
-                "live": True
-            })
-    except Exception as e:
-        print(f"search yfinance 오류: {e}")
-
+        from datetime import datetime
+        end=datetime.today();start=end-timedelta(days=10)
+        df=yf.download(ticker,start=start,end=end,auto_adjust=True,progress=False)
+        if isinstance(df.columns,__import__('pandas').MultiIndex):df.columns=df.columns.get_level_values(0)
+        df=df.dropna(subset=["Close"])
+        if len(df)>=2:
+            close=float(df["Close"].iloc[-1]);prev=float(df["Close"].iloc[-2])
+            chg=round((close-prev)/prev*100,2)
+            name=next((n for n,t in KR_STOCKS.items() if t==ticker),ticker)
+            results.append({"name":name,"ticker":ticker,"close":round(close,2),"chg_pct":chg,"sector":"코스피" if ticker.endswith(".KS") else "나스닥","live":True})
+    except:pass
     return jsonify(results[:10])
 
 @app.route("/manifest.json")
 def manifest():
-    m = {
-        "name": "데일리 마켓 브리핑",
-        "short_name": "마켓 브리핑",
-        "description": "코스피·나스닥 주도 종목 실시간 분석",
-        "start_url": "/",
-        "display": "standalone",
-        "background_color": "#0f1117",
-        "theme_color": "#0f1117",
-        "orientation": "portrait",
-        "icons": [
-            {"src": "/icon.png", "sizes": "192x192", "type": "image/png"},
-            {"src": "/icon.png", "sizes": "512x512", "type": "image/png"}
-        ]
-    }
-    from flask import Response
-    return Response(json.dumps(m), mimetype="application/json")
+    m={"name":"데일리 마켓 브리핑","short_name":"마켓 브리핑","description":"코스피·나스닥 주도 종목 실시간 분석","start_url":"/","display":"standalone","background_color":"#0f1117","theme_color":"#0f1117","orientation":"portrait","icons":[{"src":"/icon.svg","sizes":"192x192","type":"image/svg+xml"},{"src":"/icon.svg","sizes":"512x512","type":"image/svg+xml"}]}
+    return Response(json.dumps(m),mimetype="application/json")
 
 @app.route("/sw.js")
 def service_worker():
-    sw = """
-const CACHE = 'market-v1';
-const OFFLINE = ['/'];
-self.addEventListener('install', e => e.waitUntil(
-  caches.open(CACHE).then(c => c.addAll(OFFLINE))
-));
-self.addEventListener('fetch', e => {
-  if(e.request.url.includes('/api/')) return;
-  e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
-  );
-});
-"""
-    from flask import Response
-    return Response(sw, mimetype="application/javascript")
+    sw="""const CACHE='market-v1';self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['/']))));self.addEventListener('fetch',e=>{if(e.request.url.includes('/api/'))return;e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)));});"""
+    return Response(sw,mimetype="application/javascript")
 
-@app.route("/icon.png")
+@app.route("/icon.svg")
 def icon():
-    # 📊 아이콘 SVG → PNG 없이 SVG로 대체
-    svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="40" fill="#0f1117"/>
-  <rect x="30" y="120" width="28" height="52" rx="4" fill="#22c55e"/>
-  <rect x="68" y="90" width="28" height="82" rx="4" fill="#22c55e"/>
-  <rect x="106" y="60" width="28" height="112" rx="4" fill="#2563eb"/>
-  <rect x="144" y="100" width="28" height="72" rx="4" fill="#ef4444"/>
-  <polyline points="44,115 82,85 120,55 158,95" 
-    stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>"""
-    from flask import Response
-    return Response(svg, mimetype="image/svg+xml")
+    svg="""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#0f1117"/><rect x="30" y="120" width="28" height="52" rx="4" fill="#22c55e"/><rect x="68" y="90" width="28" height="82" rx="4" fill="#22c55e"/><rect x="106" y="60" width="28" height="112" rx="4" fill="#2563eb"/><rect x="144" y="100" width="28" height="72" rx="4" fill="#ef4444"/><polyline points="44,115 82,85 120,55 158,95" stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>"""
+    return Response(svg,mimetype="image/svg+xml")
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    port=int(os.environ.get("PORT",5000))
+    app.run(host="0.0.0.0",port=port)
