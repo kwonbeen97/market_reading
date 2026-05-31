@@ -100,12 +100,24 @@ load_sector_cache()
 
 
 today = datetime.today()
-if today.weekday() == 0:
-    TARGET = today - timedelta(days=3)
-elif today.weekday() == 6:
-    TARGET = today - timedelta(days=2)
-else:
-    TARGET = today - timedelta(days=1)
+
+# 가장 최근 거래일 자동 탐색 (최대 7일 전까지)
+def find_last_trading_day():
+    import yfinance as _yf
+    df = _yf.download("005930.KS", period="7d", auto_adjust=True, progress=False)
+    if isinstance(df.columns, __import__('pandas').MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    if not df.empty:
+        return df.index[-1].date()
+    # fallback
+    d = today - timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d.date()
+
+TARGET_DATE_OBJ = find_last_trading_day()
+TARGET = datetime.combine(TARGET_DATE_OBJ, datetime.min.time())
+print(f"최근 거래일: {TARGET_DATE_OBJ}")
 TARGET_DATE = TARGET.strftime("%Y-%m-%d")
 
 # ── 코스피 대형주 티커 + 이름 (섹터는 yfinance 자동) ─────────
