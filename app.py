@@ -126,8 +126,15 @@ HTML = """<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>데일리 마켓 브리핑</title>
+<meta name="description" content="코스피·나스닥 주도 종목 실시간 분석">
+<meta name="theme-color" content="#0f1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="마켓 브리핑">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e8eaed;min-height:100vh}
@@ -439,30 +446,49 @@ function buildSearchIndex(){
   });
 }
 
+let _searchTimer=null;
 function onSearch(q){
   const box=document.getElementById('searchResults');
   if(!q.trim()){box.style.display='none';return;}
+  // 로컬 즉시 검색
   const kw=q.toLowerCase();
-  const hits=_allStocks.filter(s=>{
+  const localHits=_allStocks.filter(s=>{
     const nm=(s.name||s['종목']||s.ticker||'').toLowerCase();
     const tk=(s.ticker||'').toLowerCase();
     return nm.includes(kw)||tk.includes(kw);
   }).slice(0,8);
+  renderSearchResults(localHits, box);
+  // 0.5초 후 서버 검색 (더 많은 종목)
+  clearTimeout(_searchTimer);
+  _searchTimer=setTimeout(async()=>{
+    try{
+      box.innerHTML+='<div id="searchLoading" style="padding:8px 14px;font-size:12px;color:#555">🔍 더 찾는 중...</div>';
+      const res=await fetch('/api/search?q='+encodeURIComponent(q));
+      const hits=await res.json();
+      document.getElementById('searchLoading')?.remove();
+      if(hits.length>localHits.length) renderSearchResults(hits, box);
+    }catch(e){}
+  }, 500);
+}
+
+const SECTOR_COLORS_S={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','통신':'#06b6d4','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e','코스피':'#6366f1','나스닥':'#3b82f6'};
+
+function renderSearchResults(hits, box){
   if(!hits.length){
     box.style.display='block';
     box.innerHTML='<div style="padding:12px 14px;color:#555;font-size:13px">검색 결과 없음</div>';
     return;
   }
-  const SECTOR_COLORS_S={'반도체':'#6366f1','이차전지':'#22c55e','바이오':'#ec4899','전력/방산':'#f59e0b','자동차':'#14b8a6','IT/플랫폼':'#3b82f6','금융':'#8b5cf6','조선/중공업':'#64748b','엔터':'#f43f5e','철강/소재':'#78716c','통신':'#06b6d4','빅테크':'#3b82f6','AI/소프트웨어':'#6366f1','전기차/에너지':'#22c55e','바이오/헬스':'#ec4899','소비재/서비스':'#f59e0b','금융/핀테크':'#8b5cf6','미디어/엔터':'#f43f5e'};
   box.style.display='block';
   box.innerHTML=hits.map(s=>{
     const nm=s.name||s['종목']||s.ticker||'';
     const sec=s.sector||s['섹터']||'';
     const col=SECTOR_COLORS_S[sec]||'#666';
     const isUp=s.chg_pct>=0;
+    const live=s.live?'<span style="font-size:10px;color:#2563eb;margin-left:4px">실시간</span>':'';
     const sd=JSON.stringify(s).replace(/"/g,'&quot;');
     return '<div class="search-item" onclick="selectSearch(this)" data-stock="'+sd+'">'
-      +'<div class="search-item-name">'+nm+'</div>'
+      +'<div class="search-item-name">'+nm+live+'</div>'
       +'<span class="search-item-sector" style="background:'+col+'22;color:'+col+'">'+sec+'</span>'
       +'<div class="search-item-chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div>'
       +'</div>';
@@ -625,6 +651,11 @@ loadAll();
     <button class="popup-close" style="margin-top:16px" onclick="document.getElementById('fngOverlay').classList.remove('show')">닫기</button>
   </div>
 </div>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+}
+</script>
 </body>
 </html>"""
 
@@ -756,6 +787,155 @@ def api_summary():
         return jsonify({"summary": res["content"][0]["text"]})
     except:
         return jsonify({"summary": f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+
+# 코스피 종목명 → 티커 매핑 (주요 종목)
+KR_STOCKS = {
+    "삼성전자":"005930.KS","SK하이닉스":"000660.KS","삼성바이오로직스":"207940.KS",
+    "LG에너지솔루션":"373220.KS","삼성전기":"009150.KS","현대차":"005380.KS",
+    "기아":"000270.KS","POSCO홀딩스":"005490.KS","NAVER":"035420.KS",
+    "카카오":"035720.KS","LG화학":"051910.KS","삼성SDI":"006400.KS",
+    "현대모비스":"012330.KS","KB금융":"105560.KS","신한지주":"055550.KS",
+    "하나금융":"086790.KS","우리금융":"316140.KS","삼성생명":"032830.KS",
+    "에코프로비엠":"247540.KS","에코프로":"086520.KS","LG전자":"066570.KS",
+    "삼성SDS":"018260.KS","한화에어로스페이스":"012450.KS","두산에너빌리티":"034020.KS",
+    "현대중공업":"329180.KS","한화오션":"042660.KS","삼성중공업":"010140.KS",
+    "삼성물산":"028260.KS","HMM":"011200.KS","크래프톤":"259960.KS",
+    "하이브":"352820.KS","에스엠":"041510.KS","JYP엔터":"035900.KS",
+    "와이지엔터":"122870.KS","셀트리온":"068270.KS","유한양행":"000100.KS",
+    "한미약품":"128940.KS","씨젠":"096530.KS","리노공업":"058470.KS",
+    "한미반도체":"042700.KS","SK이노베이션":"096770.KS","S-Oil":"010950.KS",
+    "LG":"003550.KS","SK텔레콤":"017670.KS","KT":"030200.KS",
+    "포스코인터내셔널":"047050.KS","현대일렉트릭":"267260.KS","한국전력":"015760.KS",
+    "현대위아":"011210.KS","한온시스템":"018880.KS","대한항공":"003490.KS",
+    "카카오뱅크":"323410.KS","카카오페이":"377300.KS","엔씨소프트":"036570.KS",
+    "넷마블":"251270.KS","펄어비스":"263750.KS","콘텐츠리":"950190.KS",
+    "SK바이오팜":"326030.KS","고려아연":"010130.KS","OCI홀딩스":"456040.KS",
+    "HD현대":"267250.KS","LS":"006260.KS","효성첨단소재":"298050.KS",
+    "롯데케미칼":"011170.KS","금호석유":"011780.KS","LG디스플레이":"034220.KS",
+    "삼성화재":"000810.KS","메리츠화재":"000060.KS","DB손보":"005830.KS",
+    "기업은행":"024110.KS","BNK금융":"138930.KS","DGB금융":"139130.KS",
+}
+
+@app.route("/api/search")
+def api_search():
+    q = request.args.get("q", "").strip()
+    if not q or len(q) < 1:
+        return jsonify([])
+
+    import yfinance as yf
+    from datetime import datetime, timedelta
+    results = []
+
+    # 1. 로컬 데이터에서 먼저 검색 (빠름)
+    mdata = fetch_from_github("market_data.json")
+    if mdata:
+        all_stocks = []
+        for key in ["kospi_up","kospi_down","nasdaq_up","nasdaq_down"]:
+            all_stocks.extend(mdata.get(key, []))
+        for sec in mdata.get("kospi_sectors",[]) + mdata.get("nasdaq_sectors",[]):
+            all_stocks.extend(sec.get("stocks",[]))
+        seen = set()
+        kw = q.lower()
+        for s in all_stocks:
+            nm = s.get("name","")
+            tk = s.get("ticker","")
+            key = tk or nm
+            if key in seen: continue
+            if kw in nm.lower() or kw in tk.lower():
+                seen.add(key)
+                results.append(s)
+
+    if results:
+        return jsonify(results[:10])
+
+    # 2. 한글 종목명 → 티커 매핑
+    ticker = None
+    for name, tk in KR_STOCKS.items():
+        if q in name:
+            ticker = tk
+            break
+
+    # 3. 영문이면 직접 yfinance
+    if not ticker:
+        ticker = q.upper()
+        if not ticker.endswith(".KS") and len(ticker) <= 6:
+            pass  # 나스닥으로 시도
+
+    try:
+        end = datetime.today()
+        start = end - timedelta(days=7)
+        df = yf.download(ticker, start=start, end=end, auto_adjust=True, progress=False)
+        if isinstance(df.columns, __import__('pandas').MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        if not df.empty and len(df) >= 2:
+            close = float(df["Close"].iloc[-1])
+            prev  = float(df["Close"].iloc[-2])
+            chg   = round((close - prev) / prev * 100, 2)
+            name  = next((n for n,t in KR_STOCKS.items() if t==ticker), ticker)
+            results.append({
+                "name": name,
+                "ticker": ticker,
+                "close": round(close, 2),
+                "chg_pct": chg,
+                "sector": "코스피" if ticker.endswith(".KS") else "나스닥",
+                "live": True
+            })
+    except Exception as e:
+        print(f"search yfinance 오류: {e}")
+
+    return jsonify(results[:10])
+
+@app.route("/manifest.json")
+def manifest():
+    m = {
+        "name": "데일리 마켓 브리핑",
+        "short_name": "마켓 브리핑",
+        "description": "코스피·나스닥 주도 종목 실시간 분석",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#0f1117",
+        "theme_color": "#0f1117",
+        "orientation": "portrait",
+        "icons": [
+            {"src": "/icon.png", "sizes": "192x192", "type": "image/png"},
+            {"src": "/icon.png", "sizes": "512x512", "type": "image/png"}
+        ]
+    }
+    from flask import Response
+    return Response(json.dumps(m), mimetype="application/json")
+
+@app.route("/sw.js")
+def service_worker():
+    sw = """
+const CACHE = 'market-v1';
+const OFFLINE = ['/'];
+self.addEventListener('install', e => e.waitUntil(
+  caches.open(CACHE).then(c => c.addAll(OFFLINE))
+));
+self.addEventListener('fetch', e => {
+  if(e.request.url.includes('/api/')) return;
+  e.respondWith(
+    fetch(e.request).catch(() => caches.match(e.request))
+  );
+});
+"""
+    from flask import Response
+    return Response(sw, mimetype="application/javascript")
+
+@app.route("/icon.png")
+def icon():
+    # 📊 아이콘 SVG → PNG 없이 SVG로 대체
+    svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#0f1117"/>
+  <rect x="30" y="120" width="28" height="52" rx="4" fill="#22c55e"/>
+  <rect x="68" y="90" width="28" height="82" rx="4" fill="#22c55e"/>
+  <rect x="106" y="60" width="28" height="112" rx="4" fill="#2563eb"/>
+  <rect x="144" y="100" width="28" height="72" rx="4" fill="#ef4444"/>
+  <polyline points="44,115 82,85 120,55 158,95" 
+    stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>"""
+    from flask import Response
+    return Response(svg, mimetype="image/svg+xml")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
