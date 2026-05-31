@@ -81,7 +81,7 @@ STOCK_DESC = {
     "Micron":"메모리 반도체(DRAM·NAND) 미국 유일 생산사. HBM 공급 확대.",
     "Marvell":"데이터센터 네트워킹 반도체. AI 클러스터 연결 칩 공급.",
     "NXP Semi":"차량용 반도체 세계 1위. 전기차·자율주행 수혜.",
-    "Western Digital":" HDD·SSD 제조사.",
+    "Western Digital":"HDD·SSD 제조사.",
     "SanDisk":"낸드플래시·SSD 세계 2위. SanDisk 브랜드로 소비자 스토리지 시장 선도.",
     "Apple":"스마트폰·PC·웨어러블 세계 1위. 서비스 매출 고성장.",
     "Microsoft":"클라우드(Azure) 2위. OpenAI 투자로 AI 선도.",
