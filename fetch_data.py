@@ -127,12 +127,12 @@ NASDAQ_RAW = [
     ("ADP","ADP"),("PAYX","Paychex"),
 ]
 
-def get_leaders(tickers_input):
+def get_leaders(raw_list):
     end   = TARGET + timedelta(days=1)
     start = TARGET - timedelta(days=7)
     rows  = []
 
-    for ticker, name, sector in tickers_input:
+    for ticker, name in raw_list:
         try:
             df = yf.download(ticker, start=start, end=end,
                              auto_adjust=True, progress=False)
