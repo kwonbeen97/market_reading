@@ -527,7 +527,23 @@ function renderHeatmap(){
       return '<div class="heat-cell '+heatClass(s.chg_pct)+'" onclick="openPopup(this)" data-stock="'+sd+'"><div class="heat-name">'+nm+'</div><div class="heat-chg">'+(s.chg_pct>0?'+':'')+s.chg_pct+'%</div></div>';
     }).join('');
     const scol=SECTOR_COLORS[sec.sector]||'#6b7280';
-    return '<div class="sector-block" style="border-color:'+scol+'44"><div class="sector-header" style="background:'+scol+'18;border-bottom-color:'+scol+'33"><span class="sector-name" style="color:'+scol+'">'+sec.sector+'</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></div><div class="stocks-grid">'+cells+'</div></div>';
+    const sid='sc'+Math.random().toString(36).slice(2,7);
+    const hist5avg=[];
+    for(let di=0;di<5;di++){
+      const vals=sec.stocks.map(s=>(s.hist5||[])[di]).filter(v=>v!==undefined);
+      if(vals.length) hist5avg.push(Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*100)/100);
+    }
+    window._sectorCharts=window._sectorCharts||{};
+    window._sectorCharts[sid]={hist5:hist5avg,col:scol};
+    const labelsHtml=hist5avg.map(v=>'<span style="color:'+(v>=0?'#22c55e':'#ef4444')+'">'+(v>0?'+':'')+v+'%</span>').join('');
+    const chartHtml=hist5avg.length?'<div class="sector-chart" id="chart-'+sid+'"><canvas id="cv-'+sid+'" height="48" style="width:100%;display:block"></canvas><div style="display:flex;justify-content:space-around;font-size:10px;margin-top:2px">'+labelsHtml+'</div></div>':'';
+    return '<div class="sector-block" style="border-color:'+scol+'44">'
+      +'<div class="sector-header" style="background:'+scol+'18;border-bottom-color:'+scol+'33;cursor:pointer" data-sid="'+sid+'" onclick="toggleSectorChart(this.dataset.sid)">'
+      +'<span class="sector-name" style="color:'+scol+'">'+sec.sector+'</span>'
+      +'<span style="display:flex;align-items:center;gap:6px"><span style="font-size:10px;color:#666">▾</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></span>'
+      +'</div>'
+      +chartHtml
+      +'<div class="stocks-grid">'+cells+'</div></div>';
   }).join('');
 }
 
