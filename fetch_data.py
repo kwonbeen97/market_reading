@@ -388,4 +388,14 @@ os.makedirs("history", exist_ok=True)
 with open(f"history/{TARGET_DATE}.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
 
+# 8일 이상 된 history 파일 자동 삭제
+import glob
+from datetime import timedelta
+cutoff = (datetime.today() - timedelta(days=7)).strftime("%Y-%m-%d")
+for old_file in glob.glob("history/*.json"):
+    fname = os.path.basename(old_file).replace(".json","")
+    if fname < cutoff:
+        os.remove(old_file)
+        print(f"오래된 파일 삭제: {old_file}")
+
 print(f"✅ 완료! market_data.json + history/{TARGET_DATE}.json 저장됨")
