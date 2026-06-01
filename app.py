@@ -847,11 +847,25 @@ def api_history():
         req=urllib.request.Request(api_url,headers={"User-Agent":"Mozilla/5.0"})
         with urllib.request.urlopen(req,timeout=8) as r:
             files=json.loads(r.read())
+        print(f"history 파일 목록: {[f['name'] for f in files]}")
         for f in sorted(files,key=lambda x:x["name"])[-7:]:
-            d=fetch_from_github("history/"+f["name"])
-            if d:
+            fname = f["name"]
+            date_key = fname.replace(".json","")
+            if date_key in all_data:
+                print(f"  {fname}: 이미 있음, 스킵")
+                continue
+            # GitHub raw URL로 직접 가져오기
+            raw_url = f["download_url"]
+            try:
+                req2=urllib.request.Request(raw_url,headers={"User-Agent":"Mozilla/5.0"})
+                with urllib.request.urlopen(req2,timeout=10) as r2:
+                    d=json.loads(r2.read().decode("utf-8"))
                 date=d.get("date","")
-                if date and date not in all_data:all_data[date]=d;dates.append(date)
+                print(f"  {fname}: date={date}")
+                if date and date not in all_data:
+                    all_data[date]=d;dates.append(date)
+            except Exception as e2:
+                print(f"  {fname} 로드 실패: {e2}")
     except Exception as e:
         print(f"history 목록 실패: {e}")
     dates=sorted(set(dates))
