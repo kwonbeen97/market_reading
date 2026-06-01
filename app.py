@@ -199,7 +199,7 @@ body.light .cal-name{color:#1d1d1f}
 .cal-days{font-size:11px;color:#555;min-width:40px;text-align:right}
 .cal-today{background:#1e2a1e}
 body.light .cal-today{background:#f0fff0}
-.header{padding:16px 16px 0;border-bottom:1px solid #1e2235}
+.header{padding:16px 16px 0;padding-top:max(16px,env(safe-area-inset-top));border-bottom:1px solid #1e2235}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .header h1{font-size:18px;font-weight:700}
 .refresh-btn{background:#2563eb;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:600}
@@ -287,6 +287,14 @@ body.light .cal-today{background:#f0fff0}
 .badge-streak-up{display:inline-block;font-size:10px;font-weight:700;background:#14532d;color:#86efac;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-streak-dn{display:inline-block;font-size:10px;font-weight:700;background:#7f1d1d;color:#fecaca;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-vol{display:inline-block;font-size:10px;font-weight:700;background:#1e3a5f;color:#60a5fa;padding:1px 5px;border-radius:4px;margin-left:4px}
+.fav-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:0 4px;line-height:1;opacity:.5;transition:opacity .2s}
+.fav-btn.active{opacity:1}
+.fav-tab{display:flex;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap;margin-top:4px}
+.fav-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:#1a1d27;border:1px solid #2a2d3a;cursor:pointer;transition:all .2s}
+.fav-chip:hover{border-color:#2563eb}
+.fav-chip .fav-chg{font-size:11px;font-weight:700}
+.fav-empty{padding:10px 16px;font-size:12px;color:#555}
+body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 .sector-chart{display:none;padding:8px 12px;border-top:1px solid rgba(255,255,255,.06)}
 .sector-chart.show{display:block}
 .sector-chart canvas{width:100%;height:48px;display:block}
@@ -336,6 +344,7 @@ body.light .cal-today{background:#f0fff0}
   <div id="searchResults"></div>
 </div>
 
+<div id="favBar"></div>
 <div class="date-bar" id="dateBar"></div>
 
 <div class="view-tabs">
@@ -359,7 +368,10 @@ body.light .cal-today{background:#f0fff0}
 <div class="popup-overlay" id="popupOverlay" onclick="if(event.target===this)this.classList.remove('show')">
   <div class="popup">
     <div class="popup-handle"></div>
-    <div class="popup-name" id="popupName"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div class="popup-name" id="popupName"></div>
+      <button class="fav-btn" id="favBtn" onclick="toggleFav()">☆</button>
+    </div>
     <div class="popup-sector" id="popupSector"></div>
     <div class="popup-chg" id="popupChg"></div>
     <div class="popup-price-row">
@@ -490,6 +502,8 @@ function openPopup(el){
     if(found){const isU=found.chg_pct>=0;histHtml+='<div class="hist-row"><span class="hist-label">'+d+'</span><span class="hist-val '+(isU?'up':'down')+'">'+(isU?'+':'')+found.chg_pct+'%</span></div>';}
   });
   document.getElementById('popupHist').innerHTML=histHtml?'<div style="margin-top:8px;font-size:11px;color:#555;font-weight:700;letter-spacing:.5px">과거 등락률</div>'+histHtml:'';
+  _currentStock = s;
+  updateFavBtn(s.ticker||s.name);
   document.getElementById('popupOverlay').classList.add('show');
 
 }
@@ -730,13 +744,75 @@ function toggleTheme(){
 }
 initTheme();
 
+// 즐겨찾기
+let _favs = JSON.parse(localStorage.getItem('favs')||'[]');
+let _currentStock = null;
+
+function toggleFav(){
+  if(!_currentStock) return;
+  const key = _currentStock.ticker || _currentStock.name;
+  const idx = _favs.findIndex(f=>f.key===key);
+  if(idx>=0){
+    _favs.splice(idx,1);
+  } else {
+    _favs.push({key, name:_currentStock.name||_currentStock.ticker, ticker:_currentStock.ticker, sector:_currentStock.sector});
+  }
+  localStorage.setItem('favs', JSON.stringify(_favs));
+  updateFavBtn(key);
+  renderFavBar();
+}
+
+function updateFavBtn(key){
+  const btn = document.getElementById('favBtn');
+  if(!btn) return;
+  const isFav = _favs.some(f=>f.key===key);
+  btn.textContent = isFav ? '★' : '☆';
+  btn.classList.toggle('active', isFav);
+}
+
+function renderFavBar(){
+  const bar = document.getElementById('favBar');
+  if(!bar) return;
+  if(!_favs.length){
+    bar.innerHTML = '';
+    return;
+  }
+  // 즐겨찾기 종목의 현재 등락률 찾기
+  const allStocks = data ? [
+    ...(data.kospi_up||[]),...(data.kospi_down||[]),
+    ...(data.nasdaq_up||[]),...(data.nasdaq_down||[]),
+    ...(data.kospi_sectors||[]).flatMap(s=>s.stocks||[]),
+    ...(data.nasdaq_sectors||[]).flatMap(s=>s.stocks||[])
+  ] : [];
+  bar.innerHTML = '<div class="fav-tab">'
+    + _favs.map(f=>{
+        const found = allStocks.find(s=>(s.ticker||s.name)===f.key);
+        const chg = found ? found.chg_pct : null;
+        const col = chg!=null ? (chg>=0?'#22c55e':'#ef4444') : '#888';
+        const chgStr = chg!=null ? (chg>=0?'+':'')+chg+'%' : '';
+        const sd = found ? JSON.stringify(found).replace(/"/g,'&quot;') : '';
+        return '<div class="fav-chip" '+(sd?'onclick="openPopup(this)" data-stock="'+sd+'"':'')+'>'
+          +'<span>'+f.name+'</span>'
+          +(chgStr?'<span class="fav-chg" style="color:'+col+'">'+chgStr+'</span>':'')
+          +'<span onclick="event.stopPropagation();removeFav(''+f.key+'')" style="color:#555;font-size:14px;padding:0 2px">×</span>'
+          +'</div>';
+      }).join('')
+    + '</div>';
+}
+
+function removeFav(key){
+  _favs = _favs.filter(f=>f.key!==key);
+  localStorage.setItem('favs', JSON.stringify(_favs));
+  renderFavBar();
+}
+
 async function loadAll(){
   try{
     const r=await fetch('/api/history');const h=await r.json();
     dates=h.dates||[];allData=h.data||{};
     currentDate=dates[dates.length-1]||'';
     data=allData[currentDate]||null;
-    renderDateBar();render();loadAISummary();loadIndicators();
+    renderDateBar();render();renderFavBar();loadAISummary();loadIndicators();
   }catch(e){}
 }
 loadAll();
