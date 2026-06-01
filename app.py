@@ -1118,7 +1118,7 @@ def api_summary():
         
         # [수정] 모든 계정에서 100% 작동하는 안전한 Claude 3 Haiku 모델명으로 교체
         payload=json.dumps({
-            "model":"claude-3-haiku-20240307",
+            "model": "claude-3-opus-20240229",
             "max_tokens":300,
             "messages":[{"role":"user","content":prompt}]
         }).encode()
