@@ -844,7 +844,10 @@ def api_history():
         if d:all_data[d]=latest;dates.append(d)
     try:
         api_url=f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/history"
-        req=urllib.request.Request(api_url,headers={"User-Agent":"Mozilla/5.0"})
+        gh_token=os.environ.get("GITHUB_TOKEN","")
+        headers={"User-Agent":"Mozilla/5.0"}
+        if gh_token:headers["Authorization"]=f"Bearer {gh_token}"
+        req=urllib.request.Request(api_url,headers=headers)
         with urllib.request.urlopen(req,timeout=8) as r:
             files=json.loads(r.read())
         print(f"history 파일 목록: {[f['name'] for f in files]}")
