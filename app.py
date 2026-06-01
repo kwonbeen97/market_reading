@@ -750,7 +750,7 @@ let _currentStock = null;
 
 function toggleFav(){
   if(!_currentStock) return;
-  const key = _currentStock.ticker || _currentStock.name;
+  const key = (_currentStock.ticker || _currentStock.name).replace(/[^a-zA-Z0-9가-힣.]/g,'_');
   const idx = _favs.findIndex(f=>f.key===key);
   if(idx>=0){
     _favs.splice(idx,1);
@@ -786,21 +786,28 @@ function renderFavBar(){
   ] : [];
   bar.innerHTML = '<div class="fav-tab">'
     + _favs.map(f=>{
-        const found = allStocks.find(s=>(s.ticker||s.name)===f.key);
+        const found = allStocks.find(s=>((s.ticker||s.name).replace(/[^a-zA-Z0-9가-힣.]/g,'_'))===f.key);
         const chg = found ? found.chg_pct : null;
         const col = chg!=null ? (chg>=0?'#22c55e':'#ef4444') : '#888';
         const chgStr = chg!=null ? (chg>=0?'+':'')+chg+'%' : '';
         const sd = found ? JSON.stringify(found).replace(/"/g,'&quot;') : '';
+        const safeKey = f.key.replace(/'/g,'&#39;');
         return '<div class="fav-chip" '+(sd?'onclick="openPopup(this)" data-stock="'+sd+'"':'')+'>'
           +'<span>'+f.name+'</span>'
           +(chgStr?'<span class="fav-chg" style="color:'+col+'">'+chgStr+'</span>':'')
-          +'<span onclick="event.stopPropagation();removeFav(''+f.key+'')" style="color:#555;font-size:14px;padding:0 2px">×</span>'
+          +'<span onclick="event.stopPropagation();removeFavByKey(''+safeKey+'')" style="color:#555;font-size:14px;padding:0 2px">×</span>'
           +'</div>';
       }).join('')
     + '</div>';
 }
 
-function removeFav(key){
+function removeFav(el){
+  const key = typeof el === 'string' ? el : el.dataset.key;
+  _favs = _favs.filter(f=>f.key!==key);
+  localStorage.setItem('favs', JSON.stringify(_favs));
+  renderFavBar();
+}
+function removeFavByKey(key){
   _favs = _favs.filter(f=>f.key!==key);
   localStorage.setItem('favs', JSON.stringify(_favs));
   renderFavBar();
