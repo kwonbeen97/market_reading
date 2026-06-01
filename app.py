@@ -1114,10 +1114,10 @@ def api_summary():
     try:
         api_key=os.environ.get("ANTHROPIC_API_KEY","")
         if not api_key:
-            print("Anthropic API 키가 없습니다.")
-            return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+            # 키가 없으면 화면에 바로 경고를 띄웁니다.
+            return jsonify({"summary": "❌ 에러: Render 환경변수에 ANTHROPIC_API_KEY가 없습니다."})
         
-        # 올바른 최신 모델명 지정
+        # [수정] 실제로 존재하는 올바른 Claude 3.5 Haiku 모델명입니다.
         payload=json.dumps({
             "model":"claude-3-5-haiku-20241022",
             "max_tokens":300,
@@ -1138,8 +1138,8 @@ def api_summary():
                 error_msg = e.read().decode('utf-8')
             except:
                 pass
-        print(f"Claude API 호출 에러: {error_msg}")
-        return jsonify({"summary": f"❌ API 에러 발생: {error_msg}"})
+        # [개조] 에러가 나면 숨기지 않고 화면에 대놓고 에러 원인을 출력합니다.
+        return jsonify({"summary": f"❌ 클로드 API 오류 발생: {error_msg}"})
 
 @app.route("/api/stock_brief")
 def api_stock_brief():
