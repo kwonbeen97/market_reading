@@ -246,8 +246,8 @@ TARGET_DATE = TARGET_DATE_OBJ.strftime("%Y-%m-%d")
 print(f"[데이터 수집] {TARGET_DATE}")
 
 def get_leaders(tickers_input):
-    end   = datetime.today()
-    start = end - timedelta(days=14)  # 연속일수 계산위해 더 길게
+    end   = datetime.today() + timedelta(days=1)  # yfinance end는 미포함이라 +1일
+    start = end - timedelta(days=15)
     rows  = []
     for ticker, name, sector in tickers_input:
         try:
