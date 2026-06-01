@@ -286,10 +286,10 @@ body.light .cal-today{background:#f0fff0}
 .hist-label{font-size:11px;color:#666}
 .hist-val{font-size:12px;font-weight:600}
 .popup-close{width:100%;padding:12px;background:#2563eb;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
-.stock-chart-wrap{margin:12px 0;border-top:1px solid #1e2235;padding-top:12px}
-.stock-chart-label{font-size:11px;color:#555;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
-.stock-chart-canvas{width:100%;height:80px;display:block}
-body.light .stock-chart-wrap{border-color:#f0f0f5}
+.popup-chart-wrap{margin:12px 0;border-top:1px solid #1e2235;padding-top:12px}
+.popup-chart-label{font-size:11px;color:#555;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
+.popup-chart-canvas{width:100%;height:80px;display:block}
+body.light .popup-chart-wrap{border-color:#f0f0f5}
 .popup-chart-wrap{margin-top:12px;border-top:1px solid #1e2235;padding-top:10px}
 .popup-chart-label{font-size:11px;color:#555;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
 .popup-chart-canvas{width:100%;height:80px;display:block}
@@ -519,8 +519,6 @@ function openPopup(el){
   document.getElementById('popupOverlay').classList.add('show');
   // 주가 차트 로드
   if(s.ticker) loadStockChart(s.ticker, s.chg_pct>=0);
-  // 차트 로드
-  loadPopupChart(s.ticker||'', s.chg_pct>=0);
 
 }
 
@@ -625,8 +623,8 @@ function loadPopupChart(ticker, isUp){
 }
 
 function drawStockChart(prices, color){
-  const wrap = document.getElementById('stockChartWrap');
-  const cv = document.getElementById('stockChartCanvas');
+  const wrap = document.getElementById('popupChartWrap');
+  const cv = document.getElementById('popupChartCanvas');
   if(!cv || !prices.length){ if(wrap) wrap.style.display='none'; return; }
   wrap.style.display = 'block';
   setTimeout(()=>{
@@ -663,7 +661,7 @@ function drawStockChart(prices, color){
 }
 
 async function loadStockChart(ticker, isUp){
-  const wrap = document.getElementById('stockChartWrap');
+  const wrap = document.getElementById('popupChartWrap');
   if(wrap) wrap.style.display='none';
   try{
     const res = await fetch('/api/chart?ticker='+encodeURIComponent(ticker));
