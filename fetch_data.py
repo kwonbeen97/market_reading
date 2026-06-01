@@ -9,9 +9,7 @@ warnings.filterwarnings("ignore")
 
 TOP_N = 15
 
-# ── 코스피 200 (섹터 직접 지정) ──────────────────────────────
 KOSPI_TICKERS = [
-    # 반도체
     ("005930.KS","삼성전자","반도체"),
     ("000660.KS","SK하이닉스","반도체"),
     ("009150.KS","삼성전기","반도체"),
@@ -21,7 +19,6 @@ KOSPI_TICKERS = [
     ("357780.KS","솔브레인","반도체"),
     ("240810.KS","원익IPS","반도체"),
     ("140860.KS","파크시스템스","반도체"),
-    # 이차전지
     ("373220.KS","LG에너지솔루션","이차전지"),
     ("006400.KS","삼성SDI","이차전지"),
     ("051910.KS","LG화학","이차전지"),
@@ -31,7 +28,6 @@ KOSPI_TICKERS = [
     ("003670.KS","포스코퓨처엠","이차전지"),
     ("298050.KS","효성첨단소재","이차전지"),
     ("456040.KS","OCI홀딩스","이차전지"),
-    # 바이오/제약
     ("207940.KS","삼성바이오로직스","바이오/제약"),
     ("068270.KS","셀트리온","바이오/제약"),
     ("000100.KS","유한양행","바이오/제약"),
@@ -43,20 +39,17 @@ KOSPI_TICKERS = [
     ("009420.KS","한올바이오파마","바이오/제약"),
     ("185750.KS","종근당","바이오/제약"),
     ("064550.KS","바이오니아","바이오/제약"),
-    # 자동차/부품
     ("005380.KS","현대차","자동차/부품"),
     ("000270.KS","기아","자동차/부품"),
     ("012330.KS","현대모비스","자동차/부품"),
     ("011210.KS","현대위아","자동차/부품"),
     ("018880.KS","한온시스템","자동차/부품"),
     ("204320.KS","만도","자동차/부품"),
-    # IT/플랫폼
     ("035420.KS","NAVER","IT/플랫폼"),
     ("035720.KS","카카오","IT/플랫폼"),
     ("018260.KS","삼성SDS","IT/플랫폼"),
     ("066570.KS","LG전자","IT/플랫폼"),
     ("034220.KS","LG디스플레이","IT/플랫폼"),
-    # 게임/엔터
     ("259960.KS","크래프톤","게임/엔터"),
     ("036570.KS","엔씨소프트","게임/엔터"),
     ("251270.KS","넷마블","게임/엔터"),
@@ -65,7 +58,6 @@ KOSPI_TICKERS = [
     ("041510.KS","에스엠","게임/엔터"),
     ("035900.KS","JYP엔터","게임/엔터"),
     ("122870.KS","와이지엔터","게임/엔터"),
-    # 금융/보험
     ("105560.KS","KB금융","금융/보험"),
     ("055550.KS","신한지주","금융/보험"),
     ("086790.KS","하나금융","금융/보험"),
@@ -80,7 +72,6 @@ KOSPI_TICKERS = [
     ("071050.KS","한국금융지주","금융/보험"),
     ("005940.KS","NH투자증권","금융/보험"),
     ("016360.KS","삼성증권","금융/보험"),
-    # 조선/해운/항공
     ("329180.KS","현대중공업","조선/해운/항공"),
     ("042660.KS","한화오션","조선/해운/항공"),
     ("010140.KS","삼성중공업","조선/해운/항공"),
@@ -89,7 +80,6 @@ KOSPI_TICKERS = [
     ("011200.KS","HMM","조선/해운/항공"),
     ("003490.KS","대한항공","조선/해운/항공"),
     ("020560.KS","아시아나항공","조선/해운/항공"),
-    # 방산/전력
     ("012450.KS","한화에어로스페이스","방산/전력"),
     ("034020.KS","두산에너빌리티","방산/전력"),
     ("015760.KS","한국전력","방산/전력"),
@@ -97,20 +87,16 @@ KOSPI_TICKERS = [
     ("010120.KS","LS ELECTRIC","방산/전력"),
     ("298040.KS","효성중공업","방산/전력"),
     ("010690.KS","화신","방산/전력"),
-    # 소재/에너지
     ("047050.KS","포스코인터내셔널","소재/에너지"),
     ("078930.KS","GS","소재/에너지"),
     ("010950.KS","S-Oil","소재/에너지"),
     ("096640.KS","한국가스공사","소재/에너지"),
-    # 소재/철강/화학
     ("005490.KS","POSCO홀딩스","소재/철강/화학"),
     ("010130.KS","고려아연","소재/철강/화학"),
     ("004020.KS","현대제철","소재/철강/화학"),
     ("006260.KS","LS","소재/철강/화학"),
     ("011780.KS","금호석유","소재/철강/화학"),
     ("011170.KS","롯데케미칼","소재/철강/화학"),
-    ("010950.KS","S-Oil","소재/철강/화학"),
-    # 통신/건설/유통
     ("030200.KS","KT","통신/건설/유통"),
     ("017670.KS","SK텔레콤","통신/건설/유통"),
     ("032640.KS","LG유플러스","통신/건설/유통"),
@@ -121,7 +107,6 @@ KOSPI_TICKERS = [
     ("069960.KS","현대백화점","통신/건설/유통"),
     ("004170.KS","신세계","통신/건설/유통"),
     ("282330.KS","BGF리테일","통신/건설/유통"),
-    # 지주/기타
     ("003550.KS","LG","지주/기타"),
     ("034730.KS","SK","지주/기타"),
     ("097950.KS","CJ제일제당","지주/기타"),
@@ -129,9 +114,7 @@ KOSPI_TICKERS = [
     ("271560.KS","오리온","지주/기타"),
 ]
 
-# ── 나스닥 100 (섹터 직접 지정) ──────────────────────────────
 NASDAQ_TICKERS = [
-    # 반도체 (한 섹터로 통합)
     ("NVDA","NVIDIA","반도체"),
     ("AMD","AMD","반도체"),
     ("AVGO","Broadcom","반도체"),
@@ -149,14 +132,12 @@ NASDAQ_TICKERS = [
     ("INTC","Intel","반도체"),
     ("ARM","Arm Holdings","반도체"),
     ("SNDK","SanDisk","반도체"),
-    # 빅테크
     ("AAPL","Apple","빅테크"),
     ("MSFT","Microsoft","빅테크"),
     ("GOOGL","Alphabet","빅테크"),
     ("AMZN","Amazon","빅테크"),
     ("META","Meta","빅테크"),
     ("SMCI","Super Micro","빅테크"),
-    # AI/소프트웨어 (사이버보안 통합)
     ("PLTR","Palantir","AI/소프트웨어"),
     ("CRWD","CrowdStrike","AI/소프트웨어"),
     ("PANW","Palo Alto","AI/소프트웨어"),
@@ -176,11 +157,9 @@ NASDAQ_TICKERS = [
     ("ANSS","ANSYS","AI/소프트웨어"),
     ("ZM","Zoom","AI/소프트웨어"),
     ("DOCU","DocuSign","AI/소프트웨어"),
-    # 전기차/에너지
     ("TSLA","Tesla","전기차/에너지"),
     ("ENPH","Enphase","전기차/에너지"),
     ("FSLR","First Solar","전기차/에너지"),
-    # 바이오/헬스
     ("AMGN","Amgen","바이오/헬스"),
     ("GILD","Gilead","바이오/헬스"),
     ("VRTX","Vertex","바이오/헬스"),
@@ -190,7 +169,6 @@ NASDAQ_TICKERS = [
     ("IDXX","IDEXX Labs","바이오/헬스"),
     ("ILMN","Illumina","바이오/헬스"),
     ("BIIB","Biogen","바이오/헬스"),
-    # 소비재/유통
     ("COST","Costco","소비재/유통"),
     ("SBUX","Starbucks","소비재/유통"),
     ("ORLY","O'Reilly Auto","소비재/유통"),
@@ -206,13 +184,11 @@ NASDAQ_TICKERS = [
     ("LULU","Lululemon","소비재/유통"),
     ("BKNG","Booking","소비재/유통"),
     ("ABNB","Airbnb","소비재/유통"),
-    # 금융/핀테크
     ("COIN","Coinbase","금융/핀테크"),
     ("PYPL","PayPal","금융/핀테크"),
     ("ADP","ADP","금융/핀테크"),
     ("PAYX","Paychex","금융/핀테크"),
     ("VRSK","Verisk","금융/핀테크"),
-    # 미디어/통신
     ("NFLX","Netflix","미디어/통신"),
     ("CSCO","Cisco","미디어/통신"),
     ("FAST","Fastenal","미디어/통신"),
@@ -236,7 +212,7 @@ TARGET_DATE = TARGET_DATE_OBJ.strftime("%Y-%m-%d")
 print(f"[데이터 수집] {TARGET_DATE}")
 
 def get_leaders(tickers_input):
-    end   = datetime.today() + timedelta(days=1)  # yfinance end는 미포함이라 +1일
+    end   = datetime.today() + timedelta(days=1)
     start = end - timedelta(days=15)
     rows  = []
     for ticker, name, sector in tickers_input:
@@ -255,12 +231,10 @@ def get_leaders(tickers_input):
             prev_close = float(df["Close"].iloc[-2])
             chg_pct    = round((close - prev_close) / prev_close * 100, 2)
 
-            # 거래량 급증 (오늘 거래량 vs 5일 평균)
             vol_today = float(df["Volume"].iloc[-1]) if "Volume" in df.columns else 0
             vol_avg5  = float(df["Volume"].iloc[-6:-1].mean()) if len(df) >= 6 and "Volume" in df.columns else vol_today
             vol_surge = round(vol_today / vol_avg5, 1) if vol_avg5 > 0 else 1.0
 
-            # 연속 상승/하락 일수
             streak = 0
             closes = df["Close"].tolist()
             if len(closes) >= 2:
@@ -271,12 +245,17 @@ def get_leaders(tickers_input):
                     else:
                         break
 
-            # 5일 등락률 히스토리
             hist5 = []
             for i in range(min(5, len(df)-1), 0, -1):
                 c = float(df["Close"].iloc[-i])
                 p = float(df["Close"].iloc[-i-1])
                 hist5.append(round((c-p)/p*100, 2))
+
+            # ── 모멘텀 스코어 (최대 +50 / 최소 -30 범위) ──
+            chg_score    = min(abs(chg_pct) * 2, 20) * (1 if chg_pct >= 0 else -1)
+            vol_score    = min(vol_surge, 5) * 4
+            streak_score = min(abs(streak), 5) * 2 * (1 if streak >= 0 else -1)
+            momentum     = round(chg_score + vol_score + streak_score, 1)
 
             rows.append({
                 "name"     : name,
@@ -287,6 +266,7 @@ def get_leaders(tickers_input):
                 "vol_surge": vol_surge,
                 "streak"   : streak,
                 "hist5"    : hist5,
+                "momentum" : momentum,
             })
         except:
             continue
@@ -312,7 +292,6 @@ def by_sector(rows):
         })
     return sorted(result, key=lambda x: x["avg_chg"], reverse=True)
 
-# 코스피/나스닥 지수
 kospi_index = nasdaq_index = kospi_chg = nasdaq_chg = None
 try:
     for sym, key in [("^KS11","kospi"),("^IXIC","nasdaq")]:
@@ -330,7 +309,6 @@ try:
 except Exception as e:
     print(f"지수 수집 실패: {e}")
 
-# CNN Fear & Greed
 fng_value = fng_label = fng_prev = None
 try:
     import urllib.request
@@ -378,9 +356,7 @@ os.makedirs("history", exist_ok=True)
 with open(f"history/{TARGET_DATE}.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
 
-# 8일 이상 된 history 파일 자동 삭제
 import glob
-from datetime import timedelta
 cutoff = (datetime.today() - timedelta(days=7)).strftime("%Y-%m-%d")
 for old_file in glob.glob("history/*.json"):
     fname = os.path.basename(old_file).replace(".json","")
