@@ -1099,11 +1099,17 @@ def api_summary():
     up_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in up])
     down_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
     sector_str=", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
-    prompt=f"""{data.get('date','')} {market_name} 시장 데이터입니다.
-상위 상승: {up_str}
-상위 하락: {down_str}
-섹터별 평균: {sector_str}
-위 데이터를 바탕으로 오늘 {market_name} 시장 분위기를 초보 투자자도 이해할 수 있게 2~3문장으로 한국어로 요약해주세요."""
+    prompt=f"""{data.get('date','')} {market_name} 시장 데일리 리딩입니다.
+
+[시장 요약 데이터]
+- 상위 상승 주도: {up_str}
+- 상위 하락: {down_str}
+- 주요 섹터 흐름: {sector_str}
+
+전문적인 애널리스트의 시각으로 다음 조건에 맞춰 시황 브리핑을 작성해주세요:
+1. 단순히 숫자를 나열하지 말고, 전체 지수 흐름과 주도 섹터(반도체, 빅테크 등) 간의 맥락을 짚어주세요.
+2. 매크로 환경(국채 금리나 환율 변동 등)이 시장에 미칠 영향을 한 줄로 포함해주세요.
+3. 통찰이 담긴 3~4문장의 자연스러운 한국어로 요약해주세요."""
     try:
         api_key=os.environ.get("ANTHROPIC_API_KEY","")
         if not api_key:return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
