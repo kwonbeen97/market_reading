@@ -1080,16 +1080,8 @@ def api_indicators():
             except Exception as e2:
                 print(f"{sym} 오류: {e2}")
     except Exception as e:
-        error_msg = str(e)
-        # Anthropic 서버가 보낸 구체적인 에러 메시지가 있다면 읽어옴
-        if hasattr(e, 'read'):
-            try:
-                error_msg = e.read().decode('utf-8')
-            except:
-                pass
-        
-        # 비상용 텍스트 대신, 진짜 에러 원인을 웹페이지 요약창에 그대로 출력
-        return jsonify({"summary": f"❌ API 에러 발생: {error_msg}"})
+        print(f"indicators 오류: {e}")
+    return jsonify(result)
 
 @app.route("/api/summary")
 def api_summary():
