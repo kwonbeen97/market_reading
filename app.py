@@ -847,7 +847,7 @@ def api_history():
         req=urllib.request.Request(api_url,headers={"User-Agent":"Mozilla/5.0"})
         with urllib.request.urlopen(req,timeout=8) as r:
             files=json.loads(r.read())
-        for f in sorted(files,key=lambda x:x["name"])[-6:]:
+        for f in sorted(files,key=lambda x:x["name"])[-7:]:
             d=fetch_from_github("history/"+f["name"])
             if d:
                 date=d.get("date","")
