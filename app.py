@@ -609,7 +609,7 @@ function render(){
 
 function renderDateBar(){
   const bar=document.getElementById('dateBar');
-  bar.innerHTML=dates.map(d=>'<div class="date-chip'+(d===currentDate?' active':'')+'" onclick="selectDate('+JSON.stringify(d)+')">'+d.slice(5)+'</div>').join('');
+  bar.innerHTML=dates.map(d=>'<div class="date-chip'+(d===currentDate?' active':'')+'" data-date="'+d+'" onclick="selectDate(this.dataset.date)">'+d.slice(5)+'</div>').join('');
 }
 function selectDate(d){currentDate=d;data=allData[d]||null;renderDateBar();render();loadAISummary();}
 
