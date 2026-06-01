@@ -1112,14 +1112,30 @@ def api_summary():
 3. 통찰이 담긴 3~4문장의 자연스러운 한국어로 요약해주세요."""
     try:
         api_key=os.environ.get("ANTHROPIC_API_KEY","")
-        if not api_key:return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
-        payload=json.dumps({"model":"claude-haiku-4-5-20251001","max_tokens":300,"messages":[{"role":"user","content":prompt}]}).encode()
+        if not api_key:
+            print("Anthropic API 키가 없습니다.")
+            return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+            
+        # 1. 존재하는 올바른 모델명(Claude 3.5 Haiku)으로 수정
+        payload=json.dumps({
+            "model":"claude-3-5-haiku-20241022",
+            "max_tokens":300,
+            "messages":[{"role":"user","content":prompt}]
+        }).encode()
+        
         req=urllib.request.Request("https://api.anthropic.com/v1/messages",data=payload,
             headers={"Content-Type":"application/json","x-api-key":api_key,"anthropic-version":"2023-06-01"})
+        
         with urllib.request.urlopen(req,timeout=15) as r:
             res=json.loads(r.read())
         return jsonify({"summary":res["content"][0]["text"]})
-    except:
+        
+    except Exception as e:
+        # 2. 에러가 나면 Render 대시보드 로그(Logs)에 에러 원인을 출력하도록 추가
+        error_msg = str(e)
+        if hasattr(e, 'read'):
+            error_msg = e.read().decode('utf-8')
+        print(f"Claude API 호출 에러: {error_msg}")
         return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
 
 @app.route("/api/search")
