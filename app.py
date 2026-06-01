@@ -32,6 +32,8 @@ STOCK_DESC = {
     "한국전력":"국내 전력 독점 공급 공기업. 전기요금 정책 영향 큼.",
     "포스코인터내셔널":"POSCO 그룹 종합상사. 천연가스·이차전지소재 사업 확대.",
     "현대일렉트릭":"변압기·전력기기 제조. 북미 전력망 투자 수혜주.",
+    "LS ELECTRIC":"배전·자동화 전력기기 국내 1위. 스마트그리드·ESS 사업 확대.",
+    "효성중공업":"초고압 변압기·차단기 제조. 미국·유럽 전력망 투자 수혜주.",
     "LG에너지솔루션":"전기차 배터리 세계 2위. GM·현대차 등 글로벌 완성차 공급.",
     "삼성SDI":"삼성 계열 배터리 기업. 전기차·ESS 배터리 글로벌 공급.",
     "LG화학":"석유화학·배터리소재 대기업. NCC·양극재 사업 병행.",
@@ -284,6 +286,14 @@ body.light .cal-today{background:#f0fff0}
 .hist-label{font-size:11px;color:#666}
 .hist-val{font-size:12px;font-weight:600}
 .popup-close{width:100%;padding:12px;background:#2563eb;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:12px}
+.stock-chart-wrap{margin:12px 0;border-top:1px solid #1e2235;padding-top:12px}
+.stock-chart-label{font-size:11px;color:#555;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
+.stock-chart-canvas{width:100%;height:80px;display:block}
+body.light .stock-chart-wrap{border-color:#f0f0f5}
+.popup-chart-wrap{margin-top:12px;border-top:1px solid #1e2235;padding-top:10px}
+.popup-chart-label{font-size:11px;color:#555;font-weight:700;letter-spacing:.5px;margin-bottom:6px}
+.popup-chart-canvas{width:100%;height:80px;display:block}
+body.light .popup-chart-wrap{border-color:#f0f0f5}
 .badge-streak-up{display:inline-block;font-size:10px;font-weight:700;background:#14532d;color:#86efac;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-streak-dn{display:inline-block;font-size:10px;font-weight:700;background:#7f1d1d;color:#fecaca;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-vol{display:inline-block;font-size:10px;font-weight:700;background:#1e3a5f;color:#60a5fa;padding:1px 5px;border-radius:4px;margin-left:4px}
@@ -295,11 +305,6 @@ body.light .cal-today{background:#f0fff0}
 .fav-chip .fav-chg{font-size:11px;font-weight:700}
 .fav-empty{padding:10px 16px;font-size:12px;color:#555}
 body.light .fav-chip{background:#fff;border-color:#e5e5ea}
-.sector-chart{display:none;padding:8px 12px;border-top:1px solid rgba(255,255,255,.06)}
-.sector-chart.show{display:block}
-.sector-chart canvas{width:100%;height:48px;display:block}
-.sector-header{cursor:pointer}
-.sector-header:hover{opacity:.85}
 </style>
 </head>
 <body>
@@ -381,7 +386,10 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
     <div style="margin:8px 0" id="popupExtra"></div>
     <div class="popup-desc" id="popupDesc"></div>
     <div id="popupHist"></div>
-
+    <div class="popup-chart-wrap" id="popupChartWrap" style="display:none">
+      <div class="popup-chart-label">📈 1개월 주가 흐름</div>
+      <canvas class="popup-chart-canvas" id="popupChartCanvas" height="80"></canvas>
+    </div>
     <button class="popup-close" onclick="document.getElementById('popupOverlay').classList.remove('show')">닫기</button>
   </div>
 </div>
@@ -427,6 +435,10 @@ const SECTOR_COLORS={
   '빅테크':'#3b82f6','지주사':'#94a3b8',
   'IT기술':'#6366f1','기타':'#6b7280',
   '코스피':'#6366f1','나스닥':'#3b82f6',
+  'IT/플랫폼':'#3b82f6','바이오/제약':'#ec4899',
+  '자동차/부품':'#14b8a6','금융/보험':'#8b5cf6',
+  '조선/해운/항공':'#0ea5e9','방산/전력':'#38bdf8',
+  '소재/에너지':'#84cc16','게임/엔터':'#f43f5e',
 };
 
 function switchMarket(m,el){market=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
@@ -505,6 +517,10 @@ function openPopup(el){
   _currentStock = s;
   updateFavBtn(s.ticker||s.name);
   document.getElementById('popupOverlay').classList.add('show');
+  // 주가 차트 로드
+  if(s.ticker) loadStockChart(s.ticker, s.chg_pct>=0);
+  // 차트 로드
+  loadPopupChart(s.ticker||'', s.chg_pct>=0);
 
 }
 
@@ -541,63 +557,121 @@ function renderHeatmap(){
       return '<div class="heat-cell '+heatClass(s.chg_pct)+'" onclick="openPopup(this)" data-stock="'+sd+'"><div class="heat-name">'+nm+'</div><div class="heat-chg">'+(s.chg_pct>0?'+':'')+s.chg_pct+'%</div></div>';
     }).join('');
     const scol=SECTOR_COLORS[sec.sector]||'#6b7280';
-    const sid='sc'+Math.random().toString(36).slice(2,7);
-    const hist5avg=[];
-    for(let di=0;di<5;di++){
-      const vals=sec.stocks.map(s=>(s.hist5||[])[di]).filter(v=>v!==undefined);
-      if(vals.length) hist5avg.push(Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*100)/100);
-    }
-    window._sectorCharts=window._sectorCharts||{};
-    window._sectorCharts[sid]={hist5:hist5avg,col:scol};
-    const labelsHtml=hist5avg.map(v=>'<span style="color:'+(v>=0?'#22c55e':'#ef4444')+'">'+(v>0?'+':'')+v+'%</span>').join('');
-    const chartHtml=hist5avg.length?'<div class="sector-chart" id="chart-'+sid+'"><canvas id="cv-'+sid+'" height="48" style="width:100%;display:block"></canvas><div style="display:flex;justify-content:space-around;font-size:10px;margin-top:2px">'+labelsHtml+'</div></div>':'';
     return '<div class="sector-block" style="border-color:'+scol+'44">'
-      +'<div class="sector-header" style="background:'+scol+'18;border-bottom-color:'+scol+'33;cursor:pointer" data-sid="'+sid+'" onclick="toggleSectorChart(this.dataset.sid)">'
+      +'<div class="sector-header" style="background:'+scol+'18;border-bottom-color:'+scol+'33">'
       +'<span class="sector-name" style="color:'+scol+'">'+sec.sector+'</span>'
-      +'<span style="display:flex;align-items:center;gap:6px"><span style="font-size:10px;color:#666">▾</span><span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span></span>'
+      +'<span class="sector-avg '+avgCls+'">'+(sec.avg_chg>0?'+':'')+sec.avg_chg+'%</span>'
       +'</div>'
-      +chartHtml
       +'<div class="stocks-grid">'+cells+'</div></div>';
   }).join('');
 }
 
-function toggleSectorChart(sid){
-  const el = document.getElementById('chart-'+sid);
-  if(!el) return;
-  el.classList.toggle('show');
-  if(!el.classList.contains('show')) return;
-  const info = (window._sectorCharts||{})[sid];
-  if(!info) return;
-  const hist5=info.hist5, col=info.col;
-  const cv = document.getElementById('cv-'+sid);
-  if(!cv || !hist5.length) return;
+function loadPopupChart(ticker, isUp){
+  const wrap = document.getElementById('popupChartWrap');
+  const cv = document.getElementById('popupChartCanvas');
+  if(!ticker || !wrap || !cv){return;}
+  wrap.style.display='block';
+  const ctx = cv.getContext('2d');
+  const W = cv.offsetWidth || 300;
+  cv.width = W; cv.height = 80;
+  ctx.clearRect(0,0,W,80);
+  ctx.fillStyle='rgba(128,128,128,.1)';
+  ctx.fillRect(0,0,W,80);
+  ctx.fillStyle='#555';ctx.font='11px sans-serif';ctx.textAlign='center';
+  ctx.fillText('차트 불러오는 중...', W/2, 44);
+  fetch('/api/chart?ticker='+encodeURIComponent(ticker))
+    .then(r=>r.json())
+    .then(prices=>{
+      if(!prices||prices.length<2){
+        ctx.clearRect(0,0,W,80);
+        ctx.fillStyle='#555';ctx.font='11px sans-serif';ctx.textAlign='center';
+        ctx.fillText('차트 데이터 없음', W/2, 44);
+        return;
+      }
+      const min=Math.min(...prices);
+      const max=Math.max(...prices);
+      const range=max-min||1;
+      const pad=8;
+      const h=80-pad*2;
+      ctx.clearRect(0,0,W,80);
+      // 배경
+      const grad=ctx.createLinearGradient(0,0,0,80);
+      const col=isUp?'#22c55e':'#ef4444';
+      grad.addColorStop(0,isUp?'rgba(34,197,94,.15)':'rgba(239,68,68,.15)');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      // 영역
+      ctx.beginPath();
+      prices.forEach((p,i)=>{
+        const x=i/(prices.length-1)*W;
+        const y=pad+h-(p-min)/range*h;
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      });
+      ctx.lineTo(W,80);ctx.lineTo(0,80);ctx.closePath();
+      ctx.fillStyle=grad;ctx.fill();
+      // 라인
+      ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=2;ctx.lineJoin='round';
+      prices.forEach((p,i)=>{
+        const x=i/(prices.length-1)*W;
+        const y=pad+h-(p-min)/range*h;
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+      // 최고/최저 표시
+      ctx.font='9px sans-serif';ctx.fillStyle='#888';ctx.textAlign='left';
+      ctx.fillText(max.toLocaleString(),4,pad+4);
+      ctx.fillText(min.toLocaleString(),4,80-pad+10);
+    })
+    .catch(()=>{});
+}
+
+function drawStockChart(prices, color){
+  const wrap = document.getElementById('stockChartWrap');
+  const cv = document.getElementById('stockChartCanvas');
+  if(!cv || !prices.length){ if(wrap) wrap.style.display='none'; return; }
+  wrap.style.display = 'block';
   setTimeout(()=>{
     const W = cv.parentElement.offsetWidth || 300;
-    cv.width = W; cv.height = 48;
+    const H = 80;
+    cv.width = W; cv.height = H;
     const ctx = cv.getContext('2d');
-    const max = Math.max(...hist5.map(Math.abs), 0.1);
-    const mid = 24;
-    ctx.clearRect(0,0,W,48);
-    ctx.strokeStyle='rgba(128,128,128,.2)';
-    ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(0,mid);ctx.lineTo(W,mid);ctx.stroke();
-    const bw = Math.max(W/hist5.length - 6, 4);
-    hist5.forEach((v,i)=>{
-      const x = i*(W/hist5.length)+3;
-      const h = Math.abs(v)/max*18;
-      ctx.fillStyle = v>=0?'rgba(34,197,94,.6)':'rgba(239,68,68,.6)';
-      if(v>=0) ctx.fillRect(x, mid-h, bw, h);
-      else ctx.fillRect(x, mid, bw, h);
-    });
-    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.lineJoin='round';
+    ctx.clearRect(0,0,W,H);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const range = max - min || 1;
+    const toY = v => H - ((v - min) / range) * (H - 10) - 5;
+    // gradient fill
+    const grad = ctx.createLinearGradient(0,0,0,H);
+    grad.addColorStop(0, color+'44');
+    grad.addColorStop(1, color+'00');
     ctx.beginPath();
-    hist5.forEach((v,i)=>{
-      const x = i*(W/hist5.length)+(W/hist5.length)/2;
-      const y = mid-(v/max)*18;
+    prices.forEach((v,i)=>{
+      const x = (i/(prices.length-1))*W;
+      const y = toY(v);
       i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     });
-    ctx.stroke();
-  }, 50);
+    ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();
+    ctx.fillStyle=grad;ctx.fill();
+    // line
+    ctx.beginPath();
+    prices.forEach((v,i)=>{
+      const x=(i/(prices.length-1))*W;
+      const y=toY(v);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle=color;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
+  },50);
+}
+
+async function loadStockChart(ticker, isUp){
+  const wrap = document.getElementById('stockChartWrap');
+  if(wrap) wrap.style.display='none';
+  try{
+    const res = await fetch('/api/chart?ticker='+encodeURIComponent(ticker));
+    const d = await res.json();
+    if(d.prices && d.prices.length > 1){
+      drawStockChart(d.prices, isUp?'#22c55e':'#ef4444');
+    }
+  }catch(e){ console.log('차트 로드 실패:', e); }
 }
 
 function render(){
@@ -975,6 +1049,25 @@ def api_search():
             results.append({"name":name,"ticker":ticker,"close":round(close,2),"chg_pct":chg,"sector":"코스피" if ticker.endswith(".KS") else "나스닥","live":True})
     except:pass
     return jsonify(results[:10])
+
+@app.route("/api/chart")
+def api_chart():
+    ticker = request.args.get("ticker","")
+    if not ticker: return jsonify({"prices":[]})
+    try:
+        import yfinance as yf
+        from datetime import datetime, timedelta
+        end = datetime.today() + timedelta(days=1)
+        start = end - timedelta(days=35)
+        df = yf.download(ticker, start=start, end=end, auto_adjust=True, progress=False)
+        if isinstance(df.columns, __import__('pandas').MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        df = df.dropna(subset=["Close"])
+        prices = [round(float(v),2) for v in df["Close"].tolist()]
+        return jsonify({"prices": prices})
+    except Exception as e:
+        print(f"chart 오류: {e}")
+        return jsonify({"prices":[]})
 
 @app.route("/manifest.json")
 def manifest():
