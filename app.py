@@ -392,7 +392,7 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
   </div>
   <div id="heatmap-view" style="display:none">
     <div class="sector-trend-box">
-      <div class="sector-trend-title">📈 7일 섹터 흐름 추이</div>
+      <div class="sector-trend-title" id="sectorTrendTitle">📊 오늘 섹터별 등락률</div>
       <canvas class="sector-trend-canvas" id="sectorTrendCanvas" height="160"></canvas>
     </div>
     <div class="heatmap" id="heatmap-grid"></div>
@@ -619,7 +619,10 @@ async function loadStockBrief(){
 // 섹터 흐름 추이 차트
 function renderSectorTrend(){
   const cv=document.getElementById('sectorTrendCanvas');
+  const titleEl=document.getElementById('sectorTrendTitle');
   if(!cv)return;
+
+  // history 데이터 구성
   const sectorMap={};
   [...dates].sort().forEach(d=>{
     const hd=allData[d];if(!hd)return;
@@ -628,28 +631,76 @@ function renderSectorTrend(){
       sectorMap[sec.sector].push({d,avg:sec.avg_chg});
     });
   });
+
   const latest=allData[currentDate];
-  const topSectors=(latest?(latest[market+'_sectors']||[]):[])
-    .sort((a,b)=>Math.abs(b.avg_chg)-Math.abs(a.avg_chg))
-    .slice(0,5).map(s=>s.sector);
-  if(!topSectors.length){cv.style.display='none';return;}
+  const latestSectors=latest?(latest[market+'_sectors']||[]):[];
+  if(!latestSectors.length){cv.style.display='none';return;}
+
+  // 라인차트 가능 여부: 3일 이상 + 최소 1개 섹터가 3개 이상 포인트
+  const hasEnoughData=dates.length>=3&&Object.values(sectorMap).some(pts=>pts.length>=3);
+
   cv.style.display='block';
   const W=cv.parentElement.offsetWidth||340;
   const H=160;
   cv.width=W;cv.height=H;
   const ctx=cv.getContext('2d');
   ctx.clearRect(0,0,W,H);
+
+  if(!hasEnoughData){
+    // ── 바차트 모드 (데이터 부족 시) ──
+    if(titleEl)titleEl.textContent='📊 오늘 섹터별 등락률';
+    // 상승/하락 각 상위 4개씩 뽑아 8개 표시
+    const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
+    const show=[...sorted.slice(0,4),...sorted.slice(-4)].filter((s,i,a)=>a.findIndex(x=>x.sector===s.sector)===i);
+    const maxAbs=Math.max(...show.map(s=>Math.abs(s.avg_chg)),0.5);
+    const barH=Math.floor((H-20)/show.length)-3;
+    const midX=W*0.38;
+    const barMaxW=W*0.38;
+    show.forEach((sec,i)=>{
+      const y=10+i*(barH+3);
+      const col=SECTOR_COLORS[sec.sector]||(sec.avg_chg>=0?'#22c55e':'#ef4444');
+      const isUp=sec.avg_chg>=0;
+      const bw=Math.abs(sec.avg_chg)/maxAbs*barMaxW;
+      // 바
+      ctx.fillStyle=col+'55';
+      if(isUp){ctx.fillRect(midX,y,bw,barH);}
+      else{ctx.fillRect(midX-bw,y,bw,barH);}
+      ctx.fillStyle=col;
+      if(isUp){ctx.fillRect(midX,y,Math.min(bw,3),barH);}
+      else{ctx.fillRect(midX-Math.min(bw,3),y,Math.min(bw,3),barH);}
+      // 섹터명
+      ctx.fillStyle='#aaa';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='right';
+      ctx.fillText(sec.sector.slice(0,6),midX-6,y+barH*0.72);
+      // 수치
+      ctx.fillStyle=col;ctx.textAlign='left';
+      ctx.fillText((isUp?'+':'')+sec.avg_chg+'%',midX+(isUp?bw+4:-bw-28),y+barH*0.72);
+    });
+    // 중앙선
+    ctx.beginPath();ctx.strokeStyle='#3a3d4a';ctx.lineWidth=1;
+    ctx.moveTo(midX,6);ctx.lineTo(midX,H-4);ctx.stroke();
+    return;
+  }
+
+  // ── 라인차트 모드 (3일 이상) ──
+  if(titleEl)titleEl.textContent='📈 7일 섹터 흐름 추이';
+  // 상위 상승 2 + 하위 하락 2 + 절댓값 1 = 5개 (중복 제거)
+  const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
+  const topUp=sorted.slice(0,2).map(s=>s.sector);
+  const topDn=sorted.slice(-2).map(s=>s.sector);
+  const topAbs=sorted.sort((a,b)=>Math.abs(b.avg_chg)-Math.abs(a.avg_chg)).slice(0,1).map(s=>s.sector);
+  const topSectors=[...new Set([...topUp,...topDn,...topAbs])].slice(0,5);
+
   const allVals=topSectors.flatMap(sec=>(sectorMap[sec]||[]).map(p=>p.avg));
   if(!allVals.length)return;
-  const minV=Math.min(...allVals,-1),maxV=Math.max(...allVals,1);
+  const minV=Math.min(...allVals,-0.5),maxV=Math.max(...allVals,0.5);
   const range=maxV-minV||1;
-  const pad={t:10,b:24,l:4,r:4};
+  const pad={t:12,b:22,l:6,r:60};
   const toY=v=>pad.t+(1-(v-minV)/range)*(H-pad.t-pad.b);
   // 0선
   ctx.beginPath();ctx.strokeStyle='#2a2d3a';ctx.lineWidth=1;ctx.setLineDash([4,4]);
   ctx.moveTo(pad.l,toY(0));ctx.lineTo(W-pad.r,toY(0));ctx.stroke();ctx.setLineDash([]);
   topSectors.forEach((sec,i)=>{
-    const points=sectorMap[sec]||[];
+    const points=(sectorMap[sec]||[]).filter(p=>p.avg!=null);
     if(points.length<2)return;
     const col=SECTOR_COLORS[sec]||['#22c55e','#3b82f6','#f97316','#a855f7','#ef4444'][i%5];
     ctx.beginPath();
@@ -659,21 +710,22 @@ function renderSectorTrend(){
       j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     });
     ctx.strokeStyle=col;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
-    // 마지막 점 레이블
+    // 오른쪽 레이블 (겹침 방지: y 클램핑)
     const last=points[points.length-1];
-    const lx=W-pad.r-2;
-    const ly=Math.max(pad.t+10,Math.min(H-pad.b-4,toY(last.avg)));
-    ctx.fillStyle=col;ctx.font='9px -apple-system,sans-serif';ctx.textAlign='right';
-    ctx.fillText(sec.slice(0,5),lx,ly);
+    const ly=Math.max(pad.t+8,Math.min(H-pad.b-2,toY(last.avg)-(i*1)));
+    ctx.fillStyle=col;ctx.font='9px -apple-system,sans-serif';ctx.textAlign='left';
+    ctx.fillText(sec.slice(0,5),W-pad.r+4,ly+3);
   });
   // x축 날짜
-  const sortedDates=[...dates].sort();
   ctx.fillStyle='#555';ctx.font='9px sans-serif';ctx.textAlign='center';
-  if(sortedDates.length>0&&topSectors[0]&&sectorMap[topSectors[0]]){
-    const pts=sectorMap[topSectors[0]];
+  const refSec=topSectors.find(s=>(sectorMap[s]||[]).length>=2);
+  if(refSec){
+    const pts=sectorMap[refSec];
     pts.forEach((p,i)=>{
-      const x=pad.l+(i/(pts.length-1||1))*(W-pad.l-pad.r);
-      ctx.fillText(p.d.slice(5),x,H-6);
+      if(i===0||i===pts.length-1||pts.length<=5||(i%(Math.ceil(pts.length/4))===0)){
+        const x=pad.l+(i/(pts.length-1||1))*(W-pad.l-pad.r);
+        ctx.fillText(p.d.slice(5),x,H-5);
+      }
     });
   }
 }
