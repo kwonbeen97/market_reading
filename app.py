@@ -773,32 +773,35 @@ function updateFavBtn(key){
 function renderFavBar(){
   const bar = document.getElementById('favBar');
   if(!bar) return;
-  if(!_favs.length){
-    bar.innerHTML = '';
-    return;
-  }
-  // 즐겨찾기 종목의 현재 등락률 찾기
+  if(!_favs.length){ bar.innerHTML=''; return; }
   const allStocks = data ? [
     ...(data.kospi_up||[]),...(data.kospi_down||[]),
     ...(data.nasdaq_up||[]),...(data.nasdaq_down||[]),
     ...(data.kospi_sectors||[]).flatMap(s=>s.stocks||[]),
     ...(data.nasdaq_sectors||[]).flatMap(s=>s.stocks||[])
   ] : [];
-  bar.innerHTML = '<div class="fav-tab">'
-    + _favs.map(f=>{
-        const found = allStocks.find(s=>((s.ticker||s.name).replace(/[^a-zA-Z0-9가-힣.]/g,'_'))===f.key);
-        const chg = found ? found.chg_pct : null;
-        const col = chg!=null ? (chg>=0?'#22c55e':'#ef4444') : '#888';
-        const chgStr = chg!=null ? (chg>=0?'+':'')+chg+'%' : '';
-        const sd = found ? JSON.stringify(found).replace(/"/g,'&quot;') : '';
-        const safeKey = f.key.replace(/'/g,'&#39;');
-        return '<div class="fav-chip" '+(sd?'onclick="openPopup(this)" data-stock="'+sd+'"':'')+'>'
-          +'<span>'+f.name+'</span>'
-          +(chgStr?'<span class="fav-chg" style="color:'+col+'">'+chgStr+'</span>':'')
-          +'<span onclick="event.stopPropagation();removeFavByKey(''+safeKey+'')" style="color:#555;font-size:14px;padding:0 2px">×</span>'
-          +'</div>';
-      }).join('')
-    + '</div>';
+  bar.innerHTML = '<div class="fav-tab"></div>';
+  const tab = bar.querySelector('.fav-tab');
+  _favs.forEach(f=>{
+    const found = allStocks.find(s=>((s.ticker||s.name).replace(/[^a-zA-Z0-9가-힣.]/g,'_'))===f.key);
+    const chg = found ? found.chg_pct : null;
+    const col = chg!=null?(chg>=0?'#22c55e':'#ef4444'):'#888';
+    const chgStr = chg!=null?(chg>=0?'+':'')+chg+'%':'';
+    const chip = document.createElement('div');
+    chip.className = 'fav-chip';
+    if(found){
+      const sd = JSON.stringify(found);
+      chip.onclick = ()=>{ const el=document.createElement('div'); el.setAttribute('data-stock',sd.replace(/"/g,'&quot;')); openPopup(el); };
+    }
+    chip.innerHTML = '<span>'+f.name+'</span>'
+      +(chgStr?'<span class="fav-chg" style="color:'+col+'">'+chgStr+'</span>':'');
+    const x = document.createElement('span');
+    x.textContent = '×';
+    x.style.cssText = 'color:#555;font-size:14px;padding:0 2px;cursor:pointer';
+    x.onclick = e=>{ e.stopPropagation(); removeFav(f.key); };
+    chip.appendChild(x);
+    tab.appendChild(chip);
+  });
 }
 
 function removeFav(el){
