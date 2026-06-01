@@ -278,7 +278,7 @@ body.light .cal-today{background:#f0fff0}
 /* 섹터 흐름 추이 */
 .sector-trend-box{background:#1a1d27;border:1px solid #2a2d3a;border-radius:12px;padding:12px 14px;margin-bottom:12px}
 .sector-trend-title{font-size:11px;font-weight:700;color:#555;letter-spacing:.5px;margin-bottom:8px}
-.sector-trend-canvas{width:100%;height:160px;display:block}
+.sector-trend-canvas{width:100%;height:160px;display:block;min-height:0}
 /* 팝업 */
 .popup-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:100;align-items:flex-end;justify-content:center}
 .popup-overlay.show{display:flex}
@@ -647,39 +647,42 @@ function renderSectorTrend(){
   ctx.clearRect(0,0,W,H);
 
   if(!hasEnoughData){
-    // ── 바차트 모드 (데이터 부족 시) ──
+    // ── HTML 바차트 모드 (데이터 부족 시, canvas 대신 div로) ──
     if(titleEl)titleEl.textContent='📊 오늘 섹터별 등락률';
-    // 상승/하락 각 상위 4개씩 뽑아 8개 표시
+    cv.style.display='none';
+    let htmlEl=document.getElementById('sectorBarChart');
+    if(!htmlEl){
+      htmlEl=document.createElement('div');
+      htmlEl.id='sectorBarChart';
+      cv.parentElement.appendChild(htmlEl);
+    }
+    htmlEl.style.cssText='width:100%;padding:4px 0';
     const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
+    // 상위 4 + 하위 4 (중복 제거)
     const show=[...sorted.slice(0,4),...sorted.slice(-4)].filter((s,i,a)=>a.findIndex(x=>x.sector===s.sector)===i);
     const maxAbs=Math.max(...show.map(s=>Math.abs(s.avg_chg)),0.5);
-    const barH=Math.floor((H-20)/show.length)-3;
-    const midX=W*0.38;
-    const barMaxW=W*0.38;
-    show.forEach((sec,i)=>{
-      const y=10+i*(barH+3);
-      const col=SECTOR_COLORS[sec.sector]||(sec.avg_chg>=0?'#22c55e':'#ef4444');
+    htmlEl.innerHTML=show.map(sec=>{
       const isUp=sec.avg_chg>=0;
-      const bw=Math.abs(sec.avg_chg)/maxAbs*barMaxW;
-      // 바
-      ctx.fillStyle=col+'55';
-      if(isUp){ctx.fillRect(midX,y,bw,barH);}
-      else{ctx.fillRect(midX-bw,y,bw,barH);}
-      ctx.fillStyle=col;
-      if(isUp){ctx.fillRect(midX,y,Math.min(bw,3),barH);}
-      else{ctx.fillRect(midX-Math.min(bw,3),y,Math.min(bw,3),barH);}
-      // 섹터명
-      ctx.fillStyle='#aaa';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='right';
-      ctx.fillText(sec.sector.slice(0,6),midX-6,y+barH*0.72);
-      // 수치
-      ctx.fillStyle=col;ctx.textAlign='left';
-      ctx.fillText((isUp?'+':'')+sec.avg_chg+'%',midX+(isUp?bw+4:-bw-28),y+barH*0.72);
-    });
-    // 중앙선
-    ctx.beginPath();ctx.strokeStyle='#3a3d4a';ctx.lineWidth=1;
-    ctx.moveTo(midX,6);ctx.lineTo(midX,H-4);ctx.stroke();
+      const col=SECTOR_COLORS[sec.sector]||(isUp?'#22c55e':'#ef4444');
+      const pct=Math.round(Math.abs(sec.avg_chg)/maxAbs*45); // 최대 45%
+      const chgStr=(isUp?'+':'')+sec.avg_chg+'%';
+      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+        <div style="flex:0 0 72px;font-size:11px;color:#aaa;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sec.sector}</div>
+        <div style="flex:1;display:flex;align-items:center;gap:4px">
+          <div style="flex:1;height:14px;background:#1e2235;border-radius:2px;overflow:hidden;position:relative">
+            <div style="position:absolute;${isUp?'left:0':'right:0'};top:0;height:100%;width:${pct}%;background:${col}44;border-radius:2px"></div>
+            <div style="position:absolute;${isUp?'left:0':'right:0'};top:0;height:100%;width:3px;background:${col}"></div>
+          </div>
+          <div style="flex:0 0 52px;font-size:11px;font-weight:700;color:${col};text-align:left">${chgStr}</div>
+        </div>
+      </div>`;
+    }).join('');
     return;
   }
+  // 라인차트 모드면 HTML 바차트 숨기기
+  const oldBar=document.getElementById('sectorBarChart');
+  if(oldBar)oldBar.style.display='none';
+  cv.style.display='block';
 
   // ── 라인차트 모드 (3일 이상) ──
   if(titleEl)titleEl.textContent='📈 7일 섹터 흐름 추이';
