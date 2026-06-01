@@ -1091,14 +1091,12 @@ def api_summary():
     if date:data=fetch_from_github(f"history/{date}.json")
     if not data:data=fetch_from_github("market_data.json")
     if not data:return jsonify({"summary":"데이터 없음"})
-    
     up=data.get(f"{market}_up",[])[:5];down=data.get(f"{market}_down",[])[:5]
     sectors=data.get(f"{market}_sectors",[])
     market_name="코스피" if market=="kospi" else "나스닥"
     up_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in up])
     down_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
     sector_str=", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
-    
     prompt=f"""{data.get('date','')} {market_name} 시장 데일리 리딩입니다.
 
 [시장 요약 데이터]
@@ -1110,34 +1108,21 @@ def api_summary():
 1. 단순히 숫자를 나열하지 말고, 전체 지수 흐름과 주도 섹터(반도체, 빅테크 등) 간의 맥락을 짚어주세요.
 2. 매크로 환경(국채 금리나 환율 변동 등)이 시장에 미칠 영향을 한 줄로 포함해주세요.
 3. 통찰이 담긴 3~4문장의 자연스러운 한국어로 요약해주세요."""
-
     try:
         api_key=os.environ.get("ANTHROPIC_API_KEY","")
         if not api_key:
-            return jsonify({"summary": "❌ 에러: Render 환경변수에 ANTHROPIC_API_KEY가 없습니다."})
-        
-        # [수정] 모든 계정에서 100% 작동하는 안전한 Claude 3 Haiku 모델명으로 교체
-        payload=json.dumps({
-            "model": "claude-3-opus-20240229",
-            "max_tokens":300,
-            "messages":[{"role":"user","content":prompt}]
-        }).encode()
-        
+            return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+        payload=json.dumps({"model":"claude-3-5-haiku-20241022","max_tokens":300,"messages":[{"role":"user","content":prompt}]}).encode()
         req=urllib.request.Request("https://api.anthropic.com/v1/messages",data=payload,
             headers={"Content-Type":"application/json","x-api-key":api_key,"anthropic-version":"2023-06-01"})
-        
         with urllib.request.urlopen(req,timeout=15) as r:
             res=json.loads(r.read())
         return jsonify({"summary":res["content"][0]["text"]})
-        
     except Exception as e:
-        error_msg = str(e)
-        if hasattr(e, 'read'):
-            try:
-                error_msg = e.read().decode('utf-8')
-            except:
-                pass
-        return jsonify({"summary": f"❌ 클로드 API 오류 발생: {error_msg}"})
+        error_msg=str(e)
+        if hasattr(e,'read'):error_msg=e.read().decode('utf-8')
+        print(f"Claude API 호출 에러: {error_msg}")
+        return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
 
 @app.route("/api/stock_brief")
 def api_stock_brief():
