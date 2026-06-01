@@ -297,6 +297,11 @@ body.light .popup-chart-wrap{border-color:#f0f0f5}
 .badge-streak-up{display:inline-block;font-size:10px;font-weight:700;background:#14532d;color:#86efac;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-streak-dn{display:inline-block;font-size:10px;font-weight:700;background:#7f1d1d;color:#fecaca;padding:1px 5px;border-radius:4px;margin-left:4px}
 .badge-vol{display:inline-block;font-size:10px;font-weight:700;background:#1e3a5f;color:#60a5fa;padding:1px 5px;border-radius:4px;margin-left:4px}
+.search-spark{display:inline-block;vertical-align:middle;margin-left:8px}
+.share-btn{background:#1e2235;border:1px solid #2a2d3a;border-radius:8px;color:#888;font-size:13px;padding:6px 12px;cursor:pointer;transition:all .2s}
+.share-btn:hover{border-color:#2563eb;color:#2563eb}
+body.light .share-btn{background:#f5f5f7;border-color:#e5e5ea}
+.share-card{position:fixed;left:-9999px;top:0;width:340px;background:#1a1d27;border-radius:16px;padding:20px;font-family:-apple-system,sans-serif}
 .fav-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:0 4px;line-height:1;opacity:.5;transition:opacity .2s}
 .fav-btn.active{opacity:1}
 .fav-tab{display:flex;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap;margin-top:4px}
@@ -390,7 +395,10 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
       <div class="popup-chart-label">📈 1개월 주가 흐름</div>
       <canvas class="popup-chart-canvas" id="popupChartCanvas" height="80"></canvas>
     </div>
-    <button class="popup-close" onclick="document.getElementById('popupOverlay').classList.remove('show')">닫기</button>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="share-btn" onclick="shareStock()" style="flex:0 0 auto">📤 공유</button>
+      <button class="popup-close" onclick="document.getElementById('popupOverlay').classList.remove('show')" style="flex:1;margin-top:0">닫기</button>
+    </div>
   </div>
 </div>
 
@@ -479,7 +487,13 @@ function renderSearchResults(hits,box){
     const col=SECTOR_COLORS[sec]||'#666';const isUp=s.chg_pct>=0;
     const live=s.live?'<span style="font-size:10px;color:#2563eb;margin-left:4px">실시간</span>':'';
     const sd=JSON.stringify(s).replace(/"/g,'&quot;');
-    return '<div class="search-item" onclick="selectSearch(this)" data-stock="'+sd+'"><div class="search-item-name">'+nm+live+'</div><span class="search-item-sector" style="background:'+col+'22;color:'+col+'">'+sec+'</span><div class="search-item-chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
+    const sparkId='spark-'+Math.random().toString(36).slice(2,6);
+    const hist=(s.hist5||[]);
+    const sparkHtml=hist.length?'<canvas class="search-spark" id="'+sparkId+'" width="60" height="24"></canvas>':'';
+    const el='<div class="search-item" onclick="selectSearch(this)" data-stock="'+sd+'"><div class="search-item-name">'+nm+live+'</div>'+sparkHtml+'<span class="search-item-sector" style="background:'+col+'22;color:'+col+'">'+sec+'</span><div class="search-item-chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
+    // draw sparkline after render
+    if(hist.length) setTimeout(()=>{ const c=document.getElementById(sparkId); drawSparkline(c,hist,isUp?'#22c55e':'#ef4444'); },50);
+    return el;
   }).join('');
 }
 function selectSearch(el){document.getElementById('searchInput').value='';document.getElementById('searchResults').style.display='none';openPopup(el);}
@@ -815,6 +829,99 @@ function toggleTheme(){
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
 }
 initTheme();
+
+// 스파크라인
+function drawSparkline(canvas, prices, color){
+  if(!canvas||!prices||prices.length<2) return;
+  const W=60,H=24;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  const min=Math.min(...prices),max=Math.max(...prices);
+  const range=max-min||1;
+  ctx.beginPath();
+  prices.forEach((v,i)=>{
+    const x=(i/(prices.length-1))*W;
+    const y=H-((v-min)/range)*(H-4)-2;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.lineJoin='round';ctx.stroke();
+}
+
+// 종목 카드 공유
+async function shareStock(){
+  if(!_currentStock) return;
+  const s=_currentStock;
+  const nm=s.name||s.ticker||'';
+  const isUp=s.chg_pct>=0;
+  const col=isUp?'#22c55e':'#ef4444';
+  const chgStr=(isUp?'+':'')+s.chg_pct+'%';
+  const price=s.close?Number(s.close).toLocaleString()+(market==='kospi'?' 원':' USD'):'';
+  const sec=s.sector||'';
+  const scol=SECTOR_COLORS[sec]||'#666';
+  const desc=DESC[nm]||'';
+
+  // canvas로 카드 생성
+  const cv=document.createElement('canvas');
+  cv.width=680;cv.height=360;
+  const ctx=cv.getContext('2d');
+
+  // 배경
+  ctx.fillStyle='#0f1117';
+  ctx.roundRect(0,0,680,360,20);ctx.fill();
+
+  // 섹터 배지
+  ctx.fillStyle=scol+'33';
+  ctx.roundRect(24,24,ctx.measureText(sec).width+24,28,6);ctx.fill();
+  ctx.fillStyle=scol;ctx.font='bold 13px -apple-system,sans-serif';
+  ctx.fillText(sec,36,42);
+
+  // 종목명
+  ctx.fillStyle='#e8eaed';ctx.font='bold 36px -apple-system,sans-serif';
+  ctx.fillText(nm,24,100);
+
+  // 등락률
+  ctx.fillStyle=col;ctx.font='bold 52px -apple-system,sans-serif';
+  ctx.fillText(chgStr,24,170);
+
+  // 현재가
+  ctx.fillStyle='#888';ctx.font='16px -apple-system,sans-serif';
+  ctx.fillText('현재가',24,210);
+  ctx.fillStyle='#e8eaed';ctx.font='bold 20px -apple-system,sans-serif';
+  ctx.fillText(price,24,235);
+
+  // 설명
+  if(desc){
+    ctx.fillStyle='#666';ctx.font='14px -apple-system,sans-serif';
+    const words=desc.split(' ');let line='',y=280;
+    for(const w of words){
+      const test=line+w+' ';
+      if(ctx.measureText(test).width>620&&line){ctx.fillText(line,24,y);line=w+' ';y+=20;}
+      else line=test;
+    }
+    ctx.fillText(line,24,y);
+  }
+
+  // 워터마크
+  ctx.fillStyle='#333';ctx.font='12px -apple-system,sans-serif';
+  ctx.fillText('📊 데일리 마켓 브리핑',24,340);
+  ctx.fillStyle='#444';ctx.textAlign='right';
+  ctx.fillText(new Date().toLocaleDateString('ko-KR'),656,340);
+
+  // 공유
+  cv.toBlob(async blob=>{
+    const file=new File([blob],'market-'+nm+'.png',{type:'image/png'});
+    if(navigator.share&&navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file],title:nm+' '+chgStr,text:nm+' '+chgStr+' | 데일리 마켓 브리핑'}); }
+      catch(e){}
+    } else {
+      // 다운로드 fallback
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='market-'+nm+'.png';
+      a.click();
+    }
+  },'image/png');
+}
 
 // 즐겨찾기
 let _favs = JSON.parse(localStorage.getItem('favs')||'[]');
