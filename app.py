@@ -1320,52 +1320,69 @@ def api_news():
     market = request.args.get("market","kospi")
     import xml.etree.ElementTree as ET
     results = []
-    # 코스피는 종목명, 나스닥은 영문 티커로 네이버 뉴스 검색
-    query = name if market == "kospi" else ticker
+    query = name if market == "kospi" else (ticker + " stock")
     if not query: return jsonify([])
-    try:
-        encoded = urllib.request.quote(query)
-        url = f"https://news.naver.com/search/srcs.naver?query={encoded}&sm=tab_jum&where=news"
-        # 네이버 뉴스 RSS
-        rss_url = f"https://news.naver.com/main/search/search.naver?query={encoded}&type=1"
-        # 구글 뉴스 RSS (한국어)
-        lang = "ko" if market == "kospi" else "en"
-        gl   = "KR"  if market == "kospi" else "US"
-        google_url = f"https://news.google.com/rss/search?q={encoded}+주식&hl={lang}&gl={gl}&ceid={gl}:{lang}"
-        req = urllib.request.Request(google_url, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=8) as r:
-            tree = ET.fromstring(r.read())
-        items = tree.findall(".//item")
-        seen_titles = set()
-        for item in items[:10]:
-            title = item.findtext("title","").strip()
-            link  = item.findtext("link","").strip()
-            pub   = item.findtext("pubDate","").strip()
-            source_el = item.find("{https://news.google.com/rss}source")
-            source = source_el.text if source_el is not None else ""
-            # 광고/무관 필터: 종목명 또는 티커가 제목에 없으면 스킵
-            title_lower = title.lower()
-            name_lower  = name.lower()
+
+    sources = []
+    # 1순위: 네이버 금융 뉴스 RSS (코스피)
+    if market == "kospi":
+        encoded = urllib.request.quote(name)
+        sources.append(f"https://finance.naver.com/news/news_search.naver?rcdate=&q={encoded}&x=0&y=0")
+    # 네이버 뉴스 검색 RSS
+    encoded = urllib.request.quote(query)
+    sources.append(f"https://openapi.naver.com/v1/search/news.json?query={encoded}&display=10&sort=date")
+    # 구글 뉴스 RSS fallback
+    lang = "ko" if market == "kospi" else "en"
+    gl   = "KR"  if market == "kospi" else "US"
+    q_enc = urllib.request.quote(query + (" 주가" if market=="kospi" else ""))
+    sources.append(f"https://news.google.com/rss/search?q={q_enc}&hl={lang}&gl={gl}&ceid={gl}:{lang}")
+
+    tried_urls = []
+    for rss_url in sources[-1:]:  # 구글 뉴스 RSS만 사용 (네이버는 API 키 필요)
+        tried_urls.append(rss_url)
+        try:
+            req = urllib.request.Request(rss_url, headers={
+                "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+            })
+            with urllib.request.urlopen(req, timeout=10) as r:
+                raw = r.read()
+            tree = ET.fromstring(raw)
+            items = tree.findall(".//item")
+            name_lower   = name.lower()
             ticker_lower = ticker.lower()
-            if name_lower not in title_lower and ticker_lower not in title_lower:
-                # 한국어 코스피 종목은 이름 앞 2글자라도 있으면 허용
-                if market == "kospi" and len(name) >= 2 and name[:2] in title:
-                    pass
-                else:
-                    continue
-            if title in seen_titles: continue
-            seen_titles.add(title)
-            # 날짜 파싱
-            try:
-                from email.utils import parsedate_to_datetime
-                dt = parsedate_to_datetime(pub)
-                pub_str = dt.strftime("%m/%d %H:%M")
-            except:
-                pub_str = pub[:10] if pub else ""
-            results.append({"title":title,"link":link,"pub":pub_str,"source":source})
-            if len(results) >= 4: break
-    except Exception as e:
-        print(f"뉴스 오류: {e}")
+            seen = set()
+            for item in items[:15]:
+                title = item.findtext("title","").strip()
+                # <title> 안에 CDATA 처리
+                title = title.replace("<![CDATA[","").replace("]]>","").strip()
+                link  = item.findtext("link","").strip()
+                pub   = item.findtext("pubDate","").strip()
+                source_el = item.find("{https://news.google.com/rss}source")
+                source = source_el.text if source_el is not None else ""
+                if not title or title in seen: continue
+                tl = title.lower()
+                # 필터: 종목명 앞 2글자 이상 또는 티커 포함
+                match = (
+                    name_lower in tl or
+                    ticker_lower in tl or
+                    (market=="kospi" and len(name)>=2 and name[:2] in title) or
+                    (market=="nasdaq" and ticker and ticker.lower() in tl)
+                )
+                if not match: continue
+                seen.add(title)
+                try:
+                    from email.utils import parsedate_to_datetime
+                    dt = parsedate_to_datetime(pub)
+                    pub_str = dt.strftime("%m/%d %H:%M")
+                except:
+                    pub_str = pub[:10] if pub else ""
+                results.append({"title":title,"link":link,"pub":pub_str,"source":source})
+                if len(results) >= 4: break
+            if results: break
+        except Exception as e:
+            print(f"뉴스 RSS 오류 ({rss_url[:60]}): {e}")
+
+    print(f"뉴스 결과: {len(results)}건 (쿼리: {query})")
     return jsonify(results)
 
 @app.route("/manifest.json")
