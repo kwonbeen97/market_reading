@@ -367,6 +367,14 @@ body.light .share-btn{background:#f5f5f7;border-color:#e5e5ea}
 .fav-chip:hover{border-color:#2563eb}
 .fav-chip .fav-chg{font-size:11px;font-weight:700}
 .fav-empty{padding:10px 16px;font-size:12px;color:#555}
+/* 섹터 필터 */
+.sector-filter-wrap{padding:8px 16px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+.sector-filter-wrap::-webkit-scrollbar{display:none}
+.sf-chip{flex-shrink:0;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #2a2d3a;background:#1a1d27;color:#888;transition:all .2s;white-space:nowrap}
+.sf-chip.active{color:#fff;border-color:transparent}
+.sf-chip:hover{border-color:#2563eb}
+body.light .sf-chip{background:#fff;border-color:#e5e5ea;color:#999}
+body.light .sf-chip.active{color:#fff}
 body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 </style>
 </head>
@@ -418,6 +426,9 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 <div class="view-tabs">
   <div class="view-tab active" onclick="switchView('list',this)">순위</div>
   <div class="view-tab" onclick="switchView('heatmap',this)">히트맵</div>
+</div>
+<div class="sector-filter-wrap" id="sectorFilterWrap" style="display:none">
+  <div class="sf-chip active" data-sector="전체" onclick="setSectorFilter('전체',this)" style="background:#2563eb">전체</div>
 </div>
 
 <div class="content">
@@ -491,7 +502,7 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 </div>
 
 <script>
-let data=null,market='kospi',view='list',dates=[],currentDate='',allData={};
+let data=null,market='kospi',view='list',dates=[],currentDate='',allData={},_sectorFilter='전체';
 const DESC=__STOCK_DESC__;
 const SECTOR_COLORS={
   '반도체':'#6366f1','반도체장비':'#818cf8',
@@ -529,15 +540,48 @@ const SECTOR_COLORS={
   '지주/기타':'#94a3b8',
 };
 
-function switchMarket(m,el){market=m;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
+function switchMarket(m,el){market=m;_sectorFilter='전체';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
 function switchView(v,el){
   view=v;
   document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('list-view').style.display=v==='list'?'':'none';
   document.getElementById('heatmap-view').style.display=v==='heatmap'?'':'none';
+  const fw=document.getElementById('sectorFilterWrap');
+  if(fw)fw.style.display=v==='list'?'flex':'none';
   render();
   if(v==='heatmap') setTimeout(renderSectorTrend, 80);
+}
+
+function buildSectorFilter(){
+  const fw=document.getElementById('sectorFilterWrap');
+  if(!fw||!data)return;
+  const sectors=[...new Set([
+    ...(data[market+'_up']||[]).map(s=>s.sector),
+    ...(data[market+'_down']||[]).map(s=>s.sector)
+  ].filter(Boolean))].sort();
+  const chips=[{s:'전체',col:'#2563eb'},...sectors.map(s=>({s,col:SECTOR_COLORS[s]||'#6b7280'}))];
+  fw.innerHTML=chips.map(({s,col})=>{
+    const isActive=_sectorFilter===s;
+    const bg=isActive?col:'';
+    const border=isActive?'transparent':'';
+    const color=isActive?'#fff':'#888';
+    return `<div class="sf-chip${isActive?' active':''}" data-sector="${s}" onclick="setSectorFilter('${s}',this)" style="${isActive?`background:${col};border-color:transparent`:''}">${s}</div>`;
+  }).join('');
+}
+
+function setSectorFilter(sector,el){
+  _sectorFilter=sector;
+  document.querySelectorAll('.sf-chip').forEach(c=>{
+    const s=c.dataset.sector;
+    const col=s==='전체'?'#2563eb':SECTOR_COLORS[s]||'#6b7280';
+    const isActive=s===sector;
+    c.classList.toggle('active',isActive);
+    c.style.background=isActive?col:'';
+    c.style.borderColor=isActive?'transparent':'';
+    c.style.color=isActive?'#fff':'#888';
+  });
+  renderList();
 }
 function heatClass(v){if(v>5)return 'h-up-3';if(v>2)return 'h-up-2';if(v>0)return 'h-up-1';if(v>-2)return 'h-flat';if(v>-5)return 'h-dn-1';if(v>-8)return 'h-dn-2';return 'h-dn-3';}
 
@@ -854,12 +898,16 @@ function renderTopPick(){
 }
 
 function renderList(){
-  const up=data[market+'_up']||[],dn=data[market+'_down']||[];
-  const max=Math.max(...[...up,...dn].map(s=>Math.abs(s.chg_pct)),1);
+  const allUp=data[market+'_up']||[],allDn=data[market+'_down']||[];
+  const up=_sectorFilter==='전체'?allUp:allUp.filter(s=>s.sector===_sectorFilter);
+  const dn=_sectorFilter==='전체'?allDn:allDn.filter(s=>s.sector===_sectorFilter);
+  const max=Math.max(...[...allUp,...allDn].map(s=>Math.abs(s.chg_pct)),1);
   const upCnt=document.getElementById('upCount');
   const dnCnt=document.getElementById('dnCount');
-  if(upCnt)upCnt.textContent=up.length+'종목';
-  if(dnCnt)dnCnt.textContent=dn.length+'종목';
+  const filterLabel=_sectorFilter==='전체'?up.length+'종목':`${_sectorFilter} ${up.length}종목`;
+  if(upCnt)upCnt.textContent=filterLabel;
+  if(dnCnt)dnCnt.textContent=_sectorFilter==='전체'?dn.length+'종목':`${_sectorFilter} ${dn.length}종목`;
+  buildSectorFilter();
   function rows(arr,isUp){
     if(!arr.length)return '<div style="padding:14px;text-align:center;color:#444;font-size:13px">데이터 없음</div>';
     return arr.map((s,i)=>{
@@ -1141,8 +1189,9 @@ async function loadAll(){
     dates=h.dates||[];allData=h.data||{};
     currentDate=dates[dates.length-1]||'';
     data=allData[currentDate]||null;
-    // 지수는 market_data.json에서 바로 표시 (yfinance 실시간보다 정확)
     if(data) setIndexFromData(data);
+    const fw=document.getElementById('sectorFilterWrap');
+    if(fw)fw.style.display='flex';
     renderDateBar();render();renderFavBar();loadAISummary();loadIndicators();
   }catch(e){}
 }
