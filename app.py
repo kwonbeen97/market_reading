@@ -1092,6 +1092,13 @@ def api_indicators():
 # 메모리 캐시: {"{date}_{market}": "요약 텍스트"}
 _summary_cache = {}
 
+@app.route("/api/cache/clear")
+def api_cache_clear():
+    _summary_cache.clear()
+    _brief_cache.clear()
+    print("[캐시 전체 초기화]")
+    return jsonify({"ok": True, "message": "캐시 초기화 완료"})
+
 @app.route("/api/summary")
 def api_summary():
     market = request.args.get("market", "kospi")
@@ -1117,17 +1124,12 @@ def api_summary():
     down_str    = ", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
     sector_str  = ", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
 
-    prompt = f"""{actual_date} {market_name} 시장 데일리 리딩입니다.
+    prompt = f"""{actual_date} {market_name} 시장입니다.
+상승: {up_str}
+하락: {down_str}
+섹터: {sector_str}
 
-[시장 요약 데이터]
-- 상위 상승 주도: {up_str}
-- 상위 하락: {down_str}
-- 주요 섹터 흐름: {sector_str}
-
-반드시 정확히 3문장으로만 작성하세요. 마크다운 기호(#, **, * 등) 없이 plain text로 작성하세요.
-문장1: 오늘 주도 섹터와 시장 흐름 맥락.
-문장2: 주목할 상승/하락 종목의 의미.
-문장3: 매크로 환경이나 단기 투자 시사점."""
+위 데이터를 바탕으로 딱 3문장만 써주세요. 각 문장은 반드시 마침표로 끝내고, 3문장이 끝나면 절대 더 쓰지 마세요. 마크다운 기호 없이 plain text로만."""
 
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
@@ -1135,7 +1137,7 @@ def api_summary():
     try:
         payload = json.dumps({
             "model": "claude-haiku-4-5-20251001",
-            "max_tokens": 200,
+            "max_tokens": 350,
             "messages": [{"role": "user", "content": prompt}]
         }).encode()
         req = urllib.request.Request(
