@@ -442,9 +442,9 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
     <div class="card" id="down-list"></div>
   </div>
   <div id="heatmap-view" style="display:none">
-    <div class="sector-trend-box">
+    <div class="sector-trend-box" id="sectorTrendWrap">
       <div class="sector-trend-title" id="sectorTrendTitle">📊 오늘 섹터별 등락률</div>
-      <canvas class="sector-trend-canvas" id="sectorTrendCanvas" height="160"></canvas>
+      <canvas class="sector-trend-canvas" id="sectorTrendCanvas" height="160" style="display:none"></canvas>
     </div>
     <div class="heatmap" id="heatmap-grid"></div>
   </div>
