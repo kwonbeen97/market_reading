@@ -708,8 +708,8 @@ async function loadStockNews(name, ticker, mkt){
 function renderSectorTrend(){
   const wrap=document.getElementById('sectorTrendWrap');
   const titleEl=document.getElementById('sectorTrendTitle');
-  const cv=document.getElementById('sectorTrendCanvas');
   if(!wrap)return;
+  wrap.style.display='block';
 
   const sectorMap={};
   [...dates].sort().forEach(d=>{
@@ -723,21 +723,18 @@ function renderSectorTrend(){
   const latest=allData[currentDate];
   const latestSectors=latest?(latest[market+'_sectors']||[]):[];
   if(!latestSectors.length){wrap.style.display='none';return;}
-  wrap.style.display='block';
 
   const hasEnoughData=dates.length>=3&&Object.values(sectorMap).some(pts=>pts.length>=3);
 
-  // 기존 canvas 숨기고 HTML div 방식으로 전환
-  if(cv)cv.style.display='none';
   let chartEl=document.getElementById('sectorTrendHtml');
   if(!chartEl){
     chartEl=document.createElement('div');
     chartEl.id='sectorTrendHtml';
-    if(cv)cv.parentElement.appendChild(chartEl);
-    else wrap.appendChild(chartEl);
+    wrap.appendChild(chartEl);
   }
   chartEl.style.cssText='width:100%;padding:4px 0 0';
 
+  // ── 바차트 (데이터 부족) ──
   if(!hasEnoughData){
     if(titleEl)titleEl.textContent='📊 오늘 섹터별 등락률';
     const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
@@ -760,58 +757,72 @@ function renderSectorTrend(){
     return;
   }
 
-  // ── 라인차트: SVG로 렌더링 (모바일에서 선명함) ──
-  if(titleEl)titleEl.textContent='📈 7일 섹터 흐름 추이';
-  const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
-  const topUp=sorted.slice(0,2).map(s=>s.sector);
-  const topDn=[...latestSectors].sort((a,b)=>a.avg_chg-b.avg_chg).slice(0,2).map(s=>s.sector);
-  const topSectors=[...new Set([...topUp,...topDn])].slice(0,4);
+  // ── 라인차트 (3일 이상) — HTML 테이블 방식으로 레이블 겹침 없이 ──
+  if(titleEl)titleEl.textContent='📈 섹터 흐름 추이';
+
+  // 상승 상위 2 + 하락 상위 2
+  const byUp=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
+  const byDn=[...latestSectors].sort((a,b)=>a.avg_chg-b.avg_chg);
+  const topSectors=[...new Set([byUp[0]?.sector,byUp[1]?.sector,byDn[0]?.sector,byDn[1]?.sector].filter(Boolean))].slice(0,4);
 
   const allVals=topSectors.flatMap(sec=>(sectorMap[sec]||[]).map(p=>p.avg));
   if(!allVals.length)return;
   const minV=Math.min(...allVals,-0.5),maxV=Math.max(...allVals,0.5);
   const range=maxV-minV||1;
-  const W=380,H=140;
-  const pad={t:14,b:24,l:8,r:72};
-  const toX=(j,total)=>pad.l+(j/(total-1||1))*(W-pad.l-pad.r);
+
+  const palette=['#22c55e','#3b82f6','#ef4444','#f97316'];
+  const colors=topSectors.map((sec,i)=>SECTOR_COLORS[sec]||palette[i%4]);
+
+  // SVG 크기 — 레이블을 아래 별도 행으로 분리해서 겹침 제거
+  const W=360,H=120;
+  const pad={t:10,b:18,l:6,r:6};
+  const toX=(j,total)=>pad.l+(j/(Math.max(total-1,1)))*(W-pad.l-pad.r);
   const toY=v=>pad.t+(1-(v-minV)/range)*(H-pad.t-pad.b);
-
-  // 0선 y
   const y0=toY(0);
-  let lines='',labels='',xaxis='';
 
-  // 0선
-  lines+=`<line x1="${pad.l}" y1="${y0}" x2="${W-pad.r}" y2="${y0}" stroke="#2a2d3a" stroke-width="1" stroke-dasharray="4,4"/>`;
+  let svgLines=`<line x1="${pad.l}" y1="${y0}" x2="${W-pad.r}" y2="${y0}" stroke="#2a2d3a" stroke-width="1" stroke-dasharray="4,3"/>`;
 
   topSectors.forEach((sec,i)=>{
-    const points=(sectorMap[sec]||[]).filter(p=>p.avg!=null);
-    if(points.length<2)return;
-    const col=SECTOR_COLORS[sec]||['#22c55e','#3b82f6','#f97316','#a855f7'][i%4];
-    const pts=points.map((p,j)=>`${toX(j,points.length)},${toY(p.avg)}`).join(' ');
-    lines+=`<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-    // 끝점 점
-    const lx=toX(points.length-1,points.length);
-    const ly=toY(points[points.length-1].avg);
-    lines+=`<circle cx="${lx}" cy="${ly}" r="3" fill="${col}"/>`;
-    // 레이블
-    const labelY=Math.max(pad.t+10,Math.min(H-pad.b-4,ly+(i%2===0?-10:12)));
-    const shortSec=sec.length>5?sec.slice(0,4)+'..':sec;
-    labels+=`<rect x="${W-pad.r+6}" y="${labelY-12}" width="${pad.r-8}" height="14" rx="3" fill="#0f1117cc"/>`;
-    labels+=`<text x="${W-pad.r+10}" y="${labelY-1}" font-size="11" font-weight="600" fill="${col}" font-family="-apple-system,sans-serif">${shortSec}</text>`;
+    const pts=(sectorMap[sec]||[]).filter(p=>p.avg!=null);
+    if(pts.length<2)return;
+    const col=colors[i];
+    const pointStr=pts.map((p,j)=>`${toX(j,pts.length)},${toY(p.avg)}`).join(' ');
+    svgLines+=`<polyline points="${pointStr}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    const lx=toX(pts.length-1,pts.length);
+    const ly=toY(pts[pts.length-1].avg);
+    svgLines+=`<circle cx="${lx}" cy="${ly}" r="3.5" fill="${col}"/>`;
   });
 
-  // x축 날짜
+  // x축
   const refSec=topSectors.find(s=>(sectorMap[s]||[]).length>=2);
+  let xLabels='';
   if(refSec){
     const pts=sectorMap[refSec];
-    [0,Math.floor(pts.length/2),pts.length-1].forEach(i=>{
+    const idxs=[0,...(pts.length>2?[Math.floor(pts.length/2)]:[]),pts.length-1];
+    idxs.forEach(i=>{
       if(!pts[i])return;
-      const x=toX(i,pts.length);
-      xaxis+=`<text x="${x}" y="${H-4}" font-size="10" fill="#888" text-anchor="middle" font-family="-apple-system,sans-serif">${pts[i].d.slice(5)}</text>`;
+      xLabels+=`<text x="${toX(i,pts.length)}" y="${H-2}" font-size="10" fill="#777" text-anchor="middle" font-family="-apple-system,sans-serif">${pts[i].d.slice(5)}</text>`;
     });
   }
 
-  chartEl.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;display:block">${lines}${labels}${xaxis}</svg>`;
+  // 레이블 행 — 겹침 없이 flex로 나열
+  const labelRow=topSectors.map((sec,i)=>{
+    const pts=(sectorMap[sec]||[]).filter(p=>p.avg!=null);
+    if(!pts.length)return '';
+    const last=pts[pts.length-1];
+    const col=colors[i];
+    const chgStr=last.avg>=0?'+'+last.avg+'%':last.avg+'%';
+    const short=sec.length>6?sec.slice(0,5)+'..':sec;
+    return `<div style="display:flex;align-items:center;gap:4px;font-size:11px;white-space:nowrap">
+      <span style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0;display:inline-block"></span>
+      <span style="color:#aaa">${short}</span>
+      <span style="color:${col};font-weight:700">${chgStr}</span>
+    </div>`;
+  }).join('');
+
+  chartEl.innerHTML=
+    `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;overflow:visible">${svgLines}${xLabels}</svg>`+
+    `<div style="display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:8px;padding:0 4px">${labelRow}</div>`;
 }
 function renderTopPick(){
   const wrap=document.getElementById('topPickWrap');
