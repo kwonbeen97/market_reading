@@ -800,22 +800,28 @@ function renderSectorTrend(){
       const y=toY(p.avg);
       j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     });
-    ctx.strokeStyle=col;ctx.lineWidth=2;ctx.lineJoin='round';ctx.stroke();
-    // 오른쪽 레이블 (겹침 방지: y 클램핑)
+    ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
+    // 라인 끝점에 레이블 — 색상 유지, 폰트 크게, 배경 박스로 가독성 확보
     const last=points[points.length-1];
-    const ly=Math.max(pad.t+8,Math.min(H-pad.b-2,toY(last.avg)-(i*1)));
-    ctx.fillStyle=col;ctx.font='9px -apple-system,sans-serif';ctx.textAlign='left';
-    ctx.fillText(sec.slice(0,5),W-pad.r+4,ly+3);
+    const lx=pad.l+(points.length-1)/(points.length-1)*(W-pad.l-pad.r);
+    const ly=Math.max(pad.t+10,Math.min(H-pad.b-4,toY(last.avg)+(i%2===0?-10:4)));
+    const label=sec.length>4?sec.slice(0,4)+'..':sec;
+    ctx.font='bold 11px -apple-system,sans-serif';
+    const tw=ctx.measureText(label).width;
+    ctx.fillStyle='#0f1117cc';
+    ctx.fillRect(lx-pad.r+4,ly-11,tw+6,14);
+    ctx.fillStyle=col;ctx.textAlign='left';
+    ctx.fillText(label,lx-pad.r+7,ly);
   });
   // x축 날짜
-  ctx.fillStyle='#555';ctx.font='9px sans-serif';ctx.textAlign='center';
+  ctx.fillStyle='#666';ctx.font='10px sans-serif';ctx.textAlign='center';
   const refSec=topSectors.find(s=>(sectorMap[s]||[]).length>=2);
   if(refSec){
     const pts=sectorMap[refSec];
     pts.forEach((p,i)=>{
-      if(i===0||i===pts.length-1||pts.length<=5||(i%(Math.ceil(pts.length/4))===0)){
+      if(i===0||i===pts.length-1||(pts.length>3&&i===Math.floor(pts.length/2))){
         const x=pad.l+(i/(pts.length-1||1))*(W-pad.l-pad.r);
-        ctx.fillText(p.d.slice(5),x,H-5);
+        ctx.fillText(p.d.slice(5),x,H-4);
       }
     });
   }
@@ -827,7 +833,6 @@ function renderTopPick(){
   const badge=document.getElementById('topPickMarket');
   if(!wrap||!grid||!data)return;
   const all=[...(data[market+'_up']||[]),...(data[market+'_down']||[])];
-  // 모멘텀 스코어 기준 상위 3개
   const picks=all.filter(s=>s.momentum!=null).sort((a,b)=>b.momentum-a.momentum).slice(0,3);
   if(!picks.length){wrap.style.display='none';return;}
   wrap.style.display='block';
