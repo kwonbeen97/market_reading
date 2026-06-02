@@ -530,9 +530,11 @@ function renderSearchResults(hits,box){
 function selectSearch(el){document.getElementById('searchInput').value='';document.getElementById('searchResults').style.display='none';openPopup(el);}
 document.addEventListener('click',e=>{if(!e.target.closest('#searchInput')&&!e.target.closest('#searchResults'))document.getElementById('searchResults').style.display='none';});
 
-// 팝업
+// 팝업 - el은 DOM 엘리먼트(data-stock attr) 또는 stock 객체 직접 가능
 function openPopup(el){
-  const s=JSON.parse(el.getAttribute('data-stock')||'{}');
+  const s=typeof el.getAttribute==='function'
+    ? JSON.parse(el.getAttribute('data-stock')||'{}')
+    : el;
   const nm=s.name||s.ticker||'';const sec=s.sector||'';
   const col=SECTOR_COLORS[sec]||'#888';const cl=s.close||0;const isUp=s.chg_pct>=0;
   document.getElementById('popupName').textContent=nm;
@@ -994,11 +996,12 @@ function renderFavBar(){
     const col=chg!=null?(chg>=0?'#22c55e':'#ef4444'):'#888';
     const chgStr=chg!=null?(chg>=0?'+':'')+chg+'%':'';
     const chip=document.createElement('div');chip.className='fav-chip';
-    if(found){const sd=JSON.stringify(found);chip.onclick=()=>{const el=document.createElement('div');el.setAttribute('data-stock',sd.replace(/"/g,'&quot;'));openPopup(el);};}
-    chip.innerHTML='<span>'+f.name+'</span>'+(chgStr?'<span class="fav-chg" style="color:'+col+'">'+chgStr+'</span>':'');
-    const x=document.createElement('span');x.textContent='×';x.style.cssText='color:#555;font-size:14px;padding:0 2px;cursor:pointer';
-    x.onclick=e=>{e.stopPropagation();_favs=_favs.filter(f2=>f2.key!==f.key);localStorage.setItem('favs',JSON.stringify(_favs));renderFavBar();};
-    chip.appendChild(x);tab.appendChild(chip);
+    chip.innerHTML='<span class="fav-name">'+f.name+'</span>'+(chgStr?'<span class="fav-chg" style="color:'+col+'">'+chgStr+'</span>':'')+'<span class="fav-x" style="color:#555;font-size:14px;padding:0 4px;cursor:pointer">×</span>';
+    if(found){
+      chip.onclick=(e)=>{if(!e.target.classList.contains('fav-x'))openPopup(found);};
+    }
+    chip.querySelector('.fav-x').onclick=e=>{e.stopPropagation();_favs=_favs.filter(f2=>f2.key!==f.key);localStorage.setItem('favs',JSON.stringify(_favs));renderFavBar();};
+    tab.appendChild(chip);
   });
 }
 
@@ -1107,15 +1110,15 @@ def api_summary():
 - 상위 하락: {down_str}
 - 주요 섹터 흐름: {sector_str}
 
-전문적인 애널리스트의 시각으로 다음 조건에 맞춰 시황 브리핑을 작성해주세요:
-1. 단순히 숫자를 나열하지 말고, 전체 지수 흐름과 주도 섹터(반도체, 빅테크 등) 간의 맥락을 짚어주세요.
-2. 매크로 환경(국채 금리나 환율 변동 등)이 시장에 미칠 영향을 한 줄로 포함해주세요.
-3. 통찰이 담긴 3~4문장의 자연스러운 한국어로 요약해주세요."""
+반드시 정확히 3문장으로만 작성하세요. 마크다운 기호(#, **, * 등) 없이 plain text로 작성하세요.
+문장1: 오늘 주도 섹터와 시장 흐름 맥락.
+문장2: 주목할 상승/하락 종목의 의미.
+문장3: 매크로 환경이나 단기 투자 시사점."""
     try:
         api_key=os.environ.get("ANTHROPIC_API_KEY","")
         if not api_key:
             return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
-        payload=json.dumps({"model":"claude-haiku-4-5-20251001","max_tokens":300,"messages":[{"role":"user","content":prompt}]}).encode()
+        payload=json.dumps({"model":"claude-haiku-4-5-20251001","max_tokens":200,"messages":[{"role":"user","content":prompt}]}).encode()
         req=urllib.request.Request("https://api.anthropic.com/v1/messages",data=payload,
             headers={"Content-Type":"application/json","x-api-key":api_key,"anthropic-version":"2023-06-01"})
         with urllib.request.urlopen(req,timeout=15) as r:
