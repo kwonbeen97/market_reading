@@ -1376,22 +1376,7 @@ def api_search():
     return jsonify(results[:10])
 
 @app.route("/api/chart")
-@app.route("/api/chart")
-def api_chart():
-    ticker=request.args.get("ticker","")
-    if not ticker:return jsonify({"prices":[]})
-    try:
-        import yfinance as yf
-        from datetime import datetime,timedelta
-        end=datetime.today()+timedelta(days=1);start=end-timedelta(days=35)
-        df=yf.download(ticker,start=start,end=end,auto_adjust=True,progress=False)
-        if isinstance(df.columns,__import__('pandas').MultiIndex):df.columns=df.columns.get_level_values(0)
-        df=df.dropna(subset=["Close"])
-        prices=[round(float(v),2) for v in df["Close"].tolist()]
-        return jsonify({"prices":prices})
-    except Exception as e:
-        print(f"chart 오류: {e}")
-        return jsonify({"prices":[]})
+
 
 @app.route("/api/news")
 def api_news():
@@ -1464,6 +1449,15 @@ def api_news():
 
     print(f"뉴스 결과: {len(results)}건 (쿼리: {query})")
     return jsonify(results)
+
+
+def manifest():
+    m={"name":"데일리 마켓 브리핑","short_name":"마켓 브리핑","description":"코스피·나스닥 주도 종목 실시간 분석","start_url":"/","display":"standalone","background_color":"#0f1117","theme_color":"#0f1117","orientation":"portrait","icons":[{"src":"/icon.svg","sizes":"192x192","type":"image/svg+xml"},{"src":"/icon.svg","sizes":"512x512","type":"image/svg+xml"}]}
+    return Response(json.dumps(m),mimetype="application/json")
+
+@app.route("/ping")
+def ping():
+    return Response("ok", mimetype="text/plain")
 
 @app.route("/manifest.json")
 def manifest():
