@@ -706,11 +706,11 @@ async function loadStockNews(name, ticker, mkt){
 
 // 섹터 흐름 추이 차트
 function renderSectorTrend(){
-  const cv=document.getElementById('sectorTrendCanvas');
+  const wrap=document.getElementById('sectorTrendWrap');
   const titleEl=document.getElementById('sectorTrendTitle');
-  if(!cv)return;
+  const cv=document.getElementById('sectorTrendCanvas');
+  if(!wrap)return;
 
-  // history 데이터 구성
   const sectorMap={};
   [...dates].sort().forEach(d=>{
     const hd=allData[d];if(!hd)return;
@@ -722,111 +722,97 @@ function renderSectorTrend(){
 
   const latest=allData[currentDate];
   const latestSectors=latest?(latest[market+'_sectors']||[]):[];
-  if(!latestSectors.length){cv.style.display='none';return;}
+  if(!latestSectors.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
 
-  // 라인차트 가능 여부: 3일 이상 + 최소 1개 섹터가 3개 이상 포인트
   const hasEnoughData=dates.length>=3&&Object.values(sectorMap).some(pts=>pts.length>=3);
 
-  cv.style.display='block';
-  const W=cv.parentElement.offsetWidth||340;
-  const H=160;
-  cv.width=W;cv.height=H;
-  const ctx=cv.getContext('2d');
-  ctx.clearRect(0,0,W,H);
+  // 기존 canvas 숨기고 HTML div 방식으로 전환
+  if(cv)cv.style.display='none';
+  let chartEl=document.getElementById('sectorTrendHtml');
+  if(!chartEl){
+    chartEl=document.createElement('div');
+    chartEl.id='sectorTrendHtml';
+    if(cv)cv.parentElement.appendChild(chartEl);
+    else wrap.appendChild(chartEl);
+  }
+  chartEl.style.cssText='width:100%;padding:4px 0 0';
 
   if(!hasEnoughData){
-    // ── HTML 바차트 모드 (데이터 부족 시, canvas 대신 div로) ──
     if(titleEl)titleEl.textContent='📊 오늘 섹터별 등락률';
-    cv.style.display='none';
-    let htmlEl=document.getElementById('sectorBarChart');
-    if(!htmlEl){
-      htmlEl=document.createElement('div');
-      htmlEl.id='sectorBarChart';
-      cv.parentElement.appendChild(htmlEl);
-    }
-    htmlEl.style.cssText='width:100%;padding:4px 0';
     const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
-    // 상위 4 + 하위 4 (중복 제거)
     const show=[...sorted.slice(0,4),...sorted.slice(-4)].filter((s,i,a)=>a.findIndex(x=>x.sector===s.sector)===i);
     const maxAbs=Math.max(...show.map(s=>Math.abs(s.avg_chg)),0.5);
-    htmlEl.innerHTML=show.map(sec=>{
+    chartEl.innerHTML=show.map(sec=>{
       const isUp=sec.avg_chg>=0;
       const col=SECTOR_COLORS[sec.sector]||(isUp?'#22c55e':'#ef4444');
-      const pct=Math.round(Math.abs(sec.avg_chg)/maxAbs*45); // 최대 45%
+      const pct=Math.round(Math.abs(sec.avg_chg)/maxAbs*50);
       const chgStr=(isUp?'+':'')+sec.avg_chg+'%';
-      return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
-        <div style="flex:0 0 72px;font-size:11px;color:#aaa;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sec.sector}</div>
-        <div style="flex:1;display:flex;align-items:center;gap:4px">
-          <div style="flex:1;height:14px;background:#1e2235;border-radius:2px;overflow:hidden;position:relative">
-            <div style="position:absolute;${isUp?'left:0':'right:0'};top:0;height:100%;width:${pct}%;background:${col}44;border-radius:2px"></div>
-            <div style="position:absolute;${isUp?'left:0':'right:0'};top:0;height:100%;width:3px;background:${col}"></div>
-          </div>
-          <div style="flex:0 0 52px;font-size:11px;font-weight:700;color:${col};text-align:left">${chgStr}</div>
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <div style="flex:0 0 80px;font-size:12px;color:#aaa;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sec.sector}</div>
+        <div style="flex:1;height:16px;background:#1e2235;border-radius:3px;overflow:hidden;position:relative">
+          <div style="position:absolute;${isUp?'left:0':'right:0'};top:0;height:100%;width:${pct}%;background:${col}55;border-radius:3px"></div>
+          <div style="position:absolute;${isUp?'left:0':'right:0'};top:0;height:100%;width:3px;background:${col}"></div>
         </div>
+        <div style="flex:0 0 54px;font-size:12px;font-weight:700;color:${col}">${chgStr}</div>
       </div>`;
     }).join('');
     return;
   }
-  // 라인차트 모드면 HTML 바차트 숨기기
-  const oldBar=document.getElementById('sectorBarChart');
-  if(oldBar)oldBar.style.display='none';
-  cv.style.display='block';
 
-  // ── 라인차트 모드 (3일 이상) ──
+  // ── 라인차트: SVG로 렌더링 (모바일에서 선명함) ──
   if(titleEl)titleEl.textContent='📈 7일 섹터 흐름 추이';
-  // 상위 상승 2 + 하위 하락 2 + 절댓값 1 = 5개 (중복 제거)
   const sorted=[...latestSectors].sort((a,b)=>b.avg_chg-a.avg_chg);
   const topUp=sorted.slice(0,2).map(s=>s.sector);
-  const topDn=sorted.slice(-2).map(s=>s.sector);
-  const topAbs=sorted.sort((a,b)=>Math.abs(b.avg_chg)-Math.abs(a.avg_chg)).slice(0,1).map(s=>s.sector);
-  const topSectors=[...new Set([...topUp,...topDn,...topAbs])].slice(0,5);
+  const topDn=[...latestSectors].sort((a,b)=>a.avg_chg-b.avg_chg).slice(0,2).map(s=>s.sector);
+  const topSectors=[...new Set([...topUp,...topDn])].slice(0,4);
 
   const allVals=topSectors.flatMap(sec=>(sectorMap[sec]||[]).map(p=>p.avg));
   if(!allVals.length)return;
   const minV=Math.min(...allVals,-0.5),maxV=Math.max(...allVals,0.5);
   const range=maxV-minV||1;
-  const pad={t:12,b:22,l:6,r:60};
+  const W=380,H=140;
+  const pad={t:14,b:24,l:8,r:72};
+  const toX=(j,total)=>pad.l+(j/(total-1||1))*(W-pad.l-pad.r);
   const toY=v=>pad.t+(1-(v-minV)/range)*(H-pad.t-pad.b);
+
+  // 0선 y
+  const y0=toY(0);
+  let lines='',labels='',xaxis='';
+
   // 0선
-  ctx.beginPath();ctx.strokeStyle='#2a2d3a';ctx.lineWidth=1;ctx.setLineDash([4,4]);
-  ctx.moveTo(pad.l,toY(0));ctx.lineTo(W-pad.r,toY(0));ctx.stroke();ctx.setLineDash([]);
+  lines+=`<line x1="${pad.l}" y1="${y0}" x2="${W-pad.r}" y2="${y0}" stroke="#2a2d3a" stroke-width="1" stroke-dasharray="4,4"/>`;
+
   topSectors.forEach((sec,i)=>{
     const points=(sectorMap[sec]||[]).filter(p=>p.avg!=null);
     if(points.length<2)return;
-    const col=SECTOR_COLORS[sec]||['#22c55e','#3b82f6','#f97316','#a855f7','#ef4444'][i%5];
-    ctx.beginPath();
-    points.forEach((p,j)=>{
-      const x=pad.l+(j/(points.length-1))*(W-pad.l-pad.r);
-      const y=toY(p.avg);
-      j===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
-    });
-    ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.stroke();
-    // 라인 끝점에 레이블 — 색상 유지, 폰트 크게, 배경 박스로 가독성 확보
-    const last=points[points.length-1];
-    const lx=pad.l+(points.length-1)/(points.length-1)*(W-pad.l-pad.r);
-    const ly=Math.max(pad.t+10,Math.min(H-pad.b-4,toY(last.avg)+(i%2===0?-10:4)));
-    const label=sec.length>4?sec.slice(0,4)+'..':sec;
-    ctx.font='bold 11px -apple-system,sans-serif';
-    const tw=ctx.measureText(label).width;
-    ctx.fillStyle='#0f1117cc';
-    ctx.fillRect(lx-pad.r+4,ly-11,tw+6,14);
-    ctx.fillStyle=col;ctx.textAlign='left';
-    ctx.fillText(label,lx-pad.r+7,ly);
+    const col=SECTOR_COLORS[sec]||['#22c55e','#3b82f6','#f97316','#a855f7'][i%4];
+    const pts=points.map((p,j)=>`${toX(j,points.length)},${toY(p.avg)}`).join(' ');
+    lines+=`<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    // 끝점 점
+    const lx=toX(points.length-1,points.length);
+    const ly=toY(points[points.length-1].avg);
+    lines+=`<circle cx="${lx}" cy="${ly}" r="3" fill="${col}"/>`;
+    // 레이블
+    const labelY=Math.max(pad.t+10,Math.min(H-pad.b-4,ly+(i%2===0?-10:12)));
+    const shortSec=sec.length>5?sec.slice(0,4)+'..':sec;
+    labels+=`<rect x="${W-pad.r+6}" y="${labelY-12}" width="${pad.r-8}" height="14" rx="3" fill="#0f1117cc"/>`;
+    labels+=`<text x="${W-pad.r+10}" y="${labelY-1}" font-size="11" font-weight="600" fill="${col}" font-family="-apple-system,sans-serif">${shortSec}</text>`;
   });
+
   // x축 날짜
-  ctx.fillStyle='#666';ctx.font='10px sans-serif';ctx.textAlign='center';
   const refSec=topSectors.find(s=>(sectorMap[s]||[]).length>=2);
   if(refSec){
     const pts=sectorMap[refSec];
-    pts.forEach((p,i)=>{
-      if(i===0||i===pts.length-1||(pts.length>3&&i===Math.floor(pts.length/2))){
-        const x=pad.l+(i/(pts.length-1||1))*(W-pad.l-pad.r);
-        ctx.fillText(p.d.slice(5),x,H-4);
-      }
+    [0,Math.floor(pts.length/2),pts.length-1].forEach(i=>{
+      if(!pts[i])return;
+      const x=toX(i,pts.length);
+      xaxis+=`<text x="${x}" y="${H-4}" font-size="10" fill="#888" text-anchor="middle" font-family="-apple-system,sans-serif">${pts[i].d.slice(5)}</text>`;
     });
   }
-}
 
+  chartEl.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;display:block">${lines}${labels}${xaxis}</svg>`;
+}
 function renderTopPick(){
   const wrap=document.getElementById('topPickWrap');
   const grid=document.getElementById('topPickGrid');
