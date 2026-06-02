@@ -179,6 +179,21 @@ body.light .rank{color:#bbb}
 body.light .momentum-bar-bg{background:#e5e5ea}
 body.light .momentum-label{color:#999}
 body.light .ai-brief-result{background:#f8f9fa;border-color:#e5e5ea;color:#444}
+/* 뉴스 섹션 */
+.news-wrap{margin-top:10px;border-top:1px solid #1e2235;padding-top:10px}
+.news-title{font-size:11px;font-weight:700;color:#555;letter-spacing:.5px;margin-bottom:8px}
+.news-item{padding:8px 0;border-bottom:1px solid #1a1d27;cursor:pointer}
+.news-item:last-child{border-bottom:none}
+.news-item:hover .news-headline{color:#60a5fa}
+.news-headline{font-size:13px;color:#ccc;line-height:1.4;margin-bottom:4px;transition:color .15s}
+.news-meta{font-size:11px;color:#444;display:flex;gap:8px}
+.news-source{color:#555;font-weight:600}
+.news-loading{font-size:12px;color:#555;padding:8px 0}
+body.light .news-wrap{border-color:#f0f0f5}
+body.light .news-item{border-color:#f5f5f7}
+body.light .news-headline{color:#444}
+body.light .news-meta{color:#aaa}
+body.light .news-source{color:#999}
 body.light .ai-brief-btn{background:#eff6ff;border-color:#2563eb;color:#2563eb}
 body.light .sector-trend-box{background:#fff;border-color:#e5e5ea}
 .theme-btn{background:none;border:1px solid #2a2d3a;border-radius:8px;padding:6px 10px;font-size:16px;cursor:pointer;line-height:1;transition:all .2s}
@@ -422,6 +437,11 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
     <!-- AI 종목 브리핑 -->
     <button class="ai-brief-btn" id="aiBriefBtn" onclick="loadStockBrief()">✦ AI 종목 브리핑 생성</button>
     <div class="ai-brief-result" id="aiBriefResult"></div>
+    <!-- 관련 뉴스 -->
+    <div class="news-wrap" id="popupNews" style="display:none">
+      <div class="news-title">📰 관련 뉴스</div>
+      <div id="newsItems"></div>
+    </div>
     <!-- 차트 -->
     <div class="popup-chart-wrap" id="popupChartWrap" style="display:none">
       <div class="popup-chart-label">📈 1개월 주가 흐름</div>
@@ -585,6 +605,8 @@ function openPopup(el){
   updateFavBtn(s.ticker||s.name);
   document.getElementById('popupOverlay').classList.add('show');
   if(s.ticker) loadStockChart(s.ticker, isUp);
+  // 뉴스 로드
+  loadStockNews(s.name||s.ticker||'', s.ticker||'', market);
 }
 
 // AI 종목 브리핑
@@ -615,6 +637,34 @@ async function loadStockBrief(){
     result.innerHTML='분석 생성 실패. 다시 시도해주세요.';
     btn.textContent='✦ AI 종목 브리핑 생성';
     btn.disabled=false;
+  }
+}
+
+// 종목 관련 뉴스
+async function loadStockNews(name, ticker, mkt){
+  const wrap  = document.getElementById('popupNews');
+  const items = document.getElementById('newsItems');
+  if(!wrap||!items) return;
+  wrap.style.display = 'block';
+  items.innerHTML = '<div class="news-loading">뉴스 불러오는 중...</div>';
+  try{
+    const params = new URLSearchParams({name, ticker, market:mkt});
+    const res = await fetch('/api/news?'+params);
+    const news = await res.json();
+    if(!news.length){
+      items.innerHTML = '<div class="news-loading">관련 뉴스 없음</div>';
+      return;
+    }
+    items.innerHTML = news.map(n=>`
+      <div class="news-item" onclick="window.open('${n.link}','_blank')">
+        <div class="news-headline">${n.title}</div>
+        <div class="news-meta">
+          <span class="news-source">${n.source||''}</span>
+          <span>${n.pub||''}</span>
+        </div>
+      </div>`).join('');
+  }catch(e){
+    items.innerHTML = '<div class="news-loading">뉴스 로드 실패</div>';
   }
 }
 
@@ -1246,6 +1296,7 @@ def api_search():
     return jsonify(results[:10])
 
 @app.route("/api/chart")
+@app.route("/api/chart")
 def api_chart():
     ticker=request.args.get("ticker","")
     if not ticker:return jsonify({"prices":[]})
@@ -1261,6 +1312,61 @@ def api_chart():
     except Exception as e:
         print(f"chart 오류: {e}")
         return jsonify({"prices":[]})
+
+@app.route("/api/news")
+def api_news():
+    name   = request.args.get("name","")
+    ticker = request.args.get("ticker","")
+    market = request.args.get("market","kospi")
+    import xml.etree.ElementTree as ET
+    results = []
+    # 코스피는 종목명, 나스닥은 영문 티커로 네이버 뉴스 검색
+    query = name if market == "kospi" else ticker
+    if not query: return jsonify([])
+    try:
+        encoded = urllib.request.quote(query)
+        url = f"https://news.naver.com/search/srcs.naver?query={encoded}&sm=tab_jum&where=news"
+        # 네이버 뉴스 RSS
+        rss_url = f"https://news.naver.com/main/search/search.naver?query={encoded}&type=1"
+        # 구글 뉴스 RSS (한국어)
+        lang = "ko" if market == "kospi" else "en"
+        gl   = "KR"  if market == "kospi" else "US"
+        google_url = f"https://news.google.com/rss/search?q={encoded}+주식&hl={lang}&gl={gl}&ceid={gl}:{lang}"
+        req = urllib.request.Request(google_url, headers={"User-Agent":"Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            tree = ET.fromstring(r.read())
+        items = tree.findall(".//item")
+        seen_titles = set()
+        for item in items[:10]:
+            title = item.findtext("title","").strip()
+            link  = item.findtext("link","").strip()
+            pub   = item.findtext("pubDate","").strip()
+            source_el = item.find("{https://news.google.com/rss}source")
+            source = source_el.text if source_el is not None else ""
+            # 광고/무관 필터: 종목명 또는 티커가 제목에 없으면 스킵
+            title_lower = title.lower()
+            name_lower  = name.lower()
+            ticker_lower = ticker.lower()
+            if name_lower not in title_lower and ticker_lower not in title_lower:
+                # 한국어 코스피 종목은 이름 앞 2글자라도 있으면 허용
+                if market == "kospi" and len(name) >= 2 and name[:2] in title:
+                    pass
+                else:
+                    continue
+            if title in seen_titles: continue
+            seen_titles.add(title)
+            # 날짜 파싱
+            try:
+                from email.utils import parsedate_to_datetime
+                dt = parsedate_to_datetime(pub)
+                pub_str = dt.strftime("%m/%d %H:%M")
+            except:
+                pub_str = pub[:10] if pub else ""
+            results.append({"title":title,"link":link,"pub":pub_str,"source":source})
+            if len(results) >= 4: break
+    except Exception as e:
+        print(f"뉴스 오류: {e}")
+    return jsonify(results)
 
 @app.route("/manifest.json")
 def manifest():
