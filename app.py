@@ -1089,21 +1089,35 @@ def api_indicators():
         print(f"indicators 오류: {e}")
     return jsonify(result)
 
+# 메모리 캐시: {"{date}_{market}": "요약 텍스트"}
+_summary_cache = {}
+
 @app.route("/api/summary")
 def api_summary():
-    market=request.args.get("market","kospi")
-    date=request.args.get("date","")
-    data=None
-    if date:data=fetch_from_github(f"history/{date}.json")
-    if not data:data=fetch_from_github("market_data.json")
-    if not data:return jsonify({"summary":"데이터 없음"})
-    up=data.get(f"{market}_up",[])[:5];down=data.get(f"{market}_down",[])[:5]
-    sectors=data.get(f"{market}_sectors",[])
-    market_name="코스피" if market=="kospi" else "나스닥"
-    up_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in up])
-    down_str=", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
-    sector_str=", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
-    prompt=f"""{data.get('date','')} {market_name} 시장 데일리 리딩입니다.
+    market = request.args.get("market", "kospi")
+    date   = request.args.get("date", "")
+    data   = None
+    if date: data = fetch_from_github(f"history/{date}.json")
+    if not data: data = fetch_from_github("market_data.json")
+    if not data: return jsonify({"summary": "데이터 없음"})
+
+    actual_date = data.get("date", date)
+    cache_key   = f"{actual_date}_{market}"
+
+    # 캐시 히트 → 토큰 0 소비
+    if cache_key in _summary_cache:
+        print(f"[캐시 히트] {cache_key}")
+        return jsonify({"summary": _summary_cache[cache_key], "cached": True})
+
+    up          = data.get(f"{market}_up",   [])[:5]
+    down        = data.get(f"{market}_down", [])[:5]
+    sectors     = data.get(f"{market}_sectors", [])
+    market_name = "코스피" if market == "kospi" else "나스닥"
+    up_str      = ", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in up])
+    down_str    = ", ".join([f"{s.get('name',s.get('ticker',''))}({s['chg_pct']:+.1f}%)" for s in down])
+    sector_str  = ", ".join([f"{s['sector']}({s['avg_chg']:+.1f}%)" for s in sectors[:5]])
+
+    prompt = f"""{actual_date} {market_name} 시장 데일리 리딩입니다.
 
 [시장 요약 데이터]
 - 상위 상승 주도: {up_str}
@@ -1114,21 +1128,32 @@ def api_summary():
 문장1: 오늘 주도 섹터와 시장 흐름 맥락.
 문장2: 주목할 상승/하락 종목의 의미.
 문장3: 매크로 환경이나 단기 투자 시사점."""
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        return jsonify({"summary": f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
     try:
-        api_key=os.environ.get("ANTHROPIC_API_KEY","")
-        if not api_key:
-            return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
-        payload=json.dumps({"model":"claude-haiku-4-5-20251001","max_tokens":200,"messages":[{"role":"user","content":prompt}]}).encode()
-        req=urllib.request.Request("https://api.anthropic.com/v1/messages",data=payload,
+        payload = json.dumps({
+            "model": "claude-haiku-4-5-20251001",
+            "max_tokens": 200,
+            "messages": [{"role": "user", "content": prompt}]
+        }).encode()
+        req = urllib.request.Request(
+            "https://api.anthropic.com/v1/messages", data=payload,
             headers={"Content-Type":"application/json","x-api-key":api_key,"anthropic-version":"2023-06-01"})
-        with urllib.request.urlopen(req,timeout=15) as r:
-            res=json.loads(r.read())
-        return jsonify({"summary":res["content"][0]["text"]})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            res = json.loads(r.read())
+        text = res["content"][0]["text"]
+        _summary_cache[cache_key] = text  # 캐시 저장
+        print(f"[캐시 저장] {cache_key}")
+        return jsonify({"summary": text, "cached": False})
     except Exception as e:
-        error_msg=str(e)
-        if hasattr(e,'read'):error_msg=e.read().decode('utf-8')
+        error_msg = str(e)
+        if hasattr(e, 'read'): error_msg = e.read().decode('utf-8')
         print(f"Claude API 호출 에러: {error_msg}")
-        return jsonify({"summary":f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+        return jsonify({"summary": f"{market_name} 상승 주도: {up_str} / 하락: {down_str}"})
+
+_brief_cache = {}
 
 @app.route("/api/stock_brief")
 def api_stock_brief():
@@ -1138,6 +1163,13 @@ def api_stock_brief():
     chg    = request.args.get("chg","0")
     market = request.args.get("market","kospi")
     market_name = "코스피" if market == "kospi" else "나스닥"
+    today  = datetime.now().strftime("%Y-%m-%d")
+
+    # 캐시 키: 날짜 + 티커 (같은 날 같은 종목은 재사용)
+    cache_key = f"{today}_{ticker or name}"
+    if cache_key in _brief_cache:
+        print(f"[brief 캐시 히트] {cache_key}")
+        return jsonify({"brief": _brief_cache[cache_key], "cached": True})
 
     api_key = os.environ.get("ANTHROPIC_API_KEY","")
     if not api_key:
@@ -1146,31 +1178,28 @@ def api_stock_brief():
     prompt = f"""오늘 {name}({ticker}) 종목이 {chg}% 등락했습니다.
 섹터: {sector} | 시장: {market_name}
 
-아래 형식으로 한국어 종목 브리핑을 작성해주세요:
-1. **오늘 흐름 해석** — 이 등락의 가능한 배경 (1~2문장)
-2. **섹터 맥락** — {sector} 섹터 내 이 종목의 포지션과 투자자 관점 (1문장)
-3. **주목 포인트** — 단기적으로 주의해야 할 리스크 또는 기회 요인 (1문장)
-
-간결하고 전문적으로, 총 4~5문장 이내로 작성해주세요."""
+마크다운 기호 없이 plain text로, 4문장 이내로 작성하세요:
+1. 이 등락의 가능한 배경 (1~2문장)
+2. {sector} 섹터 내 포지션과 투자자 관점 (1문장)
+3. 단기 리스크 또는 기회 요인 (1문장)"""
 
     try:
         payload = json.dumps({
             "model": "claude-haiku-4-5-20251001",
-            "max_tokens": 400,
+            "max_tokens": 250,
             "messages": [{"role":"user","content":prompt}]
         }).encode()
         req = urllib.request.Request(
             "https://api.anthropic.com/v1/messages",
             data=payload,
-            headers={
-                "Content-Type":"application/json",
-                "x-api-key":api_key,
-                "anthropic-version":"2023-06-01"
-            }
+            headers={"Content-Type":"application/json","x-api-key":api_key,"anthropic-version":"2023-06-01"}
         )
         with urllib.request.urlopen(req, timeout=20) as r:
             res = json.loads(r.read())
-        return jsonify({"brief": res["content"][0]["text"]})
+        text = res["content"][0]["text"]
+        _brief_cache[cache_key] = text  # 캐시 저장
+        print(f"[brief 캐시 저장] {cache_key}")
+        return jsonify({"brief": text, "cached": False})
     except Exception as e:
         error_msg = str(e)
         if hasattr(e,'read'): error_msg = e.read().decode('utf-8')
