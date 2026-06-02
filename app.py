@@ -228,12 +228,13 @@ body.light .cal-today{background:#f0fff0}
 .tabs{display:flex}
 .tab{flex:1;padding:11px 8px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;color:#666;border-bottom:2px solid transparent;transition:all .2s}
 .tab.active{color:#e8eaed;border-bottom-color:#2563eb}
-.indicators{display:flex;gap:6px;padding:10px 16px;overflow-x:auto;scrollbar-width:none}
+.indicators{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none}
 .indicators::-webkit-scrollbar{display:none}
-.ind-card{flex-shrink:0;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;padding:8px 12px;min-width:90px}
-.ind-label{font-size:10px;color:#666;margin-bottom:3px;white-space:nowrap}
-.ind-value{font-size:14px;font-weight:700;white-space:nowrap}
-.ind-chg{font-size:11px;margin-top:2px}
+.ind-card{flex-shrink:0;background:#1a1d27;border:1px solid #2a2d3a;border-radius:12px;padding:10px 14px;min-width:96px;position:relative;overflow:hidden}
+.ind-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#2563eb44,#2563eb)}
+.ind-label{font-size:10px;color:#555;margin-bottom:4px;white-space:nowrap;letter-spacing:.3px}
+.ind-value{font-size:16px;font-weight:700;white-space:nowrap;letter-spacing:-.3px}
+.ind-chg{font-size:11px;margin-top:3px;font-weight:600}
 .up{color:#22c55e}.down{color:#ef4444}.neutral{color:#888}
 .ai-summary{margin:0 16px;background:#1a1d27;border-radius:12px;border:1px solid #2a2d3a;padding:12px 14px}
 .ai-summary-label{font-size:10px;font-weight:700;color:#2563eb;letter-spacing:.8px;margin-bottom:6px}
@@ -261,21 +262,42 @@ body.light .cal-today{background:#f0fff0}
 .view-tab{padding:6px 14px;font-size:12px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid #2a2d3a;background:#1a1d27;color:#888;transition:all .2s}
 .view-tab.active{background:#2563eb;color:#fff;border-color:#2563eb}
 .content{padding:10px 16px 24px}
-.section-label{font-size:11px;font-weight:700;letter-spacing:.8px;color:#555;margin:12px 0 6px;display:flex;align-items:center;gap:6px}
-.dot{width:6px;height:6px;border-radius:50%}
-.card{background:#1a1d27;border-radius:12px;border:1px solid #2a2d3a;overflow:hidden;margin-bottom:8px}
-.stock-row{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #1e2235;cursor:pointer;transition:background .15s}
-.stock-row:hover{background:#222535}
+.section-label{font-size:12px;font-weight:700;letter-spacing:.5px;color:#e8eaed;margin:16px 0 8px;display:flex;align-items:center;gap:8px}
+.section-label-sub{font-size:11px;color:#555;font-weight:400;margin-left:auto}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.card{background:#1a1d27;border-radius:14px;border:1px solid #2a2d3a;overflow:hidden;margin-bottom:10px}
+.stock-row{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #1a1d24;cursor:pointer;transition:background .15s;gap:10px}
+.stock-row:hover{background:#1e2235}
 .stock-row:last-child{border-bottom:none}
-.rank{font-size:11px;color:#444;width:18px;flex-shrink:0}
-.info{flex:0 0 120px;min-width:0}
-.sname{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sector-tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;margin-top:2px;font-weight:600}
-.bar-wrap{flex:1;margin:0 10px}
-.bar-bg{height:3px;background:#2a2d3a;border-radius:2px}
-.bar-fill{height:3px;border-radius:2px}
-.price{font-size:12px;color:#666;margin-right:10px;white-space:nowrap}
-.chg{font-size:14px;font-weight:700;min-width:64px;text-align:right;white-space:nowrap}
+.rank{font-size:12px;color:#333;width:20px;flex-shrink:0;font-weight:700}
+.rank-top{color:#f59e0b}
+.info{flex:0 0 130px;min-width:0}
+.sname{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#e8eaed}
+.sector-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;margin-top:3px;font-weight:600;letter-spacing:.2px}
+.bar-wrap{flex:1;margin:0 4px}
+.bar-bg{height:4px;background:#1e2235;border-radius:2px}
+.bar-fill{height:4px;border-radius:2px;transition:width .4s ease}
+.price{font-size:11px;color:#555;white-space:nowrap;text-align:right;min-width:60px}
+.chg{font-size:15px;font-weight:700;min-width:68px;text-align:right;white-space:nowrap;letter-spacing:-.3px}
+/* TOP 픽 */
+.top-pick-wrap{margin:0 16px 4px}
+.top-pick-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.top-pick-title{font-size:12px;font-weight:700;color:#e8eaed;letter-spacing:.3px}
+.top-pick-badge{font-size:10px;font-weight:700;background:#2563eb22;color:#60a5fa;padding:2px 8px;border-radius:20px;border:1px solid #2563eb44}
+.top-pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.top-pick-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:12px;padding:12px 12px 10px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.top-pick-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.top-pick-card:hover{border-color:#2563eb88;transform:translateY(-1px)}
+.top-pick-rank{font-size:10px;color:#555;font-weight:700;margin-bottom:6px}
+.top-pick-name{font-size:13px;font-weight:700;color:#e8eaed;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-pick-sector{font-size:10px;color:#666;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-pick-chg{font-size:18px;font-weight:700;letter-spacing:-.5px}
+.top-pick-mom{font-size:10px;color:#555;margin-top:3px}
+body.light .top-pick-card{background:#fff;border-color:#e5e5ea}
+body.light .top-pick-name{color:#1d1d1f}
+body.light .top-pick-rank{color:#aaa}
+body.light .top-pick-sector{color:#aaa}
+body.light .top-pick-mom{color:#bbb}
 .heatmap{display:grid;gap:4px;margin-top:8px}
 .sector-block{background:#1a1d27;border-radius:10px;border:1px solid #2a2d3a;overflow:hidden}
 .sector-header{padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -400,9 +422,23 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 
 <div class="content">
   <div id="list-view">
-    <div class="section-label"><span class="dot" style="background:#22c55e"></span>상위 상승</div>
+    <!-- TOP 픽 -->
+    <div class="top-pick-wrap" id="topPickWrap" style="display:none">
+      <div class="top-pick-header">
+        <span class="top-pick-title">⚡ 오늘의 TOP 픽</span>
+        <span class="top-pick-badge" id="topPickMarket">코스피</span>
+      </div>
+      <div class="top-pick-grid" id="topPickGrid"></div>
+    </div>
+    <div class="section-label" style="margin-top:14px">
+      <span class="dot" style="background:#22c55e"></span>상위 상승
+      <span class="section-label-sub" id="upCount"></span>
+    </div>
     <div class="card" id="up-list"></div>
-    <div class="section-label"><span class="dot" style="background:#ef4444"></span>상위 하락</div>
+    <div class="section-label">
+      <span class="dot" style="background:#ef4444"></span>상위 하락
+      <span class="section-label-sub" id="dnCount"></span>
+    </div>
     <div class="card" id="down-list"></div>
   </div>
   <div id="heatmap-view" style="display:none">
@@ -785,9 +821,43 @@ function renderSectorTrend(){
   }
 }
 
+function renderTopPick(){
+  const wrap=document.getElementById('topPickWrap');
+  const grid=document.getElementById('topPickGrid');
+  const badge=document.getElementById('topPickMarket');
+  if(!wrap||!grid||!data)return;
+  const all=[...(data[market+'_up']||[]),...(data[market+'_down']||[])];
+  // 모멘텀 스코어 기준 상위 3개
+  const picks=all.filter(s=>s.momentum!=null).sort((a,b)=>b.momentum-a.momentum).slice(0,3);
+  if(!picks.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  badge.textContent=market==='kospi'?'코스피':'나스닥';
+  const colors=['#f59e0b','#94a3b8','#b45309'];
+  const labels=['1위','2위','3위'];
+  grid.innerHTML=picks.map((s,i)=>{
+    const nm=s.name||s.ticker||'';const sec=s.sector||'';
+    const col=SECTOR_COLORS[sec]||'#2563eb';
+    const isUp=s.chg_pct>=0;
+    const chgCol=isUp?'#22c55e':'#ef4444';
+    const sd=JSON.stringify(s).replace(/"/g,'&quot;');
+    const mom=s.momentum>0?'+'+s.momentum:s.momentum;
+    return '<div class="top-pick-card" onclick="openPopup(this)" data-stock="'+sd+'" style="border-top-color:'+colors[i]+'">'
+      +'<div class="top-pick-rank" style="color:'+colors[i]+'">'+labels[i]+'</div>'
+      +'<div class="top-pick-name">'+nm+'</div>'
+      +'<div class="top-pick-sector">'+sec+'</div>'
+      +'<div class="top-pick-chg '+( isUp?'up':'down')+'">'+( isUp?'+':'')+s.chg_pct+'%</div>'
+      +'<div class="top-pick-mom">모멘텀 '+mom+'</div>'
+      +'</div>';
+  }).join('');
+}
+
 function renderList(){
   const up=data[market+'_up']||[],dn=data[market+'_down']||[];
   const max=Math.max(...[...up,...dn].map(s=>Math.abs(s.chg_pct)),1);
+  const upCnt=document.getElementById('upCount');
+  const dnCnt=document.getElementById('dnCount');
+  if(upCnt)upCnt.textContent=up.length+'종목';
+  if(dnCnt)dnCnt.textContent=dn.length+'종목';
   function rows(arr,isUp){
     if(!arr.length)return '<div style="padding:14px;text-align:center;color:#444;font-size:13px">데이터 없음</div>';
     return arr.map((s,i)=>{
@@ -799,13 +869,21 @@ function renderList(){
       if(s.streak>=3) badges+='<span class="badge-streak-up">🔥'+s.streak+'일</span>';
       else if(s.streak<=-3) badges+='<span class="badge-streak-dn">📉'+Math.abs(s.streak)+'일</span>';
       if(s.vol_surge>=2) badges+='<span class="badge-vol">⚡'+s.vol_surge+'x</span>';
-      // 모멘텀 스코어 표시 (상위 3개만)
-      const momBadge=(i<3&&s.momentum!=null)?'<span style="font-size:9px;color:#888;margin-left:4px">M:'+(s.momentum>0?'+':'')+s.momentum+'</span>':'';
-      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'"><div class="rank">'+(i+1)+'</div><div class="info"><div class="sname">'+nm+' '+badges+momBadge+'</div><span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div><div class="price">'+price+'</div><div class="chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div></div>';
+      const rankCls=i<3?' rank-top':'';
+      const rankSymbol=i===0?'①':i===1?'②':i===2?'③':(i+1);
+      return '<div class="stock-row" onclick="openPopup(this)" data-stock="'+sd+'">'
+        +'<div class="rank'+rankCls+'">'+rankSymbol+'</div>'
+        +'<div class="info"><div class="sname">'+nm+' '+badges+'</div>'
+        +'<span class="sector-tag" style="background:'+col+'22;color:'+col+'">'+sec+'</span></div>'
+        +'<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+(isUp?'#22c55e':'#ef4444')+'"></div></div></div>'
+        +'<div class="price">'+price+'</div>'
+        +'<div class="chg '+(isUp?'up':'down')+'">'+(isUp?'+':'')+s.chg_pct+'%</div>'
+        +'</div>';
     }).join('');
   }
   document.getElementById('up-list').innerHTML=rows(up,true);
   document.getElementById('down-list').innerHTML=rows(dn,false);
+  renderTopPick();
 }
 
 function renderHeatmap(){
