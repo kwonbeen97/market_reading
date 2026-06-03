@@ -372,22 +372,7 @@ def by_sector(rows):
         })
     return sorted(result, key=lambda x: x["avg_chg"], reverse=True)
 
-kospi_index = nasdaq_index = kospi_chg = nasdaq_chg = None
-try:
-    for sym, key in [("^KS11","kospi"),("^IXIC","nasdaq")]:
-        df = yf.download(sym, period="5d", auto_adjust=True, progress=False)
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        df = df.dropna(subset=["Close"])
-        if len(df) >= 2:
-            c = round(float(df["Close"].iloc[-1]), 2)
-            p = round(float(df["Close"].iloc[-2]), 2)
-            chg = round((c-p)/p*100, 2)
-            if key=="kospi": kospi_index,kospi_chg=c,chg
-            else: nasdaq_index,nasdaq_chg=c,chg
-    print(f"코스피: {kospi_index} ({kospi_chg}%), 나스닥: {nasdaq_index} ({nasdaq_chg}%)")
-except Exception as e:
-    print(f"지수 수집 실패: {e}")
+
 
 fng_value = fng_label = fng_prev = None
 try:
@@ -404,6 +389,26 @@ try:
     print(f"CNN Fear & Greed: {fng_value} ({fng_label})")
 except Exception as e:
     print(f"CNN FNG 수집 실패: {e}")
+
+# ── 코스피/나스닥 지수 수집 (마지막 거래일 종가 기준) ──────────────
+kospi_index = nasdaq_index = kospi_chg = nasdaq_chg = None
+try:
+    end_dt = TARGET_DATE_OBJ + timedelta(days=1)
+    start_dt = TARGET_DATE_OBJ - timedelta(days=7)
+    for sym, key in [("^KS11","kospi"),("^IXIC","nasdaq")]:
+        df = yf.download(sym, start=start_dt, end=end_dt, auto_adjust=True, progress=False)
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        df = df.dropna(subset=["Close"])
+        if len(df) >= 2:
+            c = round(float(df["Close"].iloc[-1]), 2)
+            p = round(float(df["Close"].iloc[-2]), 2)
+            chg = round((c - p) / p * 100, 2)
+            if key == "kospi": kospi_index, kospi_chg = c, chg
+            else: nasdaq_index, nasdaq_chg = c, chg
+    print(f"코스피: {kospi_index} ({kospi_chg}%), 나스닥: {nasdaq_index} ({nasdaq_chg}%)")
+except Exception as e:
+    print(f"지수 수집 실패: {e}")
 
 print(f"코스피 수집 중... ({len(KOSPI_TICKERS)}개)")
 kospi_rows = get_leaders(KOSPI_TICKERS)
