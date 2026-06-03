@@ -373,20 +373,24 @@ def by_sector(rows):
     return sorted(result, key=lambda x: x["avg_chg"], reverse=True)
 
 
-
+# ── CNN Fear & Greed Index ─────────────────────────────────────
 fng_value = fng_label = fng_prev = None
 try:
-    import urllib.request
+    import urllib.request as _ureq
     url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
-    req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0","Referer":"https://www.cnn.com"})
-    with urllib.request.urlopen(req, timeout=8) as r:
+    req = _ureq.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": "https://www.cnn.com/",
+        "Origin": "https://www.cnn.com",
+    })
+    with _ureq.urlopen(req, timeout=8) as r:
         d = json.loads(r.read())
     fng_value = round(d["fear_and_greed"]["score"])
     fng_label = d["fear_and_greed"]["rating"]
-    hist = d.get("fear_and_greed_historical",{}).get("data",[])
+    hist = d.get("fear_and_greed_historical", {}).get("data", [])
     if len(hist) >= 2:
         fng_prev = round(float(hist[-2]["y"]))
-    print(f"CNN Fear & Greed: {fng_value} ({fng_label})")
+    print(f"CNN Fear & Greed: {fng_value} ({fng_label}), 전일: {fng_prev}")
 except Exception as e:
     print(f"CNN FNG 수집 실패: {e}")
 
