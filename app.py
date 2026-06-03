@@ -460,8 +460,8 @@ body.light .fng-card{background:#fff;border-color:#e5e5ea}
 .fng-popup-label{font-size:16px;font-weight:600;margin-bottom:16px}
 .fng-popup-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;border-top:1px solid #2a2d3a;padding-top:16px}
 .fng-stat{text-align:center}
-.fng-stat-label{font-size:11px;color:#555;margin-bottom:4px}
-.fng-stat-val{font-size:13px;font-weight:600;color:#e8eaed}
+.fng-stat-label{font-size:12px;color:#888;margin-bottom:5px}
+.fng-stat-val{font-size:15px;font-weight:700;color:#e8eaed}
 body.light .fng-popup{background:#fff;border-color:#e5e5ea}
 body.light .fng-popup-stats{border-color:#f0f0f5}
 body.light .fng-stat-val{color:#1d1d1f}
@@ -1210,7 +1210,7 @@ function openFngPopup(){
     return `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="#666">${t.l}</text>`;
   }).join('');
 
-  svg.setAttribute('viewBox','0 0 200 115');
+  svg.setAttribute('viewBox','-10 0 220 115');
   svg.innerHTML = zones.map(z=>arcPath(z.v1,z.v2,r,z.col)).join('') + tickSvg + needleSvg;
 
   document.getElementById('fngPopupNum').textContent = fng;
