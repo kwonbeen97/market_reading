@@ -449,6 +449,22 @@ body.light .share-btn{background:#f5f5f7;border-color:#e5e5ea}
 .fng-text{font-size:10px;margin-top:2px;font-weight:600}
 .fng-prev{font-size:10px;color:#555;margin-top:2px}
 body.light .fng-card{background:#fff;border-color:#e5e5ea}
+/* FNG 팝업 */
+.fng-popup-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:200;align-items:center;justify-content:center}
+.fng-popup-overlay.show{display:flex}
+.fng-popup{background:#1a1d27;border:1px solid #2a2d3a;border-radius:20px;padding:28px 24px 24px;width:90%;max-width:360px;text-align:center}
+.fng-popup-title{font-size:13px;font-weight:700;color:#888;letter-spacing:.5px;margin-bottom:20px}
+.fng-popup-close{position:absolute;top:12px;right:16px;background:none;border:none;color:#555;font-size:20px;cursor:pointer}
+.fng-gauge-svg{width:100%;max-width:280px;margin:0 auto;display:block}
+.fng-popup-num{font-size:48px;font-weight:700;margin:8px 0 4px;letter-spacing:-2px}
+.fng-popup-label{font-size:16px;font-weight:600;margin-bottom:16px}
+.fng-popup-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;border-top:1px solid #2a2d3a;padding-top:16px}
+.fng-stat{text-align:center}
+.fng-stat-label{font-size:11px;color:#555;margin-bottom:4px}
+.fng-stat-val{font-size:13px;font-weight:600;color:#e8eaed}
+body.light .fng-popup{background:#fff;border-color:#e5e5ea}
+body.light .fng-popup-stats{border-color:#f0f0f5}
+body.light .fng-stat-val{color:#1d1d1f}
 body.light .fng-gauge-bg{background:#e5e5ea}
 /* 섹터 필터 */
 .sector-filter-wrap{padding:8px 16px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
@@ -477,8 +493,8 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 </div>
 
 <div class="indicators" id="indicators">
-  <div class="fng-card" id="fngCard" style="display:none">
-    <div class="fng-label">공포탐욕지수</div>
+  <div class="fng-card" id="fngCard" style="display:none;cursor:pointer" onclick="openFngPopup()">
+    <div class="fng-label">공포탐욕지수 ↗</div>
     <div class="fng-value" id="fngValue">—</div>
     <div class="fng-gauge-bg"><div class="fng-gauge-fill" id="fngGauge" style="width:0%"></div></div>
     <div class="fng-text" id="fngText">—</div>
@@ -550,6 +566,18 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
     <div class="heatmap" id="heatmap-grid"></div>
   </div>
   <div class="updated" id="updatedAt"></div>
+</div>
+
+<!-- FNG 팝업 -->
+<div class="fng-popup-overlay" id="fngPopupOverlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="fng-popup" style="position:relative">
+    <button class="fng-popup-close" onclick="document.getElementById('fngPopupOverlay').classList.remove('show')">×</button>
+    <div class="fng-popup-title">CNN FEAR & GREED INDEX</div>
+    <svg class="fng-gauge-svg" viewBox="0 0 200 110" id="fngSvg"></svg>
+    <div class="fng-popup-num" id="fngPopupNum">—</div>
+    <div class="fng-popup-label" id="fngPopupLabel">—</div>
+    <div class="fng-popup-stats" id="fngPopupStats"></div>
+  </div>
 </div>
 
 <!-- 팝업 -->
@@ -1135,7 +1163,67 @@ function setIndexFromData(d){
   setIdx('nasdaq-idx',d.nasdaq_index,d.nasdaq_chg);
 }
 
+let _fngData = {value:null, label:null, prev:null};
+
+function openFngPopup(){
+  if(_fngData.value == null) return;
+  const fng = _fngData.value;
+  const col = fng<=25?'#ef4444':fng<=45?'#f97316':fng<=55?'#eab308':fng<=75?'#22c55e':'#00d084';
+  const labelKo = fng<=25?'극도의 공포':fng<=45?'공포':fng<=55?'중립':fng<=75?'탐욕':'극도의 탐욕';
+
+  // SVG 반원 게이지
+  const svg = document.getElementById('fngSvg');
+  const cx=100, cy=100, r=80;
+  // 배경 아크 구간 (5색)
+  const zones = [
+    {from:0,to:25,col:'#ef4444'},
+    {from:25,to:45,col:'#f97316'},
+    {from:45,to:55,col:'#eab308'},
+    {from:55,to:75,col:'#22c55e'},
+    {from:75,to:100,col:'#00d084'},
+  ];
+  function polar(deg, radius){
+    const rad = (180 - deg * 1.8) * Math.PI / 180;
+    return [cx + radius * Math.cos(rad), cy - radius * Math.sin(rad)];
+  }
+  function arc(from, to, r, col){
+    const [x1,y1] = polar(from, r);
+    const [x2,y2] = polar(to, r);
+    const large = (to - from) > 50 ? 1 : 0;
+    return `<path d="M${x1} ${y1} A${r} ${r} 0 ${large} 0 ${x2} ${y2}" fill="none" stroke="${col}" stroke-width="16" stroke-linecap="butt"/>`;
+  }
+  // 바늘
+  const [nx,ny] = polar(fng, 60);
+  const needle = `<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="5" fill="white"/>`;
+  // 라벨
+  const ticks = [
+    {v:0,label:'0'},{v:25,label:'25'},{v:50,label:'50'},{v:75,label:'75'},{v:100,label:'100'}
+  ];
+  const ticksSvg = ticks.map(t=>{
+    const [tx,ty]=polar(t.v,95);
+    return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" font-size="8" fill="#666">${t.label}</text>`;
+  }).join('');
+  svg.innerHTML = zones.map(z=>arc(z.from,z.to,80,z.col)).join('') + ticksSvg + needle;
+
+  document.getElementById('fngPopupNum').textContent = fng;
+  document.getElementById('fngPopupNum').style.color = col;
+  document.getElementById('fngPopupLabel').textContent = labelKo;
+  document.getElementById('fngPopupLabel').style.color = col;
+
+  // 통계
+  const prev = _fngData.prev;
+  const diff = prev != null ? fng - prev : null;
+  const prevLabelKo = prev!=null?(prev<=25?'극공포':prev<=45?'공포':prev<=55?'중립':prev<=75?'탐욕':'극탐욕'):'—';
+  document.getElementById('fngPopupStats').innerHTML =
+    `<div class="fng-stat"><div class="fng-stat-label">전일 종가</div><div class="fng-stat-val">${prev??'—'} ${prevLabelKo}</div></div>` +
+    `<div class="fng-stat"><div class="fng-stat-label">전일 대비</div><div class="fng-stat-val" style="color:${diff!=null&&diff>=0?'#22c55e':'#ef4444'}">${diff!=null?(diff>=0?'+':'')+diff:'—'}</div></div>`;
+
+  document.getElementById('fngPopupOverlay').classList.add('show');
+}
+
 function setFNG(fng, label, prev){
+  _fngData = {value:fng, label:label, prev:prev};
   const card = document.getElementById('fngCard');
   if(!card || fng == null) return;
   card.style.display = 'block';
