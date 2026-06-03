@@ -122,6 +122,30 @@ STOCK_DESC = {
     "Cisco":"네트워크 장비·소프트웨어 1위. AI 데이터센터 네트워킹 수혜.",
     "ADP":"급여·인사관리 소프트웨어 1위. 고용 시장 지표와 연동.",
     "Paychex":"중소기업 급여·HR 서비스. 금리 수혜형 안정 성장주.",
+    "엔씨소프트":"리니지·블레이드&소울 개발사. 국내 대형 게임사 대표주.",
+    "넷마블":"모바일 게임 대형사. 나이언틱·방탄소년단 게임 등 글로벌 진출.",
+    "펄어비스":"검은사막 개발사. 붉은사막 출시 기대감 보유.",
+    "솔브레인홀딩스":"반도체·디스플레이 소재 솔브레인 지주사.",
+    "솔브레인":"반도체 식각액·세정액 전문. 삼성·SK하이닉스 핵심 소재 공급.",
+    "원익IPS":"반도체 CVD·ALD 장비 전문. 삼성·SK 장비 공급사.",
+    "파크시스템스":"원자력현미경(AFM) 세계 1위. 반도체 계측 장비 강자.",
+    "브이원텍":"반도체·디스플레이 검사장비 전문 기업.",
+    "고영":"3D 검사장비 세계 1위. 스마트팩토리·반도체 패키징 수요 수혜.",
+    "효성첨단소재":"탄소섬유·아라미드 국내 1위. 수소탱크·방탄복 핵심 소재.",
+    "에코앤드림":"이차전지 양극활물질 전구체 전문 기업.",
+    "SNT모티브":"전기차 구동모터·방산부품 제조. 현대차그룹 공급사.",
+    "오리엔트바이오":"동물용 의약품·실험동물 전문 기업.",
+    "엑세스바이오":"체외진단 의료기기 전문. 말라리아·코로나 진단키트 글로벌 수출.",
+    "계양전기":"전동공구·모터 제조사. 이차전지 팩 사업 진출.",
+    "한국타이어":"한국타이어앤테크놀로지 계열 타이어 제조사.",
+    "금호타이어":"타이어 전문 제조사. 중국·미국 현지 생산.",
+    "에이치디씨":"HDC그룹 지주사. 건설·유통·금융 계열사 보유.",
+    "이스트소프트":"알약·알집 등 보안·유틸리티 소프트웨어. AI 사업 확장 중.",
+    "한화손해보험":"한화그룹 손해보험사.",
+    "성창기업지주":"목재·건자재 유통 지주사.",
+    "GS건설":"국내 대형 건설사. 자이 아파트 브랜드 보유.",
+    "KCC":"도료·실리콘·건자재 전문 대기업. 모멘티브 실리콘 인수.",
+    "세방전지":"자동차용 납축전지 전문. 에너지저장장치(ESS) 사업 확대.",
     "카카오뱅크":"인터넷 전문은행 1위. 모바일 금융 플랫폼 중심 성장.",
     "카카오페이":"카카오 간편결제·금융 플랫폼. 보험·투자 서비스 확대.",
     "SK바이오사이언스":"백신 CMO·자체 개발 바이오 기업. 코로나 이후 신규 파이프라인 구축.",
@@ -415,6 +439,17 @@ body.light .share-btn{background:#f5f5f7;border-color:#e5e5ea}
 .fav-chip:hover{border-color:#2563eb}
 .fav-chip .fav-chg{font-size:11px;font-weight:700}
 .fav-empty{padding:10px 16px;font-size:12px;color:#555}
+/* FNG 게이지 카드 */
+.fng-card{flex-shrink:0;background:#1a1d27;border:1px solid #2a2d3a;border-radius:12px;padding:10px 14px;min-width:130px;position:relative;overflow:hidden}
+.fng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.fng-label{font-size:10px;color:#555;margin-bottom:4px;letter-spacing:.3px}
+.fng-gauge-bg{height:5px;background:#1e2235;border-radius:3px;overflow:hidden;margin:6px 0 4px}
+.fng-gauge-fill{height:5px;border-radius:3px;transition:width .5s ease}
+.fng-value{font-size:16px;font-weight:700;letter-spacing:-.3px}
+.fng-text{font-size:10px;margin-top:2px;font-weight:600}
+.fng-prev{font-size:10px;color:#555;margin-top:2px}
+body.light .fng-card{background:#fff;border-color:#e5e5ea}
+body.light .fng-gauge-bg{background:#e5e5ea}
 /* 섹터 필터 */
 .sector-filter-wrap{padding:8px 16px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
 .sector-filter-wrap::-webkit-scrollbar{display:none}
@@ -442,6 +477,13 @@ body.light .fav-chip{background:#fff;border-color:#e5e5ea}
 </div>
 
 <div class="indicators" id="indicators">
+  <div class="fng-card" id="fngCard" style="display:none">
+    <div class="fng-label">공포탐욕지수</div>
+    <div class="fng-value" id="fngValue">—</div>
+    <div class="fng-gauge-bg"><div class="fng-gauge-fill" id="fngGauge" style="width:0%"></div></div>
+    <div class="fng-text" id="fngText">—</div>
+    <div class="fng-prev" id="fngPrev"></div>
+  </div>
   <div class="ind-card"><div class="ind-label">코스피</div><div class="ind-value" id="kospi-idx">—</div><div class="ind-chg neutral" id="kospi-idx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">나스닥</div><div class="ind-value" id="nasdaq-idx">—</div><div class="ind-chg neutral" id="nasdaq-idx-c">로딩중</div></div>
   <div class="ind-card"><div class="ind-label">USD/KRW</div><div class="ind-value" id="usd">—</div><div class="ind-chg neutral" id="usd-c">로딩중</div></div>
@@ -1059,6 +1101,7 @@ function selectDate(d){
   currentDate=d;
   data=allData[d]||null;
   if(data) setIndexFromData(data);
+  if(data) setFNG(data.fng, data.fng_label, data.fng_prev);
   renderDateBar();render();loadAISummary();
   if(view==='heatmap') setTimeout(renderSectorTrend,80);
 }
@@ -1090,6 +1133,36 @@ function setIndexFromData(d){
   }
   setIdx('kospi-idx',d.kospi_index,d.kospi_chg);
   setIdx('nasdaq-idx',d.nasdaq_index,d.nasdaq_chg);
+}
+
+function setFNG(fng, label, prev){
+  const card = document.getElementById('fngCard');
+  if(!card || fng == null) return;
+  card.style.display = 'block';
+
+  // 색상: 0-25 극공포(빨강), 26-45 공포(주황), 46-55 중립(노랑), 56-75 탐욕(연초록), 76-100 극탐욕(초록)
+  const col = fng<=25?'#ef4444':fng<=45?'#f97316':fng<=55?'#eab308':fng<=75?'#86efac':'#22c55e';
+  const emoji = fng<=25?'😱':fng<=45?'😰':fng<=55?'😐':fng<=75?'😊':'🤑';
+  const labelKo = fng<=25?'극도의 공포':fng<=45?'공포':fng<=55?'중립':fng<=75?'탐욕':'극도의 탐욕';
+
+  card.style.borderTopColor = col;
+  card.querySelector('.fng-card::before');
+
+  document.getElementById('fngValue').textContent = fng;
+  document.getElementById('fngValue').style.color = col;
+  document.getElementById('fngGauge').style.width = fng + '%';
+  document.getElementById('fngGauge').style.background = col;
+  document.getElementById('fngText').textContent = emoji + ' ' + labelKo;
+  document.getElementById('fngText').style.color = col;
+
+  if(prev != null){
+    const diff = fng - prev;
+    const diffStr = (diff >= 0 ? '+' : '') + diff;
+    document.getElementById('fngPrev').textContent = '전일 대비 ' + diffStr;
+  }
+
+  // 카드 상단 컬러 라인
+  card.style.setProperty('--fng-color', col);
 }
 
 async function loadAISummary(){
@@ -1247,6 +1320,7 @@ async function loadAll(){
     currentDate=dates[dates.length-1]||'';
     data=allData[currentDate]||null;
     if(data) setIndexFromData(data);
+    if(data) setFNG(data.fng, data.fng_label, data.fng_prev);
     const fw=document.getElementById('sectorFilterWrap');
     if(fw)fw.style.display='flex';
     renderDateBar();render();renderFavBar();loadAISummary();loadIndicators();
