@@ -1054,7 +1054,14 @@ function renderDateBar(){
   const bar=document.getElementById('dateBar');
   bar.innerHTML=dates.map(d=>'<div class="date-chip'+(d===currentDate?' active':'')+'" data-date="'+d+'" onclick="selectDate(this.dataset.date)">'+d.slice(5)+'</div>').join('');
 }
-function selectDate(d){currentDate=d;data=allData[d]||null;renderDateBar();render();loadAISummary();if(view==='heatmap')setTimeout(renderSectorTrend,80);}
+
+function selectDate(d){
+  currentDate=d;
+  data=allData[d]||null;
+  if(data) setIndexFromData(data);
+  renderDateBar();render();loadAISummary();
+  if(view==='heatmap') setTimeout(renderSectorTrend,80);
+}
 
 async function loadIndicators(){
   try{
