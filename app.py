@@ -1172,39 +1172,49 @@ function openFngPopup(){
   const labelKo = fng<=25?'극도의 공포':fng<=45?'공포':fng<=55?'중립':fng<=75?'탐욕':'극도의 탐욕';
 
   // SVG 반원 게이지
+  // viewBox="0 0 200 120", cx=100 cy=100
+  // 0 → 왼쪽 끝(180°), 100 → 오른쪽 끝(0°)
+  // 반원이 위로 볼록: y = cy - r*sin(θ), 즉 θ=0~180° 범위에서 위쪽이 반원
   const svg = document.getElementById('fngSvg');
-  const cx=100, cy=100, r=80;
-  // 배경 아크 구간 (5색)
-  const zones = [
-    {from:0,to:25,col:'#ef4444'},
-    {from:25,to:45,col:'#f97316'},
-    {from:45,to:55,col:'#eab308'},
-    {from:55,to:75,col:'#22c55e'},
-    {from:75,to:100,col:'#00d084'},
+  const cx=100, cy=100, r=78;
+
+  function valToRad(val){
+    // val 0→180°, val 100→0° (왼→오른, 위로 볼록)
+    return (180 - val * 1.8) * Math.PI / 180;
+  }
+  function pt(val, radius){
+    const a = valToRad(val);
+    return [cx + radius*Math.cos(a), cy - radius*Math.sin(a)];
+  }
+  function arcPath(v1, v2, radius, col){
+    const [x1,y1] = pt(v1, radius);
+    const [x2,y2] = pt(v2, radius);
+    const large = (v2-v1) > 50 ? 1 : 0;
+    return `<path d="M${x1.toFixed(2)},${y1.toFixed(2)} A${radius},${radius} 0 ${large},0 ${x2.toFixed(2)},${y2.toFixed(2)}" fill="none" stroke="${col}" stroke-width="15" stroke-linecap="butt"/>`;
+  }
+
+  const zones=[
+    {v1:0, v2:25, col:'#ef4444'},
+    {v1:25,v2:45, col:'#f97316'},
+    {v1:45,v2:55, col:'#eab308'},
+    {v1:55,v2:75, col:'#22c55e'},
+    {v1:75,v2:100,col:'#00d084'},
   ];
-  function polar(deg, radius){
-    const rad = (180 - deg * 1.8) * Math.PI / 180;
-    return [cx + radius * Math.cos(rad), cy - radius * Math.sin(rad)];
-  }
-  function arc(from, to, r, col){
-    const [x1,y1] = polar(from, r);
-    const [x2,y2] = polar(to, r);
-    const large = (to - from) > 50 ? 1 : 0;
-    return `<path d="M${x1} ${y1} A${r} ${r} 0 ${large} 0 ${x2} ${y2}" fill="none" stroke="${col}" stroke-width="16" stroke-linecap="butt"/>`;
-  }
+
   // 바늘
-  const [nx,ny] = polar(fng, 60);
-  const needle = `<line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  const [nx,ny] = pt(fng, 60);
+  const needleSvg = `<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(2)}" y2="${ny.toFixed(2)}" stroke="white" stroke-width="3" stroke-linecap="round"/>
     <circle cx="${cx}" cy="${cy}" r="5" fill="white"/>`;
-  // 라벨
-  const ticks = [
-    {v:0,label:'0'},{v:25,label:'25'},{v:50,label:'50'},{v:75,label:'75'},{v:100,label:'100'}
-  ];
-  const ticksSvg = ticks.map(t=>{
-    const [tx,ty]=polar(t.v,95);
-    return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" font-size="8" fill="#666">${t.label}</text>`;
+
+  // 눈금
+  const ticks=[{v:0,l:'0'},{v:25,l:'25'},{v:50,l:'50'},{v:75,l:'75'},{v:100,l:'100'}];
+  const tickSvg=ticks.map(t=>{
+    const [tx,ty]=pt(t.v,94);
+    return `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-size="8" fill="#555">${t.l}</text>`;
   }).join('');
-  svg.innerHTML = zones.map(z=>arc(z.from,z.to,80,z.col)).join('') + ticksSvg + needle;
+
+  svg.setAttribute('viewBox','0 0 200 110');
+  svg.innerHTML = zones.map(z=>arcPath(z.v1,z.v2,r,z.col)).join('') + tickSvg + needleSvg;
 
   document.getElementById('fngPopupNum').textContent = fng;
   document.getElementById('fngPopupNum').style.color = col;
