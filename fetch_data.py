@@ -276,24 +276,31 @@ NASDAQ_TICKERS = [
     ("WBD","Warner Bros Discovery","미디어/통신"),
 ]
 
-def find_last_trading_day():
-    df = yf.download("005930.KS", period="10d", auto_adjust=True, progress=False)
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = df.columns.get_level_values(0)
-    if not df.empty:
-        return df.index[-1].date()
+def find_last_trading_day(symbol):
+    try:
+        df = yf.download(symbol, period="10d", auto_adjust=True, progress=False)
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        if not df.empty:
+            return df.index[-1].date()
+    except:
+        pass
     d = datetime.today().date()
     while d.weekday() >= 5:
         d -= timedelta(days=1)
     return d
 
-TARGET_DATE_OBJ = find_last_trading_day()
+KOSPI_DATE_OBJ  = find_last_trading_day("005930.KS")  # 코스피 기준
+NASDAQ_DATE_OBJ = find_last_trading_day("AAPL")        # 나스닥 기준
+TARGET_DATE_OBJ = KOSPI_DATE_OBJ  # 파일명은 코스피 기준 (한국 날짜)
 TARGET_DATE = TARGET_DATE_OBJ.strftime("%Y-%m-%d")
-print(f"[데이터 수집] {TARGET_DATE}")
+print(f"[코스피 거래일] {KOSPI_DATE_OBJ}, [나스닥 거래일] {NASDAQ_DATE_OBJ}")
 
-def get_leaders(tickers_input):
-    end   = datetime.today() + timedelta(days=1)
-    start = end - timedelta(days=15)
+def get_leaders(tickers_input, target_date_obj=None):
+    if target_date_obj is None:
+        target_date_obj = TARGET_DATE_OBJ
+    end   = target_date_obj + timedelta(days=2)
+    start = target_date_obj - timedelta(days=15)
     rows  = []
     for ticker, name, sector in tickers_input:
         try:
@@ -387,20 +394,23 @@ try:
         d = json.loads(r.read())
     fng_value = round(d["fear_and_greed"]["score"])
     fng_label = d["fear_and_greed"]["rating"]
-    hist = d.get("fear_and_greed_historical", {}).get("data", [])
-    if len(hist) >= 2:
-        fng_prev = round(float(hist[-2]["y"]))
+    # previous_close가 전일 종가로 가장 정확
+    pc = d["fear_and_greed"].get("previous_close")
+    if pc is not None:
+        fng_prev = round(float(pc))
+    else:
+        hist = d.get("fear_and_greed_historical", {}).get("data", [])
+        if len(hist) >= 2:
+            fng_prev = round(float(hist[-2]["y"]))
     print(f"CNN Fear & Greed: {fng_value} ({fng_label}), 전일: {fng_prev}")
 except Exception as e:
     print(f"CNN FNG 수집 실패: {e}")
 
-# ── 코스피/나스닥 지수 수집 (마지막 거래일 종가 기준) ──────────────
+# ── 코스피/나스닥 지수 수집 (각 시장 마지막 거래일 기준) ──────────
 kospi_index = nasdaq_index = kospi_chg = nasdaq_chg = None
-try:
-    end_dt = TARGET_DATE_OBJ + timedelta(days=1)
-    start_dt = TARGET_DATE_OBJ - timedelta(days=7)
-    for sym, key in [("^KS11","kospi"),("^IXIC","nasdaq")]:
-        df = yf.download(sym, start=start_dt, end=end_dt, auto_adjust=True, progress=False)
+for sym, key, date_obj in [("^KS11","kospi",KOSPI_DATE_OBJ),("^IXIC","nasdaq",NASDAQ_DATE_OBJ)]:
+    try:
+        df = yf.download(sym, start=date_obj-timedelta(days=7), end=date_obj+timedelta(days=2), auto_adjust=True, progress=False)
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
         df = df.dropna(subset=["Close"])
@@ -410,14 +420,14 @@ try:
             chg = round((c - p) / p * 100, 2)
             if key == "kospi": kospi_index, kospi_chg = c, chg
             else: nasdaq_index, nasdaq_chg = c, chg
-    print(f"코스피: {kospi_index} ({kospi_chg}%), 나스닥: {nasdaq_index} ({nasdaq_chg}%)")
-except Exception as e:
-    print(f"지수 수집 실패: {e}")
+    except Exception as e:
+        print(f"{sym} 지수 수집 실패: {e}")
+print(f"코스피: {kospi_index} ({kospi_chg}%), 나스닥: {nasdaq_index} ({nasdaq_chg}%)")
 
-print(f"코스피 수집 중... ({len(KOSPI_TICKERS)}개)")
-kospi_rows = get_leaders(KOSPI_TICKERS)
-print(f"나스닥 수집 중... ({len(NASDAQ_TICKERS)}개)")
-nasdaq_rows = get_leaders(NASDAQ_TICKERS)
+print(f"코스피 수집 중... ({len(KOSPI_TICKERS)}개, 거래일: {KOSPI_DATE_OBJ})")
+kospi_rows = get_leaders(KOSPI_TICKERS, KOSPI_DATE_OBJ)
+print(f"나스닥 수집 중... ({len(NASDAQ_TICKERS)}개, 거래일: {NASDAQ_DATE_OBJ})")
+nasdaq_rows = get_leaders(NASDAQ_TICKERS, NASDAQ_DATE_OBJ)
 print(f"코스피 {len(kospi_rows)}개, 나스닥 {len(nasdaq_rows)}개 수집됨")
 
 result = {
