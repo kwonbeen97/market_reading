@@ -1230,6 +1230,16 @@ function openFngPopup(){
 }
 
 function setFNG(fng, label, prev){
+  // prev가 fng랑 같으면(API 오류) allData에서 전날 값 직접 찾기
+  if(prev === fng && dates.length >= 2){
+    const sortedDates = [...dates].sort();
+    const todayIdx = sortedDates.indexOf(currentDate);
+    if(todayIdx > 0){
+      const prevDate = sortedDates[todayIdx - 1];
+      const prevData = allData[prevDate];
+      if(prevData && prevData.fng != null) prev = prevData.fng;
+    }
+  }
   _fngData = {value:fng, label:label, prev:prev};
   const card = document.getElementById('fngCard');
   if(!card || fng == null) return;
