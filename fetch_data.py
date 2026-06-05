@@ -430,29 +430,107 @@ print(f"나스닥 수집 중... ({len(NASDAQ_TICKERS)}개, 거래일: {NASDAQ_DA
 nasdaq_rows = get_leaders(NASDAQ_TICKERS, NASDAQ_DATE_OBJ)
 print(f"코스피 {len(kospi_rows)}개, 나스닥 {len(nasdaq_rows)}개 수집됨")
 
-result = {
-    "date"          : TARGET_DATE,
-    "updated_at"    : datetime.now().strftime("%Y-%m-%d %H:%M"),
-    "fng"           : fng_value,
-    "fng_label"     : fng_label,
-    "fng_prev"      : fng_prev,
-    "kospi_index"   : kospi_index,
-    "kospi_chg"     : kospi_chg,
-    "nasdaq_index"  : nasdaq_index,
-    "nasdaq_chg"    : nasdaq_chg,
-    "kospi_up"      : top_n(kospi_rows, TOP_N),
-    "kospi_down"    : top_n(kospi_rows, TOP_N, ascending=True),
-    "nasdaq_up"     : top_n(nasdaq_rows, TOP_N),
-    "nasdaq_down"   : top_n(nasdaq_rows, TOP_N, ascending=True),
-    "kospi_sectors" : by_sector(kospi_rows),
-    "nasdaq_sectors": by_sector(nasdaq_rows),
-}
-
-with open("market_data.json", "w", encoding="utf-8") as f:
-    json.dump(result, f, ensure_ascii=False, indent=2)
+NASDAQ_DATE = NASDAQ_DATE_OBJ.strftime("%Y-%m-%d")
+nasdaq_only = (NASDAQ_DATE != TARGET_DATE)  # 나스닥 날짜가 코스피 날짜와 다른지
 
 os.makedirs("history", exist_ok=True)
-with open(f"history/{TARGET_DATE}.json", "w", encoding="utf-8") as f:
+
+if nasdaq_only:
+    # 나스닥 날짜가 다름 → 코스피/나스닥 파일 분리 저장
+    # 1) 코스피 전용 파일 (나스닥 null)
+    kospi_result = {
+        "date"          : TARGET_DATE,
+        "updated_at"    : datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "fng"           : fng_value,
+        "fng_label"     : fng_label,
+        "fng_prev"      : fng_prev,
+        "kospi_index"   : kospi_index,
+        "kospi_chg"     : kospi_chg,
+        "nasdaq_index"  : None,
+        "nasdaq_chg"    : None,
+        "kospi_up"      : top_n(kospi_rows, TOP_N),
+        "kospi_down"    : top_n(kospi_rows, TOP_N, ascending=True),
+        "nasdaq_up"     : [],
+        "nasdaq_down"   : [],
+        "kospi_sectors" : by_sector(kospi_rows),
+        "nasdaq_sectors": [],
+    }
+    # 코스피 파일이 없을 때만 저장 (이미 있으면 나스닥 머지)
+    kospi_hist_path = f"history/{TARGET_DATE}.json"
+    if os.path.exists(kospi_hist_path):
+        with open(kospi_hist_path, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+        # 코스피 데이터가 이미 있으면 그대로 유지
+        kospi_result = existing
+
+    # 2) 나스닥 전용 파일
+    nasdaq_result = {
+        "date"          : NASDAQ_DATE,
+        "updated_at"    : datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "fng"           : fng_value,
+        "fng_label"     : fng_label,
+        "fng_prev"      : fng_prev,
+        "kospi_index"   : None,
+        "kospi_chg"     : None,
+        "nasdaq_index"  : nasdaq_index,
+        "nasdaq_chg"    : nasdaq_chg,
+        "kospi_up"      : [],
+        "kospi_down"    : [],
+        "nasdaq_up"     : top_n(nasdaq_rows, TOP_N),
+        "nasdaq_down"   : top_n(nasdaq_rows, TOP_N, ascending=True),
+        "kospi_sectors" : [],
+        "nasdaq_sectors": by_sector(nasdaq_rows),
+    }
+    # 나스닥 파일이 이미 있으면 코스피 데이터를 머지
+    nasdaq_hist_path = f"history/{NASDAQ_DATE}.json"
+    if os.path.exists(nasdaq_hist_path):
+        with open(nasdaq_hist_path, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+        # 기존 코스피 데이터 보존, 나스닥만 업데이트
+        existing.update({
+            "fng"           : fng_value,
+            "fng_label"     : fng_label,
+            "fng_prev"      : fng_prev,
+            "nasdaq_index"  : nasdaq_index,
+            "nasdaq_chg"    : nasdaq_chg,
+            "nasdaq_up"     : nasdaq_result["nasdaq_up"],
+            "nasdaq_down"   : nasdaq_result["nasdaq_down"],
+            "nasdaq_sectors": nasdaq_result["nasdaq_sectors"],
+            "updated_at"    : nasdaq_result["updated_at"],
+        })
+        nasdaq_result = existing
+
+    with open(f"history/{TARGET_DATE}.json", "w", encoding="utf-8") as f:
+        json.dump(kospi_result, f, ensure_ascii=False, indent=2)
+    with open(f"history/{NASDAQ_DATE}.json", "w", encoding="utf-8") as f:
+        json.dump(nasdaq_result, f, ensure_ascii=False, indent=2)
+
+    result = nasdaq_result  # market_data.json은 최신 나스닥 기준
+    print(f"📌 날짜 분리: 코스피={TARGET_DATE}, 나스닥={NASDAQ_DATE}")
+
+else:
+    # 같은 날짜 → 기존처럼 하나로 저장
+    result = {
+        "date"          : TARGET_DATE,
+        "updated_at"    : datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "fng"           : fng_value,
+        "fng_label"     : fng_label,
+        "fng_prev"      : fng_prev,
+        "kospi_index"   : kospi_index,
+        "kospi_chg"     : kospi_chg,
+        "nasdaq_index"  : nasdaq_index,
+        "nasdaq_chg"    : nasdaq_chg,
+        "kospi_up"      : top_n(kospi_rows, TOP_N),
+        "kospi_down"    : top_n(kospi_rows, TOP_N, ascending=True),
+        "nasdaq_up"     : top_n(nasdaq_rows, TOP_N),
+        "nasdaq_down"   : top_n(nasdaq_rows, TOP_N, ascending=True),
+        "kospi_sectors" : by_sector(kospi_rows),
+        "nasdaq_sectors": by_sector(nasdaq_rows),
+    }
+    with open(f"history/{TARGET_DATE}.json", "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+
+with open("market_data.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
 
 import glob
