@@ -658,7 +658,33 @@ const SECTOR_COLORS={
   '지주/기타':'#94a3b8',
 };
 
-function switchMarket(m,el){market=m;_sectorFilter='전체';document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');render();loadAISummary();}
+function switchMarket(m,el){
+  market=m;_sectorFilter='전체';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  // 탭 전환 시 현재 날짜에 해당 마켓 데이터가 없으면 폴백
+  const hasMarketData=(date)=>{
+    const e=allData[date];
+    if(!e) return false;
+    if(m==='kospi') return e.kospi_index!=null&&(e.kospi_up||[]).length>0;
+    return e.nasdaq_index!=null&&(e.nasdaq_up||[]).length>0;
+  };
+  if(!hasMarketData(currentDate)){
+    const sorted=[...dates].sort();
+    const idx=sorted.indexOf(currentDate);
+    for(let i=idx-1;i>=0;i--){
+      if(hasMarketData(sorted[i])){
+        currentDate=sorted[i];
+        data=allData[currentDate]||null;
+        break;
+      }
+    }
+  } else {
+    data=allData[currentDate]||null;
+  }
+  if(data){setIndexFromData(data);setFNG(data.fng,data.fng_label,data.fng_prev);}
+  renderDateBar();render();loadAISummary();
+}
 function switchView(v,el){
   view=v;
   document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
@@ -1127,7 +1153,22 @@ function renderDateBar(){
 
 function selectDate(d){
   currentDate=d;
-  data=allData[d]||null;
+  // 현재 마켓 데이터가 없으면 이전 날짜로 폴백
+  const hasMarketData=(date)=>{
+    const e=allData[date];
+    if(!e) return false;
+    if(market==='kospi') return e.kospi_index!=null&&(e.kospi_up||[]).length>0;
+    return e.nasdaq_index!=null&&(e.nasdaq_up||[]).length>0;
+  };
+  let effectiveDate=d;
+  if(!hasMarketData(d)){
+    const sorted=[...dates].sort();
+    const idx=sorted.indexOf(d);
+    for(let i=idx-1;i>=0;i--){
+      if(hasMarketData(sorted[i])){effectiveDate=sorted[i];break;}
+    }
+  }
+  data=allData[effectiveDate]||null;
   if(data) setIndexFromData(data);
   if(data) setFNG(data.fng, data.fng_label, data.fng_prev);
   renderDateBar();render();loadAISummary();
