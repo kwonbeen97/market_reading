@@ -1485,10 +1485,6 @@ def index():
 @app.route("/api/history")
 def api_history():
     all_data={};dates=[]
-    latest=fetch_from_github("market_data.json")
-    if latest:
-        d=latest.get("date","")
-        if d:all_data[d]=latest;dates.append(d)
     try:
         api_url=f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/history"
         gh_token=os.environ.get("GITHUB_TOKEN","")
@@ -1498,20 +1494,37 @@ def api_history():
         with urllib.request.urlopen(req,timeout=8) as r:
             files=json.loads(r.read())
         print(f"history 파일 목록: {[f['name'] for f in files]}")
-        for f in sorted(files,key=lambda x:x["name"])[-7:]:
-            fname=f["name"];date_key=fname.replace(".json","")
-            if date_key in all_data:continue
+        for f in sorted(files,key=lambda x:x["name"])[-10:]:
+            fname=f["name"]
+            if not fname.endswith(".json"):continue
             raw_url=f["download_url"]
             try:
                 req2=urllib.request.Request(raw_url,headers={"User-Agent":"Mozilla/5.0"})
                 with urllib.request.urlopen(req2,timeout=10) as r2:
                     d=json.loads(r2.read().decode("utf-8"))
                 date=d.get("date","")
-                if date and date not in all_data:all_data[date]=d;dates.append(date)
+                if date:
+                    # 같은 날짜 파일이 이미 있으면 더 완전한 데이터로 머지
+                    if date in all_data:
+                        existing=all_data[date]
+                        # 코스피 or 나스닥 데이터가 비어있으면 채우기
+                        for key in ["kospi_index","kospi_chg","kospi_up","kospi_down","kospi_sectors"]:
+                            if not existing.get(key) and d.get(key):
+                                existing[key]=d[key]
+                        for key in ["nasdaq_index","nasdaq_chg","nasdaq_up","nasdaq_down","nasdaq_sectors"]:
+                            if not existing.get(key) and d.get(key):
+                                existing[key]=d[key]
+                    else:
+                        all_data[date]=d;dates.append(date)
             except Exception as e2:
                 print(f"  {fname} 로드 실패: {e2}")
     except Exception as e:
         print(f"history 목록 실패: {e}")
+        # 폴백: market_data.json
+        latest=fetch_from_github("market_data.json")
+        if latest:
+            d=latest.get("date","")
+            if d:all_data[d]=latest;dates.append(d)
     dates=sorted(set(dates))
     return jsonify({"dates":dates,"data":all_data})
 
