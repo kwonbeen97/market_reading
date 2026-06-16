@@ -1,13 +1,13 @@
 {
   "date": "2026-06-15",
-  "updated_at": "2026-06-15 22:01",
+  "updated_at": "2026-06-16 07:01",
   "fng": 41,
   "fng_label": "fear",
-  "fng_prev": 34,
+  "fng_prev": 41,
   "kospi_index": 8123.62,
   "kospi_chg": 4.63,
-  "nasdaq_index": 26683.94,
-  "nasdaq_chg": 3.07,
+  "nasdaq_index": 25888.84,
+  "nasdaq_chg": 0.31,
   "kospi_up": [
     {
       "name": "한온시스템",
@@ -524,123 +524,55 @@
   ],
   "nasdaq_up": [
     {
-      "name": "Micron",
-      "ticker": "MU",
+      "name": "Arm Holdings",
+      "ticker": "ARM",
       "sector": "반도체",
-      "close": 1087.99,
-      "chg_pct": 10.84,
-      "vol_surge": 0.8,
-      "streak": 1,
+      "close": 380.81,
+      "chg_pct": 11.27,
+      "vol_surge": 1.5,
+      "streak": 2,
       "hist5": [
-        -1.41,
-        -4.7,
-        11.66,
-        -1.43,
-        10.84
+        1.01,
+        -6.22,
+        -5.37,
+        11.32,
+        11.27
       ],
-      "momentum": 25.2
-    },
-    {
-      "name": "Marvell",
-      "ticker": "MRVL",
-      "sector": "반도체",
-      "close": 308.88,
-      "chg_pct": 10.43,
-      "vol_surge": 0.8,
-      "streak": 1,
-      "hist5": [
-        -7.61,
-        -5.35,
-        11.13,
-        -0.36,
-        10.43
-      ],
-      "momentum": 25.2
+      "momentum": 30.0
     },
     {
       "name": "Seagate",
       "ticker": "STX",
       "sector": "반도체",
-      "close": 1018.8,
-      "chg_pct": 9.43,
-      "vol_surge": 1.5,
-      "streak": 3,
+      "close": 931.04,
+      "chg_pct": 7.25,
+      "vol_surge": 1.0,
+      "streak": 2,
       "hist5": [
+        3.46,
         -3.51,
         -3.55,
         6.38,
-        7.25,
-        9.43
+        7.25
       ],
-      "momentum": 30.9
+      "momentum": 22.5
     },
     {
-      "name": "Arm Holdings",
-      "ticker": "ARM",
+      "name": "Intel",
+      "ticker": "INTC",
       "sector": "반도체",
-      "close": 412.55,
-      "chg_pct": 8.33,
-      "vol_surge": 1.2,
-      "streak": 3,
+      "close": 124.57,
+      "chg_pct": 6.51,
+      "vol_surge": 1.0,
+      "streak": 2,
       "hist5": [
-        -6.22,
-        -5.37,
-        11.32,
-        11.27,
-        8.33
+        11.19,
+        -2.13,
+        -0.82,
+        9.27,
+        6.51
       ],
-      "momentum": 27.5
-    },
-    {
-      "name": "ON Semi",
-      "ticker": "ON",
-      "sector": "반도체",
-      "close": 125.9,
-      "chg_pct": 7.8,
-      "vol_surge": 0.8,
-      "streak": 3,
-      "hist5": [
-        -3.23,
-        -5.84,
-        5.26,
-        0.72,
-        7.8
-      ],
-      "momentum": 24.8
-    },
-    {
-      "name": "AMD",
-      "ticker": "AMD",
-      "sector": "반도체",
-      "close": 547.26,
-      "chg_pct": 6.98,
-      "vol_surge": 1.1,
-      "streak": 3,
-      "hist5": [
-        -3.02,
-        -4.86,
-        7.97,
-        4.73,
-        6.98
-      ],
-      "momentum": 24.4
-    },
-    {
-      "name": "SanDisk",
-      "ticker": "SNDK",
-      "sector": "반도체",
-      "close": 2107.86,
-      "chg_pct": 6.45,
-      "vol_surge": 0.8,
-      "streak": 3,
-      "hist5": [
-        0.28,
-        -0.2,
-        14.5,
-        5.24,
-        6.45
-      ],
-      "momentum": 22.1
+      "momentum": 21.0
     },
     {
       "name": "Coinbase",
@@ -658,74 +590,6 @@
         6.16
       ],
       "momentum": 19.1
-    },
-    {
-      "name": "Lam Research",
-      "ticker": "LRCX",
-      "sector": "반도체",
-      "close": 388.92,
-      "chg_pct": 6.03,
-      "vol_surge": 1.0,
-      "streak": 3,
-      "hist5": [
-        0.84,
-        -1.64,
-        12.65,
-        1.18,
-        6.03
-      ],
-      "momentum": 22.1
-    },
-    {
-      "name": "Booking",
-      "ticker": "BKNG",
-      "sector": "소비재/유통",
-      "close": 174.64,
-      "chg_pct": 5.88,
-      "vol_surge": 1.3,
-      "streak": 3,
-      "hist5": [
-        1.04,
-        -2.04,
-        1.84,
-        0.83,
-        5.88
-      ],
-      "momentum": 23.0
-    },
-    {
-      "name": "Expedia",
-      "ticker": "EXPE",
-      "sector": "소비재/유통",
-      "close": 236.98,
-      "chg_pct": 5.38,
-      "vol_surge": 1.2,
-      "streak": 3,
-      "hist5": [
-        2.28,
-        -5.25,
-        2.61,
-        0.1,
-        5.38
-      ],
-      "momentum": 21.6
-    },
-    {
-      "name": "Microchip Tech",
-      "ticker": "MCHP",
-      "sector": "반도체",
-      "close": 100.32,
-      "chg_pct": 5.33,
-      "vol_surge": 0.9,
-      "streak": 3,
-      "hist5": [
-        0.11,
-        -3.89,
-        5.72,
-        2.47,
-        5.33
-      ],
-      "momentum": 20.3
     },
     {
       "name": "Robinhood",
@@ -750,7 +614,7 @@
       "sector": "AI/소프트웨어",
       "close": 134.71,
       "chg_pct": 5.25,
-      "vol_surge": 1.2,
+      "vol_surge": 1.3,
       "streak": 1,
       "hist5": [
         -3.22,
@@ -759,7 +623,24 @@
         -2.36,
         5.25
       ],
-      "momentum": 17.3
+      "momentum": 17.7
+    },
+    {
+      "name": "SanDisk",
+      "ticker": "SNDK",
+      "sector": "반도체",
+      "close": 1980.1,
+      "chg_pct": 5.24,
+      "vol_surge": 1.0,
+      "streak": 2,
+      "hist5": [
+        5.3,
+        0.28,
+        -0.2,
+        14.5,
+        5.24
+      ],
+      "momentum": 18.5
     },
     {
       "name": "Airbnb",
@@ -767,7 +648,7 @@
       "sector": "소비재/유통",
       "close": 138.96,
       "chg_pct": 5.05,
-      "vol_surge": 1.3,
+      "vol_surge": 1.4,
       "streak": 3,
       "hist5": [
         -2.29,
@@ -776,94 +657,230 @@
         1.08,
         5.05
       ],
-      "momentum": 21.3
+      "momentum": 21.7
+    },
+    {
+      "name": "Meta",
+      "ticker": "META",
+      "sector": "빅테크",
+      "close": 593.48,
+      "chg_pct": 4.77,
+      "vol_surge": 1.0,
+      "streak": 1,
+      "hist5": [
+        -0.14,
+        -2.33,
+        -0.45,
+        -0.26,
+        4.77
+      ],
+      "momentum": 15.5
+    },
+    {
+      "name": "AMD",
+      "ticker": "AMD",
+      "sector": "반도체",
+      "close": 511.57,
+      "chg_pct": 4.73,
+      "vol_surge": 0.9,
+      "streak": 2,
+      "hist5": [
+        5.14,
+        -3.02,
+        -4.86,
+        7.97,
+        4.73
+      ],
+      "momentum": 17.1
+    },
+    {
+      "name": "Moderna",
+      "ticker": "MRNA",
+      "sector": "바이오/헬스",
+      "close": 52.13,
+      "chg_pct": 4.45,
+      "vol_surge": 1.3,
+      "streak": 3,
+      "hist5": [
+        0.27,
+        -3.65,
+        7.94,
+        0.54,
+        4.45
+      ],
+      "momentum": 20.1
+    },
+    {
+      "name": "Qualcomm",
+      "ticker": "QCOM",
+      "sector": "반도체",
+      "close": 211.72,
+      "chg_pct": 4.32,
+      "vol_surge": 0.7,
+      "streak": 2,
+      "hist5": [
+        0.85,
+        -5.67,
+        -6.92,
+        6.15,
+        4.32
+      ],
+      "momentum": 15.4
+    },
+    {
+      "name": "TSMC",
+      "ticker": "TSM",
+      "sector": "반도체",
+      "close": 441.4,
+      "chg_pct": 4.12,
+      "vol_surge": 0.8,
+      "streak": 3,
+      "hist5": [
+        0.26,
+        -4.48,
+        3.26,
+        0.68,
+        4.12
+      ],
+      "momentum": 17.4
+    },
+    {
+      "name": "Snowflake",
+      "ticker": "SNOW",
+      "sector": "AI/소프트웨어",
+      "close": 240.78,
+      "chg_pct": 3.44,
+      "vol_surge": 0.9,
+      "streak": 1,
+      "hist5": [
+        -0.33,
+        0.1,
+        0.2,
+        -3.17,
+        3.44
+      ],
+      "momentum": 12.5
+    },
+    {
+      "name": "Atlassian",
+      "ticker": "TEAM",
+      "sector": "AI/소프트웨어",
+      "close": 91.55,
+      "chg_pct": 3.42,
+      "vol_surge": 0.7,
+      "streak": 1,
+      "hist5": [
+        -2.33,
+        -4.26,
+        -2.56,
+        -0.76,
+        3.42
+      ],
+      "momentum": 11.6
     }
   ],
   "nasdaq_down": [
+    {
+      "name": "Adobe",
+      "ticker": "ADBE",
+      "sector": "AI/소프트웨어",
+      "close": 204.02,
+      "chg_pct": -6.76,
+      "vol_surge": 3.2,
+      "streak": -6,
+      "hist5": [
+        -2.57,
+        -2.9,
+        -1.89,
+        -6.25,
+        -6.76
+      ],
+      "momentum": -10.7
+    },
+    {
+      "name": "Super Micro",
+      "ticker": "SMCI",
+      "sector": "빅테크",
+      "close": 30.46,
+      "chg_pct": -4.72,
+      "vol_surge": 0.7,
+      "streak": -1,
+      "hist5": [
+        5.64,
+        -7.62,
+        -27.98,
+        9.22,
+        -4.72
+      ],
+      "momentum": -8.6
+    },
     {
       "name": "Enphase",
       "ticker": "ENPH",
       "sector": "전기차/에너지",
       "close": 52.4,
-      "chg_pct": -4.02,
-      "vol_surge": 0.9,
+      "chg_pct": -4.01,
+      "vol_surge": 1.0,
       "streak": -2,
       "hist5": [
         -5.92,
         -5.49,
         8.62,
         -0.62,
-        -4.02
+        -4.01
       ],
-      "momentum": -8.4
+      "momentum": -8.0
     },
     {
-      "name": "Old Dominion",
-      "ticker": "ODFL",
-      "sector": "미디어/통신",
-      "close": 237.42,
-      "chg_pct": -3.39,
-      "vol_surge": 1.0,
-      "streak": -2,
+      "name": "Illumina",
+      "ticker": "ILMN",
+      "sector": "바이오/헬스",
+      "close": 160.97,
+      "chg_pct": -3.15,
+      "vol_surge": 0.8,
+      "streak": -1,
       "hist5": [
-        0.7,
-        -5.14,
-        5.01,
-        -0.81,
-        -3.39
+        -2.64,
+        1.26,
+        1.52,
+        2.3,
+        -3.15
       ],
-      "momentum": -6.8
-    },
-    {
-      "name": "Mondelez",
-      "ticker": "MDLZ",
-      "sector": "소비재/유통",
-      "close": 61.5,
-      "chg_pct": -2.37,
-      "vol_surge": 1.2,
-      "streak": -3,
-      "hist5": [
-        2.16,
-        1.99,
-        -1.28,
-        -0.58,
-        -2.37
-      ],
-      "momentum": -5.9
+      "momentum": -5.1
     },
     {
       "name": "Lululemon",
       "ticker": "LULU",
       "sector": "소비재/유통",
-      "close": 116.21,
-      "chg_pct": -2.16,
-      "vol_surge": 0.8,
-      "streak": -2,
+      "close": 118.77,
+      "chg_pct": -2.52,
+      "vol_surge": 0.4,
+      "streak": -1,
       "hist5": [
+        2.91,
         3.24,
         -2.0,
         2.45,
-        -2.52,
-        -2.16
+        -2.52
       ],
-      "momentum": -5.1
+      "momentum": -5.4
     },
     {
-      "name": "Comcast",
-      "ticker": "CMCSA",
-      "sector": "미디어/통신",
-      "close": 23.97,
-      "chg_pct": -2.16,
-      "vol_surge": 0.8,
-      "streak": -1,
+      "name": "Plug Power",
+      "ticker": "PLUG",
+      "sector": "전기차/에너지",
+      "close": 2.76,
+      "chg_pct": -2.47,
+      "vol_surge": 0.9,
+      "streak": -8,
       "hist5": [
-        0.38,
-        0.5,
-        0.0,
-        2.21,
-        -2.16
+        -0.93,
+        -8.78,
+        -1.72,
+        -1.05,
+        -2.47
       ],
-      "momentum": -3.1
+      "momentum": -11.3
     },
     {
       "name": "DocuSign",
@@ -883,157 +900,140 @@
       "momentum": -0.9
     },
     {
-      "name": "Verisk",
-      "ticker": "VRSK",
-      "sector": "금융/핀테크",
-      "close": 180.46,
-      "chg_pct": -1.82,
-      "vol_surge": 1.2,
-      "streak": -1,
-      "hist5": [
-        2.0,
-        0.32,
-        -0.62,
-        0.99,
-        -1.82
-      ],
-      "momentum": -0.8
-    },
-    {
-      "name": "DexCom",
-      "ticker": "DXCM",
-      "sector": "바이오/헬스",
-      "close": 74.22,
-      "chg_pct": -1.53,
-      "vol_surge": 0.8,
-      "streak": -1,
-      "hist5": [
-        2.05,
-        -4.37,
-        0.64,
-        0.16,
-        -1.53
-      ],
-      "momentum": -1.9
-    },
-    {
-      "name": "Copart",
-      "ticker": "CPRT",
-      "sector": "소비재/유통",
-      "close": 30.3,
-      "chg_pct": -1.46,
-      "vol_surge": 1.3,
-      "streak": -3,
-      "hist5": [
-        1.46,
-        0.16,
-        -0.96,
-        -1.0,
-        -1.46
-      ],
-      "momentum": -3.7
-    },
-    {
-      "name": "Starbucks",
-      "ticker": "SBUX",
-      "sector": "소비재/유통",
-      "close": 101.59,
-      "chg_pct": -1.41,
-      "vol_surge": 0.8,
-      "streak": -1,
-      "hist5": [
-        2.73,
-        1.39,
-        3.56,
-        0.74,
-        -1.41
-      ],
-      "momentum": -1.6
-    },
-    {
-      "name": "Ross Stores",
-      "ticker": "ROST",
-      "sector": "소비재/유통",
-      "close": 236.77,
-      "chg_pct": -1.4,
-      "vol_surge": 0.7,
-      "streak": -1,
-      "hist5": [
-        1.09,
-        1.08,
-        3.1,
-        0.43,
-        -1.4
-      ],
-      "momentum": -2.0
-    },
-    {
-      "name": "ADP",
-      "ticker": "ADP",
-      "sector": "금융/핀테크",
-      "close": 223.22,
-      "chg_pct": -1.32,
-      "vol_surge": 1.0,
-      "streak": -1,
-      "hist5": [
-        0.91,
-        -0.03,
-        -2.31,
-        0.96,
-        -1.32
-      ],
-      "momentum": -0.6
-    },
-    {
-      "name": "Amgen",
-      "ticker": "AMGN",
-      "sector": "바이오/헬스",
-      "close": 350.53,
-      "chg_pct": -1.31,
-      "vol_surge": 1.1,
-      "streak": -1,
-      "hist5": [
-        -0.34,
-        -1.99,
-        4.84,
-        0.32,
-        -1.31
-      ],
-      "momentum": -0.2
-    },
-    {
-      "name": "IBM",
-      "ticker": "IBM",
+      "name": "Apple",
+      "ticker": "AAPL",
       "sector": "빅테크",
-      "close": 268.71,
-      "chg_pct": -1.3,
-      "vol_surge": 1.0,
-      "streak": -2,
+      "close": 291.13,
+      "chg_pct": -1.52,
+      "vol_surge": 0.6,
+      "streak": -1,
       "hist5": [
-        -1.19,
-        -1.85,
-        0.91,
-        -0.95,
-        -1.3
+        -1.89,
+        -3.64,
+        0.35,
+        1.39,
+        -1.52
       ],
       "momentum": -2.6
     },
     {
-      "name": "Gilead",
-      "ticker": "GILD",
-      "sector": "바이오/헬스",
-      "close": 124.3,
-      "chg_pct": -1.03,
-      "vol_surge": 0.8,
+      "name": "Micron",
+      "ticker": "MU",
+      "sector": "반도체",
+      "close": 981.61,
+      "chg_pct": -1.43,
+      "vol_surge": 0.6,
+      "streak": -1,
+      "hist5": [
+        9.87,
+        -1.41,
+        -4.7,
+        11.66,
+        -1.43
+      ],
+      "momentum": -2.5
+    },
+    {
+      "name": "First Solar",
+      "ticker": "FSLR",
+      "sector": "전기차/에너지",
+      "close": 267.31,
+      "chg_pct": -1.42,
+      "vol_surge": 0.6,
+      "streak": -1,
+      "hist5": [
+        -1.3,
+        -4.79,
+        -4.93,
+        8.79,
+        -1.42
+      ],
+      "momentum": -2.4
+    },
+    {
+      "name": "MercadoLibre",
+      "ticker": "MELI",
+      "sector": "소비재/유통",
+      "close": 1589.6,
+      "chg_pct": -1.27,
+      "vol_surge": 1.2,
+      "streak": -1,
+      "hist5": [
+        0.26,
+        1.81,
+        -3.22,
+        1.37,
+        -1.27
+      ],
+      "momentum": 0.3
+    },
+    {
+      "name": "Amazon",
+      "ticker": "AMZN",
+      "sector": "빅테크",
+      "close": 238.55,
+      "chg_pct": -1.23,
+      "vol_surge": 1.2,
+      "streak": -1,
+      "hist5": [
+        -0.33,
+        -0.42,
+        -2.53,
+        1.47,
+        -1.23
+      ],
+      "momentum": 0.3
+    },
+    {
+      "name": "Amazon",
+      "ticker": "AMZN",
+      "sector": "소비재/유통",
+      "close": 238.55,
+      "chg_pct": -1.23,
+      "vol_surge": 1.2,
+      "streak": -1,
+      "hist5": [
+        -0.33,
+        -0.42,
+        -2.53,
+        1.47,
+        -1.23
+      ],
+      "momentum": 0.3
+    },
+    {
+      "name": "Netflix",
+      "ticker": "NFLX",
+      "sector": "미디어/통신",
+      "close": 80.34,
+      "chg_pct": -1.14,
+      "vol_surge": 1.0,
       "streak": -2,
       "hist5": [
-        -2.03,
-        -3.2,
-        3.61,
-        -0.22,
-        -1.03
+        0.56,
+        -1.49,
+        0.72,
+        -0.89,
+        -1.14
       ],
-      "momentum": -2.9
+      "momentum": -2.3
+    },
+    {
+      "name": "HubSpot",
+      "ticker": "HUBS",
+      "sector": "AI/소프트웨어",
+      "close": 186.06,
+      "chg_pct": -1.02,
+      "vol_surge": 0.7,
+      "streak": -1,
+      "hist5": [
+        -5.01,
+        -2.48,
+        -3.3,
+        0.83,
+        -1.02
+      ],
+      "momentum": -1.2
     }
   ],
   "kospi_sectors": [
@@ -3430,513 +3430,8 @@
   ],
   "nasdaq_sectors": [
     {
-      "sector": "반도체",
-      "avg_chg": 5.25,
-      "stocks": [
-        {
-          "name": "Micron",
-          "ticker": "MU",
-          "sector": "반도체",
-          "close": 1087.99,
-          "chg_pct": 10.84,
-          "vol_surge": 0.8,
-          "streak": 1,
-          "hist5": [
-            -1.41,
-            -4.7,
-            11.66,
-            -1.43,
-            10.84
-          ],
-          "momentum": 25.2
-        },
-        {
-          "name": "Marvell",
-          "ticker": "MRVL",
-          "sector": "반도체",
-          "close": 308.88,
-          "chg_pct": 10.43,
-          "vol_surge": 0.8,
-          "streak": 1,
-          "hist5": [
-            -7.61,
-            -5.35,
-            11.13,
-            -0.36,
-            10.43
-          ],
-          "momentum": 25.2
-        },
-        {
-          "name": "Seagate",
-          "ticker": "STX",
-          "sector": "반도체",
-          "close": 1018.8,
-          "chg_pct": 9.43,
-          "vol_surge": 1.5,
-          "streak": 3,
-          "hist5": [
-            -3.51,
-            -3.55,
-            6.38,
-            7.25,
-            9.43
-          ],
-          "momentum": 30.9
-        },
-        {
-          "name": "Arm Holdings",
-          "ticker": "ARM",
-          "sector": "반도체",
-          "close": 412.55,
-          "chg_pct": 8.33,
-          "vol_surge": 1.2,
-          "streak": 3,
-          "hist5": [
-            -6.22,
-            -5.37,
-            11.32,
-            11.27,
-            8.33
-          ],
-          "momentum": 27.5
-        },
-        {
-          "name": "ON Semi",
-          "ticker": "ON",
-          "sector": "반도체",
-          "close": 125.9,
-          "chg_pct": 7.8,
-          "vol_surge": 0.8,
-          "streak": 3,
-          "hist5": [
-            -3.23,
-            -5.84,
-            5.26,
-            0.72,
-            7.8
-          ],
-          "momentum": 24.8
-        },
-        {
-          "name": "AMD",
-          "ticker": "AMD",
-          "sector": "반도체",
-          "close": 547.26,
-          "chg_pct": 6.98,
-          "vol_surge": 1.1,
-          "streak": 3,
-          "hist5": [
-            -3.02,
-            -4.86,
-            7.97,
-            4.73,
-            6.98
-          ],
-          "momentum": 24.4
-        },
-        {
-          "name": "SanDisk",
-          "ticker": "SNDK",
-          "sector": "반도체",
-          "close": 2107.86,
-          "chg_pct": 6.45,
-          "vol_surge": 0.8,
-          "streak": 3,
-          "hist5": [
-            0.28,
-            -0.2,
-            14.5,
-            5.24,
-            6.45
-          ],
-          "momentum": 22.1
-        },
-        {
-          "name": "Lam Research",
-          "ticker": "LRCX",
-          "sector": "반도체",
-          "close": 388.92,
-          "chg_pct": 6.03,
-          "vol_surge": 1.0,
-          "streak": 3,
-          "hist5": [
-            0.84,
-            -1.64,
-            12.65,
-            1.18,
-            6.03
-          ],
-          "momentum": 22.1
-        },
-        {
-          "name": "Microchip Tech",
-          "ticker": "MCHP",
-          "sector": "반도체",
-          "close": 100.32,
-          "chg_pct": 5.33,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            0.11,
-            -3.89,
-            5.72,
-            2.47,
-            5.33
-          ],
-          "momentum": 20.3
-        },
-        {
-          "name": "Qualcomm",
-          "ticker": "QCOM",
-          "sector": "반도체",
-          "close": 220.81,
-          "chg_pct": 4.29,
-          "vol_surge": 0.7,
-          "streak": 3,
-          "hist5": [
-            -5.67,
-            -6.92,
-            6.15,
-            4.32,
-            4.29
-          ],
-          "momentum": 17.4
-        },
-        {
-          "name": "TSMC",
-          "ticker": "TSM",
-          "sector": "반도체",
-          "close": 441.4,
-          "chg_pct": 4.12,
-          "vol_surge": 0.8,
-          "streak": 3,
-          "hist5": [
-            0.26,
-            -4.48,
-            3.26,
-            0.68,
-            4.12
-          ],
-          "momentum": 17.4
-        },
-        {
-          "name": "Texas Instruments",
-          "ticker": "TXN",
-          "sector": "반도체",
-          "close": 313.34,
-          "chg_pct": 4.06,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            -0.78,
-            -2.29,
-            5.35,
-            1.35,
-            4.06
-          ],
-          "momentum": 17.7
-        },
-        {
-          "name": "NXP Semi",
-          "ticker": "NXPI",
-          "sector": "반도체",
-          "close": 315.88,
-          "chg_pct": 3.61,
-          "vol_surge": 0.8,
-          "streak": 3,
-          "hist5": [
-            -1.24,
-            -3.98,
-            5.95,
-            0.76,
-            3.61
-          ],
-          "momentum": 16.4
-        },
-        {
-          "name": "NVIDIA",
-          "ticker": "NVDA",
-          "sector": "반도체",
-          "close": 212.45,
-          "chg_pct": 3.54,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            -0.22,
-            -3.73,
-            2.22,
-            0.16,
-            3.54
-          ],
-          "momentum": 16.7
-        },
-        {
-          "name": "Applied Materials",
-          "ticker": "AMAT",
-          "sector": "반도체",
-          "close": 585.78,
-          "chg_pct": 3.27,
-          "vol_surge": 1.1,
-          "streak": 3,
-          "hist5": [
-            1.43,
-            -0.44,
-            11.19,
-            2.64,
-            3.27
-          ],
-          "momentum": 16.9
-        },
-        {
-          "name": "Broadcom",
-          "ticker": "AVGO",
-          "sector": "반도체",
-          "close": 393.94,
-          "chg_pct": 3.11,
-          "vol_surge": 0.7,
-          "streak": 1,
-          "hist5": [
-            -1.12,
-            -5.12,
-            3.62,
-            -0.91,
-            3.11
-          ],
-          "momentum": 11.0
-        },
-        {
-          "name": "Intel",
-          "ticker": "INTC",
-          "sector": "반도체",
-          "close": 127.86,
-          "chg_pct": 2.64,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            -2.13,
-            -0.82,
-            9.27,
-            6.51,
-            2.64
-          ],
-          "momentum": 14.9
-        },
-        {
-          "name": "Analog Devices",
-          "ticker": "ADI",
-          "sector": "반도체",
-          "close": 427.58,
-          "chg_pct": 2.34,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            0.18,
-            -2.95,
-            4.96,
-            1.37,
-            2.34
-          ],
-          "momentum": 14.3
-        },
-        {
-          "name": "ASML",
-          "ticker": "ASML",
-          "sector": "반도체",
-          "close": 1892.66,
-          "chg_pct": 1.56,
-          "vol_surge": 0.9,
-          "streak": 1,
-          "hist5": [
-            1.64,
-            -2.45,
-            9.53,
-            -1.89,
-            1.56
-          ],
-          "momentum": 8.7
-        },
-        {
-          "name": "KLA Corp",
-          "ticker": "KLAC",
-          "sector": "반도체",
-          "close": 256.42,
-          "chg_pct": 0.74,
-          "vol_surge": 1.2,
-          "streak": 3,
-          "hist5": [
-            1.49,
-            -0.17,
-            12.92,
-            5.55,
-            0.74
-          ],
-          "momentum": 12.3
-        }
-      ]
-    },
-    {
-      "sector": "빅테크",
-      "avg_chg": 2.33,
-      "stocks": [
-        {
-          "name": "Meta",
-          "ticker": "META",
-          "sector": "빅테크",
-          "close": 593.48,
-          "chg_pct": 4.67,
-          "vol_surge": 1.0,
-          "streak": 1,
-          "hist5": [
-            -0.14,
-            -2.33,
-            -0.45,
-            -0.26,
-            4.67
-          ],
-          "momentum": 15.3
-        },
-        {
-          "name": "Oracle",
-          "ticker": "ORCL",
-          "sector": "빅테크",
-          "close": 192.64,
-          "chg_pct": 4.62,
-          "vol_surge": 0.5,
-          "streak": 2,
-          "hist5": [
-            -2.84,
-            -2.21,
-            -8.53,
-            0.02,
-            4.62
-          ],
-          "momentum": 15.2
-        },
-        {
-          "name": "Amazon",
-          "ticker": "AMZN",
-          "sector": "빅테크",
-          "close": 246.02,
-          "chg_pct": 3.13,
-          "vol_surge": 1.0,
-          "streak": 1,
-          "hist5": [
-            -0.42,
-            -2.53,
-            1.47,
-            -1.23,
-            3.13
-          ],
-          "momentum": 12.3
-        },
-        {
-          "name": "Alphabet",
-          "ticker": "GOOGL",
-          "sector": "빅테크",
-          "close": 369.35,
-          "chg_pct": 2.69,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            0.26,
-            -2.16,
-            0.39,
-            0.53,
-            2.69
-          ],
-          "momentum": 15.0
-        },
-        {
-          "name": "Microsoft",
-          "ticker": "MSFT",
-          "sector": "빅테크",
-          "close": 399.76,
-          "chg_pct": 2.31,
-          "vol_surge": 0.9,
-          "streak": 2,
-          "hist5": [
-            -2.02,
-            -1.5,
-            -1.77,
-            0.1,
-            2.31
-          ],
-          "momentum": 12.2
-        },
-        {
-          "name": "Apple",
-          "ticker": "AAPL",
-          "sector": "빅테크",
-          "close": 296.42,
-          "chg_pct": 1.82,
-          "vol_surge": 0.8,
-          "streak": 1,
-          "hist5": [
-            -3.64,
-            0.35,
-            1.39,
-            -1.52,
-            1.82
-          ],
-          "momentum": 8.8
-        },
-        {
-          "name": "HPE",
-          "ticker": "HPE",
-          "sector": "빅테크",
-          "close": 49.02,
-          "chg_pct": 1.76,
-          "vol_surge": 1.0,
-          "streak": 3,
-          "hist5": [
-            -3.21,
-            -5.76,
-            2.88,
-            2.93,
-            1.76
-          ],
-          "momentum": 13.5
-        },
-        {
-          "name": "Super Micro",
-          "ticker": "SMCI",
-          "sector": "빅테크",
-          "close": 30.85,
-          "chg_pct": 1.28,
-          "vol_surge": 0.5,
-          "streak": 1,
-          "hist5": [
-            -7.62,
-            -27.98,
-            9.22,
-            -4.72,
-            1.28
-          ],
-          "momentum": 6.6
-        },
-        {
-          "name": "IBM",
-          "ticker": "IBM",
-          "sector": "빅테크",
-          "close": 268.71,
-          "chg_pct": -1.3,
-          "vol_surge": 1.0,
-          "streak": -2,
-          "hist5": [
-            -1.19,
-            -1.85,
-            0.91,
-            -0.95,
-            -1.3
-          ],
-          "momentum": -2.6
-        }
-      ]
-    },
-    {
       "sector": "금융/핀테크",
-      "avg_chg": 1.82,
+      "avg_chg": 2.85,
       "stocks": [
         {
           "name": "Coinbase",
@@ -3993,58 +3488,404 @@
           "name": "Paychex",
           "ticker": "PAYX",
           "sector": "금융/핀테크",
-          "close": 100.9,
-          "chg_pct": 0.27,
-          "vol_surge": 1.1,
-          "streak": 2,
+          "close": 100.63,
+          "chg_pct": 1.37,
+          "vol_surge": 0.9,
+          "streak": 1,
           "hist5": [
+            -1.6,
             1.37,
             0.82,
             -1.81,
-            1.37,
-            0.27
+            1.37
           ],
-          "momentum": 8.9
-        },
-        {
-          "name": "ADP",
-          "ticker": "ADP",
-          "sector": "금융/핀테크",
-          "close": 223.22,
-          "chg_pct": -1.32,
-          "vol_surge": 1.0,
-          "streak": -1,
-          "hist5": [
-            0.91,
-            -0.03,
-            -2.31,
-            0.96,
-            -1.32
-          ],
-          "momentum": -0.6
+          "momentum": 8.3
         },
         {
           "name": "Verisk",
           "ticker": "VRSK",
           "sector": "금융/핀테크",
-          "close": 180.46,
-          "chg_pct": -1.82,
-          "vol_surge": 1.2,
-          "streak": -1,
+          "close": 183.3,
+          "chg_pct": 0.99,
+          "vol_surge": 1.1,
+          "streak": 1,
           "hist5": [
+            -1.52,
             2.0,
             0.32,
             -0.62,
-            0.99,
-            -1.82
+            0.99
           ],
-          "momentum": -0.8
+          "momentum": 8.4
+        },
+        {
+          "name": "ADP",
+          "ticker": "ADP",
+          "sector": "금융/핀테크",
+          "close": 226.21,
+          "chg_pct": 0.96,
+          "vol_surge": 0.9,
+          "streak": 1,
+          "hist5": [
+            -1.24,
+            0.91,
+            -0.03,
+            -2.31,
+            0.96
+          ],
+          "momentum": 7.5
+        }
+      ]
+    },
+    {
+      "sector": "반도체",
+      "avg_chg": 2.68,
+      "stocks": [
+        {
+          "name": "Arm Holdings",
+          "ticker": "ARM",
+          "sector": "반도체",
+          "close": 380.81,
+          "chg_pct": 11.27,
+          "vol_surge": 1.5,
+          "streak": 2,
+          "hist5": [
+            1.01,
+            -6.22,
+            -5.37,
+            11.32,
+            11.27
+          ],
+          "momentum": 30.0
+        },
+        {
+          "name": "Seagate",
+          "ticker": "STX",
+          "sector": "반도체",
+          "close": 931.04,
+          "chg_pct": 7.25,
+          "vol_surge": 1.0,
+          "streak": 2,
+          "hist5": [
+            3.46,
+            -3.51,
+            -3.55,
+            6.38,
+            7.25
+          ],
+          "momentum": 22.5
+        },
+        {
+          "name": "Intel",
+          "ticker": "INTC",
+          "sector": "반도체",
+          "close": 124.57,
+          "chg_pct": 6.51,
+          "vol_surge": 1.0,
+          "streak": 2,
+          "hist5": [
+            11.19,
+            -2.13,
+            -0.82,
+            9.27,
+            6.51
+          ],
+          "momentum": 21.0
+        },
+        {
+          "name": "SanDisk",
+          "ticker": "SNDK",
+          "sector": "반도체",
+          "close": 1980.1,
+          "chg_pct": 5.24,
+          "vol_surge": 1.0,
+          "streak": 2,
+          "hist5": [
+            5.3,
+            0.28,
+            -0.2,
+            14.5,
+            5.24
+          ],
+          "momentum": 18.5
+        },
+        {
+          "name": "AMD",
+          "ticker": "AMD",
+          "sector": "반도체",
+          "close": 511.57,
+          "chg_pct": 4.73,
+          "vol_surge": 0.9,
+          "streak": 2,
+          "hist5": [
+            5.14,
+            -3.02,
+            -4.86,
+            7.97,
+            4.73
+          ],
+          "momentum": 17.1
+        },
+        {
+          "name": "Qualcomm",
+          "ticker": "QCOM",
+          "sector": "반도체",
+          "close": 211.72,
+          "chg_pct": 4.32,
+          "vol_surge": 0.7,
+          "streak": 2,
+          "hist5": [
+            0.85,
+            -5.67,
+            -6.92,
+            6.15,
+            4.32
+          ],
+          "momentum": 15.4
+        },
+        {
+          "name": "TSMC",
+          "ticker": "TSM",
+          "sector": "반도체",
+          "close": 441.4,
+          "chg_pct": 4.12,
+          "vol_surge": 0.8,
+          "streak": 3,
+          "hist5": [
+            0.26,
+            -4.48,
+            3.26,
+            0.68,
+            4.12
+          ],
+          "momentum": 17.4
+        },
+        {
+          "name": "Applied Materials",
+          "ticker": "AMAT",
+          "sector": "반도체",
+          "close": 567.25,
+          "chg_pct": 2.64,
+          "vol_surge": 0.7,
+          "streak": 2,
+          "hist5": [
+            8.64,
+            1.43,
+            -0.44,
+            11.19,
+            2.64
+          ],
+          "momentum": 12.1
+        },
+        {
+          "name": "Microchip Tech",
+          "ticker": "MCHP",
+          "sector": "반도체",
+          "close": 95.24,
+          "chg_pct": 2.47,
+          "vol_surge": 0.6,
+          "streak": 2,
+          "hist5": [
+            3.43,
+            0.11,
+            -3.89,
+            5.72,
+            2.47
+          ],
+          "momentum": 11.3
+        },
+        {
+          "name": "ASML",
+          "ticker": "ASML",
+          "sector": "반도체",
+          "close": 1892.66,
+          "chg_pct": 1.56,
+          "vol_surge": 0.9,
+          "streak": 1,
+          "hist5": [
+            1.64,
+            -2.45,
+            9.53,
+            -1.89,
+            1.56
+          ],
+          "momentum": 8.7
+        },
+        {
+          "name": "Analog Devices",
+          "ticker": "ADI",
+          "sector": "반도체",
+          "close": 417.79,
+          "chg_pct": 1.37,
+          "vol_surge": 0.6,
+          "streak": 2,
+          "hist5": [
+            0.62,
+            0.18,
+            -2.95,
+            4.96,
+            1.37
+          ],
+          "momentum": 9.1
+        },
+        {
+          "name": "Texas Instruments",
+          "ticker": "TXN",
+          "sector": "반도체",
+          "close": 301.12,
+          "chg_pct": 1.35,
+          "vol_surge": 0.6,
+          "streak": 2,
+          "hist5": [
+            2.05,
+            -0.78,
+            -2.29,
+            5.35,
+            1.35
+          ],
+          "momentum": 9.1
+        },
+        {
+          "name": "Lam Research",
+          "ticker": "LRCX",
+          "sector": "반도체",
+          "close": 366.81,
+          "chg_pct": 1.18,
+          "vol_surge": 0.7,
+          "streak": 2,
+          "hist5": [
+            6.98,
+            0.84,
+            -1.64,
+            12.65,
+            1.18
+          ],
+          "momentum": 9.2
+        },
+        {
+          "name": "NXP Semi",
+          "ticker": "NXPI",
+          "sector": "반도체",
+          "close": 304.86,
+          "chg_pct": 0.76,
+          "vol_surge": 0.4,
+          "streak": 2,
+          "hist5": [
+            1.75,
+            -1.24,
+            -3.98,
+            5.95,
+            0.76
+          ],
+          "momentum": 7.1
+        },
+        {
+          "name": "KLA Corp",
+          "ticker": "KLAC",
+          "sector": "반도체",
+          "close": 256.42,
+          "chg_pct": 0.74,
+          "vol_surge": 1.3,
+          "streak": 3,
+          "hist5": [
+            1.49,
+            -0.17,
+            12.92,
+            5.55,
+            0.74
+          ],
+          "momentum": 12.7
+        },
+        {
+          "name": "ON Semi",
+          "ticker": "ON",
+          "sector": "반도체",
+          "close": 116.79,
+          "chg_pct": 0.72,
+          "vol_surge": 0.5,
+          "streak": 2,
+          "hist5": [
+            3.1,
+            -3.23,
+            -5.84,
+            5.26,
+            0.72
+          ],
+          "momentum": 7.4
+        },
+        {
+          "name": "NVIDIA",
+          "ticker": "NVDA",
+          "sector": "반도체",
+          "close": 205.19,
+          "chg_pct": 0.16,
+          "vol_surge": 0.7,
+          "streak": 2,
+          "hist5": [
+            1.73,
+            -0.22,
+            -3.73,
+            2.22,
+            0.16
+          ],
+          "momentum": 7.1
+        },
+        {
+          "name": "Marvell",
+          "ticker": "MRVL",
+          "sector": "반도체",
+          "close": 279.7,
+          "chg_pct": -0.36,
+          "vol_surge": 0.5,
+          "streak": -1,
+          "hist5": [
+            9.63,
+            -7.61,
+            -5.35,
+            11.13,
+            -0.36
+          ],
+          "momentum": -0.7
+        },
+        {
+          "name": "Broadcom",
+          "ticker": "AVGO",
+          "sector": "반도체",
+          "close": 382.07,
+          "chg_pct": -0.91,
+          "vol_surge": 0.7,
+          "streak": -1,
+          "hist5": [
+            2.82,
+            -1.12,
+            -5.12,
+            3.62,
+            -0.91
+          ],
+          "momentum": -1.0
+        },
+        {
+          "name": "Micron",
+          "ticker": "MU",
+          "sector": "반도체",
+          "close": 981.61,
+          "chg_pct": -1.43,
+          "vol_surge": 0.6,
+          "streak": -1,
+          "hist5": [
+            9.87,
+            -1.41,
+            -4.7,
+            11.66,
+            -1.43
+          ],
+          "momentum": -2.5
         }
       ]
     },
     {
       "sector": "AI/소프트웨어",
-      "avg_chg": 1.53,
+      "avg_chg": 0.89,
       "stocks": [
         {
           "name": "Palantir",
@@ -4052,7 +3893,7 @@
           "sector": "AI/소프트웨어",
           "close": 134.71,
           "chg_pct": 5.25,
-          "vol_surge": 1.2,
+          "vol_surge": 1.3,
           "streak": 1,
           "hist5": [
             -3.22,
@@ -4061,7 +3902,7 @@
             -2.36,
             5.25
           ],
-          "momentum": 17.3
+          "momentum": 17.7
         },
         {
           "name": "Snowflake",
@@ -4069,7 +3910,7 @@
           "sector": "AI/소프트웨어",
           "close": 240.78,
           "chg_pct": 3.44,
-          "vol_surge": 0.8,
+          "vol_surge": 0.9,
           "streak": 1,
           "hist5": [
             -0.33,
@@ -4078,7 +3919,7 @@
             -3.17,
             3.44
           ],
-          "momentum": 12.1
+          "momentum": 12.5
         },
         {
           "name": "Atlassian",
@@ -4103,7 +3944,7 @@
           "sector": "AI/소프트웨어",
           "close": 354.18,
           "chg_pct": 3.32,
-          "vol_surge": 0.8,
+          "vol_surge": 0.9,
           "streak": 1,
           "hist5": [
             -3.48,
@@ -4112,7 +3953,7 @@
             -3.28,
             3.32
           ],
-          "momentum": 11.8
+          "momentum": 12.2
         },
         {
           "name": "Cloudflare",
@@ -4132,23 +3973,6 @@
           "momentum": 15.9
         },
         {
-          "name": "Cadence",
-          "ticker": "CDNS",
-          "sector": "AI/소프트웨어",
-          "close": 394.5,
-          "chg_pct": 2.48,
-          "vol_surge": 0.9,
-          "streak": 2,
-          "hist5": [
-            -0.85,
-            -1.48,
-            -0.36,
-            0.32,
-            2.48
-          ],
-          "momentum": 12.6
-        },
-        {
           "name": "SentinelOne",
           "ticker": "S",
           "sector": "AI/소프트웨어",
@@ -4166,29 +3990,12 @@
           "momentum": 12.6
         },
         {
-          "name": "Fortinet",
-          "ticker": "FTNT",
-          "sector": "AI/소프트웨어",
-          "close": 149.49,
-          "chg_pct": 2.18,
-          "vol_surge": 0.8,
-          "streak": 4,
-          "hist5": [
-            -3.25,
-            0.35,
-            4.45,
-            0.85,
-            2.18
-          ],
-          "momentum": 15.6
-        },
-        {
           "name": "ServiceNow",
           "ticker": "NOW",
           "sector": "AI/소프트웨어",
           "close": 104.15,
           "chg_pct": 1.96,
-          "vol_surge": 0.8,
+          "vol_surge": 0.9,
           "streak": 1,
           "hist5": [
             -6.32,
@@ -4197,24 +4004,7 @@
             -0.9,
             1.96
           ],
-          "momentum": 9.1
-        },
-        {
-          "name": "Intuit",
-          "ticker": "INTU",
-          "sector": "AI/소프트웨어",
-          "close": 281.77,
-          "chg_pct": 1.82,
-          "vol_surge": 0.8,
-          "streak": 1,
-          "hist5": [
-            -3.84,
-            -3.25,
-            -2.57,
-            -0.07,
-            1.82
-          ],
-          "momentum": 8.8
+          "momentum": 9.5
         },
         {
           "name": "Palo Alto",
@@ -4285,21 +4075,21 @@
           "momentum": 9.6
         },
         {
-          "name": "Adobe",
-          "ticker": "ADBE",
+          "name": "Fortinet",
+          "ticker": "FTNT",
           "sector": "AI/소프트웨어",
-          "close": 206.36,
-          "chg_pct": 1.15,
-          "vol_surge": 0.8,
-          "streak": 1,
+          "close": 146.3,
+          "chg_pct": 0.85,
+          "vol_surge": 0.7,
+          "streak": 3,
           "hist5": [
-            -2.9,
-            -1.89,
-            -6.25,
-            -6.76,
-            1.15
+            -1.13,
+            -3.25,
+            0.35,
+            4.45,
+            0.85
           ],
-          "momentum": 7.5
+          "momentum": 10.5
         },
         {
           "name": "Zscaler",
@@ -4324,7 +4114,7 @@
           "sector": "AI/소프트웨어",
           "close": 94.25,
           "chg_pct": 0.61,
-          "vol_surge": 1.0,
+          "vol_surge": 1.1,
           "streak": 2,
           "hist5": [
             -4.27,
@@ -4333,24 +4123,58 @@
             1.47,
             0.61
           ],
-          "momentum": 9.2
+          "momentum": 9.6
+        },
+        {
+          "name": "Cadence",
+          "ticker": "CDNS",
+          "sector": "AI/소프트웨어",
+          "close": 384.96,
+          "chg_pct": 0.32,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            4.8,
+            -0.85,
+            -1.48,
+            -0.36,
+            0.32
+          ],
+          "momentum": 4.6
+        },
+        {
+          "name": "Intuit",
+          "ticker": "INTU",
+          "sector": "AI/소프트웨어",
+          "close": 276.73,
+          "chg_pct": -0.07,
+          "vol_surge": 0.9,
+          "streak": -4,
+          "hist5": [
+            2.95,
+            -3.84,
+            -3.25,
+            -2.57,
+            -0.07
+          ],
+          "momentum": -4.5
         },
         {
           "name": "Synopsys",
           "ticker": "SNPS",
           "sector": "AI/소프트웨어",
-          "close": 454.38,
-          "chg_pct": 0.11,
-          "vol_surge": 1.3,
-          "streak": 1,
+          "close": 453.89,
+          "chg_pct": -0.53,
+          "vol_surge": 0.7,
+          "streak": -4,
           "hist5": [
+            1.86,
             -1.73,
             -1.02,
             -0.92,
-            -0.53,
-            0.11
+            -0.53
           ],
-          "momentum": 7.4
+          "momentum": -6.3
         },
         {
           "name": "DraftKings",
@@ -4419,54 +4243,179 @@
             -1.85
           ],
           "momentum": -0.9
+        },
+        {
+          "name": "Adobe",
+          "ticker": "ADBE",
+          "sector": "AI/소프트웨어",
+          "close": 204.02,
+          "chg_pct": -6.76,
+          "vol_surge": 3.2,
+          "streak": -6,
+          "hist5": [
+            -2.57,
+            -2.9,
+            -1.89,
+            -6.25,
+            -6.76
+          ],
+          "momentum": -10.7
+        }
+      ]
+    },
+    {
+      "sector": "미디어/통신",
+      "avg_chg": 0.38,
+      "stocks": [
+        {
+          "name": "Comcast",
+          "ticker": "CMCSA",
+          "sector": "미디어/통신",
+          "close": 24.5,
+          "chg_pct": 2.21,
+          "vol_surge": 0.9,
+          "streak": 1,
+          "hist5": [
+            -0.25,
+            0.38,
+            0.5,
+            0.0,
+            2.21
+          ],
+          "momentum": 10.0
+        },
+        {
+          "name": "T-Mobile",
+          "ticker": "TMUS",
+          "sector": "미디어/통신",
+          "close": 189.1,
+          "chg_pct": 1.77,
+          "vol_surge": 0.7,
+          "streak": 6,
+          "hist5": [
+            0.19,
+            0.58,
+            3.39,
+            0.15,
+            1.77
+          ],
+          "momentum": 16.3
+        },
+        {
+          "name": "PACCAR",
+          "ticker": "PCAR",
+          "sector": "미디어/통신",
+          "close": 118.52,
+          "chg_pct": 0.8,
+          "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            1.51,
+            1.06,
+            -4.76,
+            3.15,
+            0.8
+          ],
+          "momentum": 8.8
+        },
+        {
+          "name": "Warner Bros Discovery",
+          "ticker": "WBD",
+          "sector": "미디어/통신",
+          "close": 26.98,
+          "chg_pct": 0.45,
+          "vol_surge": 0.6,
+          "streak": 2,
+          "hist5": [
+            0.88,
+            0.34,
+            -1.24,
+            2.4,
+            0.45
+          ],
+          "momentum": 7.3
+        },
+        {
+          "name": "Fastenal",
+          "ticker": "FAST",
+          "sector": "미디어/통신",
+          "close": 46.57,
+          "chg_pct": 0.39,
+          "vol_surge": 0.7,
+          "streak": 2,
+          "hist5": [
+            -1.69,
+            1.26,
+            -1.18,
+            0.78,
+            0.39
+          ],
+          "momentum": 7.6
+        },
+        {
+          "name": "Cisco",
+          "ticker": "CSCO",
+          "sector": "미디어/통신",
+          "close": 121.1,
+          "chg_pct": -0.6,
+          "vol_surge": 0.7,
+          "streak": -1,
+          "hist5": [
+            2.06,
+            -3.05,
+            -1.3,
+            2.55,
+            -0.6
+          ],
+          "momentum": -0.4
+        },
+        {
+          "name": "Old Dominion",
+          "ticker": "ODFL",
+          "sector": "미디어/통신",
+          "close": 245.75,
+          "chg_pct": -0.81,
+          "vol_surge": 0.5,
+          "streak": -1,
+          "hist5": [
+            1.83,
+            0.7,
+            -5.14,
+            5.01,
+            -0.81
+          ],
+          "momentum": -1.6
+        },
+        {
+          "name": "Netflix",
+          "ticker": "NFLX",
+          "sector": "미디어/통신",
+          "close": 80.34,
+          "chg_pct": -1.14,
+          "vol_surge": 1.0,
+          "streak": -2,
+          "hist5": [
+            0.56,
+            -1.49,
+            0.72,
+            -0.89,
+            -1.14
+          ],
+          "momentum": -2.3
         }
       ]
     },
     {
       "sector": "소비재/유통",
-      "avg_chg": 0.86,
+      "avg_chg": 0.17,
       "stocks": [
-        {
-          "name": "Booking",
-          "ticker": "BKNG",
-          "sector": "소비재/유통",
-          "close": 174.64,
-          "chg_pct": 5.88,
-          "vol_surge": 1.3,
-          "streak": 3,
-          "hist5": [
-            1.04,
-            -2.04,
-            1.84,
-            0.83,
-            5.88
-          ],
-          "momentum": 23.0
-        },
-        {
-          "name": "Expedia",
-          "ticker": "EXPE",
-          "sector": "소비재/유통",
-          "close": 236.98,
-          "chg_pct": 5.38,
-          "vol_surge": 1.2,
-          "streak": 3,
-          "hist5": [
-            2.28,
-            -5.25,
-            2.61,
-            0.1,
-            5.38
-          ],
-          "momentum": 21.6
-        },
         {
           "name": "Airbnb",
           "ticker": "ABNB",
           "sector": "소비재/유통",
           "close": 138.96,
           "chg_pct": 5.05,
-          "vol_surge": 1.3,
+          "vol_surge": 1.4,
           "streak": 3,
           "hist5": [
             -2.29,
@@ -4475,75 +4424,92 @@
             1.08,
             5.05
           ],
-          "momentum": 21.3
+          "momentum": 21.7
         },
         {
-          "name": "MercadoLibre",
-          "ticker": "MELI",
+          "name": "Keurig Dr Pepper",
+          "ticker": "KDP",
           "sector": "소비재/유통",
-          "close": 1646.36,
-          "chg_pct": 3.57,
-          "vol_surge": 1.0,
+          "close": 31.71,
+          "chg_pct": 1.54,
+          "vol_surge": 0.9,
           "streak": 1,
           "hist5": [
-            1.81,
-            -3.22,
-            1.37,
-            -1.27,
-            3.57
+            0.72,
+            2.37,
+            0.7,
+            -1.48,
+            1.54
           ],
-          "momentum": 13.1
+          "momentum": 8.7
         },
         {
-          "name": "Amazon",
-          "ticker": "AMZN",
+          "name": "O'Reilly Auto",
+          "ticker": "ORLY",
           "sector": "소비재/유통",
-          "close": 246.02,
-          "chg_pct": 3.13,
-          "vol_surge": 1.0,
+          "close": 91.02,
+          "chg_pct": 1.02,
+          "vol_surge": 0.8,
           "streak": 1,
           "hist5": [
-            -0.42,
-            -2.53,
-            1.47,
-            -1.23,
-            3.13
+            -1.45,
+            0.53,
+            1.08,
+            -0.4,
+            1.02
           ],
-          "momentum": 12.3
+          "momentum": 7.2
         },
         {
-          "name": "PepsiCo",
-          "ticker": "PEP",
+          "name": "Booking",
+          "ticker": "BKNG",
           "sector": "소비재/유통",
-          "close": 146.25,
-          "chg_pct": 1.37,
-          "vol_surge": 1.0,
+          "close": 164.94,
+          "chg_pct": 0.83,
+          "vol_surge": 0.9,
           "streak": 2,
           "hist5": [
-            1.49,
-            1.08,
-            -0.41,
-            0.38,
-            1.37
+            -2.13,
+            1.04,
+            -2.04,
+            1.84,
+            0.83
           ],
-          "momentum": 10.7
+          "momentum": 9.3
         },
         {
-          "name": "eBay",
-          "ticker": "EBAY",
+          "name": "Starbucks",
+          "ticker": "SBUX",
           "sector": "소비재/유통",
-          "close": 109.18,
-          "chg_pct": 0.52,
-          "vol_surge": 1.5,
+          "close": 103.04,
+          "chg_pct": 0.74,
+          "vol_surge": 0.6,
+          "streak": 4,
+          "hist5": [
+            -0.49,
+            2.73,
+            1.39,
+            3.56,
+            0.74
+          ],
+          "momentum": 11.9
+        },
+        {
+          "name": "Costco",
+          "ticker": "COST",
+          "sector": "소비재/유통",
+          "close": 982.35,
+          "chg_pct": 0.68,
+          "vol_surge": 0.8,
           "streak": 1,
           "hist5": [
-            0.2,
-            -2.07,
-            3.01,
-            -0.91,
-            0.52
+            0.3,
+            -0.63,
+            1.53,
+            -0.78,
+            0.68
           ],
-          "momentum": 9.0
+          "momentum": 6.6
         },
         {
           "name": "Monster Beverage",
@@ -4563,163 +4529,180 @@
           "momentum": 14.1
         },
         {
-          "name": "Keurig Dr Pepper",
-          "ticker": "KDP",
-          "sector": "소비재/유통",
-          "close": 31.77,
-          "chg_pct": 0.19,
-          "vol_surge": 1.0,
-          "streak": 2,
-          "hist5": [
-            2.37,
-            0.7,
-            -1.48,
-            1.54,
-            0.19
-          ],
-          "momentum": 8.4
-        },
-        {
-          "name": "Costco",
-          "ticker": "COST",
-          "sector": "소비재/유통",
-          "close": 979.45,
-          "chg_pct": -0.3,
-          "vol_surge": 1.0,
-          "streak": -1,
-          "hist5": [
-            -0.63,
-            1.53,
-            -0.78,
-            0.68,
-            -0.3
-          ],
-          "momentum": 1.4
-        },
-        {
-          "name": "O'Reilly Auto",
-          "ticker": "ORLY",
-          "sector": "소비재/유통",
-          "close": 90.26,
-          "chg_pct": -0.83,
-          "vol_surge": 0.8,
-          "streak": -1,
-          "hist5": [
-            0.53,
-            1.08,
-            -0.4,
-            1.02,
-            -0.83
-          ],
-          "momentum": -0.5
-        },
-        {
-          "name": "Dollar Tree",
-          "ticker": "DLTR",
-          "sector": "소비재/유통",
-          "close": 112.88,
-          "chg_pct": -0.98,
-          "vol_surge": 0.9,
-          "streak": -2,
-          "hist5": [
-            4.14,
-            -1.63,
-            4.14,
-            -0.77,
-            -0.98
-          ],
-          "momentum": -2.4
-        },
-        {
           "name": "Ross Stores",
           "ticker": "ROST",
           "sector": "소비재/유통",
-          "close": 236.77,
-          "chg_pct": -1.4,
-          "vol_surge": 0.7,
-          "streak": -1,
+          "close": 240.13,
+          "chg_pct": 0.43,
+          "vol_surge": 0.9,
+          "streak": 4,
           "hist5": [
+            -1.28,
             1.09,
             1.08,
             3.1,
-            0.43,
-            -1.4
+            0.43
           ],
-          "momentum": -2.0
+          "momentum": 12.5
         },
         {
-          "name": "Starbucks",
-          "ticker": "SBUX",
+          "name": "PepsiCo",
+          "ticker": "PEP",
           "sector": "소비재/유통",
-          "close": 101.59,
-          "chg_pct": -1.41,
+          "close": 144.27,
+          "chg_pct": 0.38,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            -0.87,
+            1.49,
+            1.08,
+            -0.41,
+            0.38
+          ],
+          "momentum": 5.2
+        },
+        {
+          "name": "Expedia",
+          "ticker": "EXPE",
+          "sector": "소비재/유통",
+          "close": 224.89,
+          "chg_pct": 0.1,
           "vol_surge": 0.8,
-          "streak": -1,
+          "streak": 2,
           "hist5": [
-            2.73,
-            1.39,
-            3.56,
-            0.74,
-            -1.41
+            -1.3,
+            2.28,
+            -5.25,
+            2.61,
+            0.1
           ],
-          "momentum": -1.6
-        },
-        {
-          "name": "Copart",
-          "ticker": "CPRT",
-          "sector": "소비재/유통",
-          "close": 30.3,
-          "chg_pct": -1.46,
-          "vol_surge": 1.3,
-          "streak": -3,
-          "hist5": [
-            1.46,
-            0.16,
-            -0.96,
-            -1.0,
-            -1.46
-          ],
-          "momentum": -3.7
-        },
-        {
-          "name": "Lululemon",
-          "ticker": "LULU",
-          "sector": "소비재/유통",
-          "close": 116.21,
-          "chg_pct": -2.16,
-          "vol_surge": 0.8,
-          "streak": -2,
-          "hist5": [
-            3.24,
-            -2.0,
-            2.45,
-            -2.52,
-            -2.16
-          ],
-          "momentum": -5.1
+          "momentum": 7.4
         },
         {
           "name": "Mondelez",
           "ticker": "MDLZ",
           "sector": "소비재/유통",
-          "close": 61.5,
-          "chg_pct": -2.37,
-          "vol_surge": 1.2,
-          "streak": -3,
+          "close": 62.99,
+          "chg_pct": -0.58,
+          "vol_surge": 1.0,
+          "streak": -2,
           "hist5": [
+            -0.71,
             2.16,
             1.99,
             -1.28,
-            -0.58,
-            -2.37
+            -0.58
           ],
-          "momentum": -5.9
+          "momentum": -1.2
+        },
+        {
+          "name": "Dollar Tree",
+          "ticker": "DLTR",
+          "sector": "소비재/유통",
+          "close": 114.0,
+          "chg_pct": -0.77,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            -1.02,
+            4.14,
+            -1.63,
+            4.14,
+            -0.77
+          ],
+          "momentum": -0.3
+        },
+        {
+          "name": "eBay",
+          "ticker": "EBAY",
+          "sector": "소비재/유통",
+          "close": 108.61,
+          "chg_pct": -0.91,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            -0.83,
+            0.2,
+            -2.07,
+            3.01,
+            -0.91
+          ],
+          "momentum": -0.6
+        },
+        {
+          "name": "Copart",
+          "ticker": "CPRT",
+          "sector": "소비재/유통",
+          "close": 30.75,
+          "chg_pct": -1.0,
+          "vol_surge": 0.9,
+          "streak": -2,
+          "hist5": [
+            -0.32,
+            1.46,
+            0.16,
+            -0.96,
+            -1.0
+          ],
+          "momentum": -2.4
+        },
+        {
+          "name": "Amazon",
+          "ticker": "AMZN",
+          "sector": "소비재/유통",
+          "close": 238.55,
+          "chg_pct": -1.23,
+          "vol_surge": 1.2,
+          "streak": -1,
+          "hist5": [
+            -0.33,
+            -0.42,
+            -2.53,
+            1.47,
+            -1.23
+          ],
+          "momentum": 0.3
+        },
+        {
+          "name": "MercadoLibre",
+          "ticker": "MELI",
+          "sector": "소비재/유통",
+          "close": 1589.6,
+          "chg_pct": -1.27,
+          "vol_surge": 1.2,
+          "streak": -1,
+          "hist5": [
+            0.26,
+            1.81,
+            -3.22,
+            1.37,
+            -1.27
+          ],
+          "momentum": 0.3
+        },
+        {
+          "name": "Lululemon",
+          "ticker": "LULU",
+          "sector": "소비재/유통",
+          "close": 118.77,
+          "chg_pct": -2.52,
+          "vol_surge": 0.4,
+          "streak": -1,
+          "hist5": [
+            2.91,
+            3.24,
+            -2.0,
+            2.45,
+            -2.52
+          ],
+          "momentum": -5.4
         }
       ]
     },
     {
       "sector": "바이오/헬스",
-      "avg_chg": 0.69,
+      "avg_chg": 0.1,
       "stocks": [
         {
           "name": "Moderna",
@@ -4739,89 +4722,140 @@
           "momentum": 20.1
         },
         {
-          "name": "Illumina",
-          "ticker": "ILMN",
-          "sector": "바이오/헬스",
-          "close": 166.89,
-          "chg_pct": 3.68,
-          "vol_surge": 1.2,
-          "streak": 1,
-          "hist5": [
-            1.26,
-            1.52,
-            2.3,
-            -3.15,
-            3.68
-          ],
-          "momentum": 14.2
-        },
-        {
           "name": "IDEXX Labs",
           "ticker": "IDXX",
           "sector": "바이오/헬스",
-          "close": 570.0,
-          "chg_pct": 1.63,
-          "vol_surge": 1.1,
-          "streak": 3,
+          "close": 560.88,
+          "chg_pct": 0.53,
+          "vol_surge": 1.0,
+          "streak": 2,
           "hist5": [
+            -0.18,
             3.16,
             -3.79,
             0.17,
-            0.53,
-            1.63
+            0.53
           ],
-          "momentum": 13.7
+          "momentum": 9.1
         },
         {
-          "name": "Intuitive Surgical",
-          "ticker": "ISRG",
+          "name": "Amgen",
+          "ticker": "AMGN",
           "sector": "바이오/헬스",
-          "close": 416.55,
-          "chg_pct": 1.34,
-          "vol_surge": 1.2,
-          "streak": 1,
+          "close": 355.2,
+          "chg_pct": 0.32,
+          "vol_surge": 0.8,
+          "streak": 2,
           "hist5": [
-            1.91,
-            -3.42,
-            0.21,
-            -0.45,
-            1.34
+            -1.1,
+            -0.34,
+            -1.99,
+            4.84,
+            0.32
           ],
-          "momentum": 9.5
+          "momentum": 7.8
         },
         {
-          "name": "Vertex",
-          "ticker": "VRTX",
+          "name": "DexCom",
+          "ticker": "DXCM",
           "sector": "바이오/헬스",
-          "close": 450.46,
-          "chg_pct": 1.24,
-          "vol_surge": 1.4,
-          "streak": 1,
+          "close": 75.37,
+          "chg_pct": 0.16,
+          "vol_surge": 0.8,
+          "streak": 2,
           "hist5": [
-            0.63,
-            -2.26,
-            2.14,
-            -0.02,
-            1.24
+            5.16,
+            2.05,
+            -4.37,
+            0.64,
+            0.16
           ],
-          "momentum": 10.1
+          "momentum": 7.5
         },
         {
           "name": "Regeneron",
           "ticker": "REGN",
           "sector": "바이오/헬스",
-          "close": 614.98,
-          "chg_pct": 0.46,
-          "vol_surge": 0.8,
-          "streak": 3,
+          "close": 612.14,
+          "chg_pct": 0.11,
+          "vol_surge": 0.7,
+          "streak": 2,
           "hist5": [
+            -3.79,
             0.79,
             -2.36,
             1.63,
-            0.11,
-            0.46
+            0.11
           ],
-          "momentum": 10.1
+          "momentum": 7.0
+        },
+        {
+          "name": "Biogen",
+          "ticker": "BIIB",
+          "sector": "바이오/헬스",
+          "close": 200.05,
+          "chg_pct": 0.05,
+          "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            -1.39,
+            3.36,
+            -2.44,
+            2.94,
+            0.05
+          ],
+          "momentum": 7.3
+        },
+        {
+          "name": "Vertex",
+          "ticker": "VRTX",
+          "sector": "바이오/헬스",
+          "close": 444.93,
+          "chg_pct": -0.02,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            -0.87,
+            0.63,
+            -2.26,
+            2.14,
+            -0.02
+          ],
+          "momentum": 1.2
+        },
+        {
+          "name": "Gilead",
+          "ticker": "GILD",
+          "sector": "바이오/헬스",
+          "close": 124.77,
+          "chg_pct": -0.22,
+          "vol_surge": 0.5,
+          "streak": -1,
+          "hist5": [
+            -0.82,
+            -2.03,
+            -3.2,
+            3.61,
+            -0.22
+          ],
+          "momentum": -0.4
+        },
+        {
+          "name": "Intuitive Surgical",
+          "ticker": "ISRG",
+          "sector": "바이오/헬스",
+          "close": 411.06,
+          "chg_pct": -0.45,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            -0.82,
+            1.91,
+            -3.42,
+            0.21,
+            -0.45
+          ],
+          "momentum": 0.3
         },
         {
           "name": "GE HealthCare",
@@ -4841,129 +4875,203 @@
           "momentum": 0.3
         },
         {
-          "name": "Biogen",
-          "ticker": "BIIB",
+          "name": "Illumina",
+          "ticker": "ILMN",
           "sector": "바이오/헬스",
-          "close": 198.64,
-          "chg_pct": -0.7,
+          "close": 160.97,
+          "chg_pct": -3.15,
           "vol_surge": 0.8,
           "streak": -1,
           "hist5": [
-            3.36,
-            -2.44,
-            2.94,
-            0.05,
-            -0.7
+            -2.64,
+            1.26,
+            1.52,
+            2.3,
+            -3.15
           ],
-          "momentum": -0.2
-        },
+          "momentum": -5.1
+        }
+      ]
+    },
+    {
+      "sector": "빅테크",
+      "avg_chg": -0.14,
+      "stocks": [
         {
-          "name": "Gilead",
-          "ticker": "GILD",
-          "sector": "바이오/헬스",
-          "close": 124.3,
-          "chg_pct": -1.03,
-          "vol_surge": 0.8,
-          "streak": -2,
+          "name": "Meta",
+          "ticker": "META",
+          "sector": "빅테크",
+          "close": 593.48,
+          "chg_pct": 4.77,
+          "vol_surge": 1.0,
+          "streak": 1,
           "hist5": [
-            -2.03,
-            -3.2,
-            3.61,
-            -0.22,
-            -1.03
+            -0.14,
+            -2.33,
+            -0.45,
+            -0.26,
+            4.77
           ],
-          "momentum": -2.9
+          "momentum": 15.5
         },
         {
-          "name": "Amgen",
-          "ticker": "AMGN",
-          "sector": "바이오/헬스",
-          "close": 350.53,
-          "chg_pct": -1.31,
+          "name": "HPE",
+          "ticker": "HPE",
+          "sector": "빅테크",
+          "close": 49.02,
+          "chg_pct": 1.76,
           "vol_surge": 1.1,
-          "streak": -1,
+          "streak": 3,
           "hist5": [
-            -0.34,
-            -1.99,
-            4.84,
-            0.32,
-            -1.31
+            -3.21,
+            -5.76,
+            2.88,
+            2.93,
+            1.76
           ],
-          "momentum": -0.2
+          "momentum": 13.9
         },
         {
-          "name": "DexCom",
-          "ticker": "DXCM",
-          "sector": "바이오/헬스",
-          "close": 74.22,
-          "chg_pct": -1.53,
+          "name": "Alphabet",
+          "ticker": "GOOGL",
+          "sector": "빅테크",
+          "close": 359.68,
+          "chg_pct": 0.53,
           "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            -1.36,
+            0.26,
+            -2.16,
+            0.39,
+            0.53
+          ],
+          "momentum": 8.3
+        },
+        {
+          "name": "Microsoft",
+          "ticker": "MSFT",
+          "sector": "빅테크",
+          "close": 390.74,
+          "chg_pct": 0.1,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            -1.18,
+            -2.02,
+            -1.5,
+            -1.77,
+            0.1
+          ],
+          "momentum": 6.2
+        },
+        {
+          "name": "Oracle",
+          "ticker": "ORCL",
+          "sector": "빅테크",
+          "close": 184.13,
+          "chg_pct": 0.02,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            -0.87,
+            -2.84,
+            -2.21,
+            -8.53,
+            0.02
+          ],
+          "momentum": 5.2
+        },
+        {
+          "name": "IBM",
+          "ticker": "IBM",
+          "sector": "빅테크",
+          "close": 272.24,
+          "chg_pct": -0.95,
+          "vol_surge": 0.7,
           "streak": -1,
           "hist5": [
-            2.05,
-            -4.37,
-            0.64,
-            0.16,
-            -1.53
+            -1.41,
+            -1.19,
+            -1.85,
+            0.91,
+            -0.95
           ],
-          "momentum": -1.9
+          "momentum": -1.1
+        },
+        {
+          "name": "Amazon",
+          "ticker": "AMZN",
+          "sector": "빅테크",
+          "close": 238.55,
+          "chg_pct": -1.23,
+          "vol_surge": 1.2,
+          "streak": -1,
+          "hist5": [
+            -0.33,
+            -0.42,
+            -2.53,
+            1.47,
+            -1.23
+          ],
+          "momentum": 0.3
+        },
+        {
+          "name": "Apple",
+          "ticker": "AAPL",
+          "sector": "빅테크",
+          "close": 291.13,
+          "chg_pct": -1.52,
+          "vol_surge": 0.6,
+          "streak": -1,
+          "hist5": [
+            -1.89,
+            -3.64,
+            0.35,
+            1.39,
+            -1.52
+          ],
+          "momentum": -2.6
+        },
+        {
+          "name": "Super Micro",
+          "ticker": "SMCI",
+          "sector": "빅테크",
+          "close": 30.46,
+          "chg_pct": -4.72,
+          "vol_surge": 0.7,
+          "streak": -1,
+          "hist5": [
+            5.64,
+            -7.62,
+            -27.98,
+            9.22,
+            -4.72
+          ],
+          "momentum": -8.6
         }
       ]
     },
     {
       "sector": "전기차/에너지",
-      "avg_chg": 0.07,
+      "avg_chg": -1.33,
       "stocks": [
-        {
-          "name": "First Solar",
-          "ticker": "FSLR",
-          "sector": "전기차/에너지",
-          "close": 273.51,
-          "chg_pct": 2.32,
-          "vol_surge": 0.8,
-          "streak": 1,
-          "hist5": [
-            -4.79,
-            -4.93,
-            8.79,
-            -1.42,
-            2.32
-          ],
-          "momentum": 9.8
-        },
-        {
-          "name": "Plug Power",
-          "ticker": "PLUG",
-          "sector": "전기차/에너지",
-          "close": 2.8,
-          "chg_pct": 1.45,
-          "vol_surge": 0.7,
-          "streak": 1,
-          "hist5": [
-            -8.78,
-            -1.72,
-            -1.05,
-            -2.47,
-            1.45
-          ],
-          "momentum": 7.7
-        },
         {
           "name": "Tesla",
           "ticker": "TSLA",
           "sector": "전기차/에너지",
-          "close": 411.15,
-          "chg_pct": 1.16,
-          "vol_surge": 0.8,
-          "streak": 3,
+          "close": 406.43,
+          "chg_pct": 1.82,
+          "vol_surge": 1.2,
+          "streak": 2,
           "hist5": [
+            4.59,
             -3.0,
             -3.8,
             4.6,
-            1.82,
-            1.16
+            1.82
           ],
-          "momentum": 11.5
+          "momentum": 12.4
         },
         {
           "name": "ChargePoint",
@@ -4983,163 +5091,55 @@
           "momentum": 0.5
         },
         {
+          "name": "First Solar",
+          "ticker": "FSLR",
+          "sector": "전기차/에너지",
+          "close": 267.31,
+          "chg_pct": -1.42,
+          "vol_surge": 0.6,
+          "streak": -1,
+          "hist5": [
+            -1.3,
+            -4.79,
+            -4.93,
+            8.79,
+            -1.42
+          ],
+          "momentum": -2.4
+        },
+        {
+          "name": "Plug Power",
+          "ticker": "PLUG",
+          "sector": "전기차/에너지",
+          "close": 2.76,
+          "chg_pct": -2.47,
+          "vol_surge": 0.9,
+          "streak": -8,
+          "hist5": [
+            -0.93,
+            -8.78,
+            -1.72,
+            -1.05,
+            -2.47
+          ],
+          "momentum": -11.3
+        },
+        {
           "name": "Enphase",
           "ticker": "ENPH",
           "sector": "전기차/에너지",
           "close": 52.4,
-          "chg_pct": -4.02,
-          "vol_surge": 0.9,
+          "chg_pct": -4.01,
+          "vol_surge": 1.0,
           "streak": -2,
           "hist5": [
             -5.92,
             -5.49,
             8.62,
             -0.62,
-            -4.02
+            -4.01
           ],
-          "momentum": -8.4
-        }
-      ]
-    },
-    {
-      "sector": "미디어/통신",
-      "avg_chg": -0.57,
-      "stocks": [
-        {
-          "name": "PACCAR",
-          "ticker": "PCAR",
-          "sector": "미디어/통신",
-          "close": 120.69,
-          "chg_pct": 1.83,
-          "vol_surge": 0.9,
-          "streak": 3,
-          "hist5": [
-            1.06,
-            -4.76,
-            3.15,
-            0.8,
-            1.83
-          ],
-          "momentum": 13.3
-        },
-        {
-          "name": "Netflix",
-          "ticker": "NFLX",
-          "sector": "미디어/통신",
-          "close": 81.67,
-          "chg_pct": 1.66,
-          "vol_surge": 1.0,
-          "streak": 1,
-          "hist5": [
-            -1.49,
-            0.72,
-            -0.89,
-            -1.14,
-            1.66
-          ],
-          "momentum": 9.3
-        },
-        {
-          "name": "T-Mobile",
-          "ticker": "TMUS",
-          "sector": "미디어/통신",
-          "close": 188.86,
-          "chg_pct": -0.13,
-          "vol_surge": 1.0,
-          "streak": -1,
-          "hist5": [
-            0.58,
-            3.39,
-            0.15,
-            1.77,
-            -0.13
-          ],
-          "momentum": 1.7
-        },
-        {
-          "name": "Warner Bros Discovery",
-          "ticker": "WBD",
-          "sector": "미디어/통신",
-          "close": 26.83,
-          "chg_pct": -0.56,
-          "vol_surge": 1.3,
-          "streak": -1,
-          "hist5": [
-            0.34,
-            -1.24,
-            2.4,
-            0.45,
-            -0.56
-          ],
-          "momentum": 2.1
-        },
-        {
-          "name": "Cisco",
-          "ticker": "CSCO",
-          "sector": "미디어/통신",
-          "close": 120.17,
-          "chg_pct": -0.77,
-          "vol_surge": 1.0,
-          "streak": -2,
-          "hist5": [
-            -3.05,
-            -1.3,
-            2.55,
-            -0.6,
-            -0.77
-          ],
-          "momentum": -1.5
-        },
-        {
-          "name": "Fastenal",
-          "ticker": "FAST",
-          "sector": "미디어/통신",
-          "close": 46.1,
-          "chg_pct": -1.01,
-          "vol_surge": 0.9,
-          "streak": -1,
-          "hist5": [
-            1.26,
-            -1.18,
-            0.78,
-            0.39,
-            -1.01
-          ],
-          "momentum": -0.4
-        },
-        {
-          "name": "Comcast",
-          "ticker": "CMCSA",
-          "sector": "미디어/통신",
-          "close": 23.97,
-          "chg_pct": -2.16,
-          "vol_surge": 0.8,
-          "streak": -1,
-          "hist5": [
-            0.38,
-            0.5,
-            0.0,
-            2.21,
-            -2.16
-          ],
-          "momentum": -3.1
-        },
-        {
-          "name": "Old Dominion",
-          "ticker": "ODFL",
-          "sector": "미디어/통신",
-          "close": 237.42,
-          "chg_pct": -3.39,
-          "vol_surge": 1.0,
-          "streak": -2,
-          "hist5": [
-            0.7,
-            -5.14,
-            5.01,
-            -0.81,
-            -3.39
-          ],
-          "momentum": -6.8
+          "momentum": -8.0
         }
       ]
     }
