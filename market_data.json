@@ -1,6 +1,6 @@
 {
   "date": "2026-06-18",
-  "updated_at": "2026-06-20 22:01",
+  "updated_at": "2026-06-21 07:02",
   "fng": 37,
   "fng_label": "fear",
   "fng_prev": 38,
@@ -798,23 +798,6 @@
       "momentum": -3.3
     },
     {
-      "name": "DocuSign",
-      "ticker": "DOCU",
-      "sector": "AI/소프트웨어",
-      "close": 42.58,
-      "chg_pct": -4.16,
-      "vol_surge": 1.2,
-      "streak": -1,
-      "hist5": [
-        -1.29,
-        1.08,
-        -1.85,
-        0.53,
-        -4.16
-      ],
-      "momentum": -5.5
-    },
-    {
       "name": "Workday",
       "ticker": "WDAY",
       "sector": "AI/소프트웨어",
@@ -830,6 +813,23 @@
         -4.02
       ],
       "momentum": -7.2
+    },
+    {
+      "name": "DexCom",
+      "ticker": "DXCM",
+      "sector": "바이오/헬스",
+      "close": 71.23,
+      "chg_pct": -2.64,
+      "vol_surge": 0.9,
+      "streak": -3,
+      "hist5": [
+        0.64,
+        0.16,
+        -1.53,
+        -1.43,
+        -2.64
+      ],
+      "momentum": -7.7
     },
     {
       "name": "Atlassian",
@@ -915,6 +915,23 @@
         -1.6
       ],
       "momentum": -2.4
+    },
+    {
+      "name": "Vertex",
+      "ticker": "VRTX",
+      "sector": "바이오/헬스",
+      "close": 451.63,
+      "chg_pct": -1.6,
+      "vol_surge": 2.2,
+      "streak": -1,
+      "hist5": [
+        -0.02,
+        1.24,
+        0.6,
+        1.28,
+        -1.6
+      ],
+      "momentum": 3.6
     },
     {
       "name": "Costco",
@@ -1017,23 +1034,6 @@
         -1.19
       ],
       "momentum": -1.6
-    },
-    {
-      "name": "Zoom",
-      "ticker": "ZM",
-      "sector": "AI/소프트웨어",
-      "close": 86.36,
-      "chg_pct": -1.18,
-      "vol_surge": 2.0,
-      "streak": -3,
-      "hist5": [
-        1.47,
-        0.61,
-        -2.31,
-        -5.08,
-        -1.18
-      ],
-      "momentum": -0.4
     }
   ],
   "kospi_sectors": [
@@ -4026,199 +4026,6 @@
       ]
     },
     {
-      "sector": "바이오/헬스",
-      "avg_chg": 0.89,
-      "stocks": [
-        {
-          "name": "Moderna",
-          "ticker": "MRNA",
-          "sector": "바이오/헬스",
-          "close": 63.96,
-          "chg_pct": 3.5,
-          "vol_surge": 2.8,
-          "streak": 6,
-          "hist5": [
-            0.54,
-            4.45,
-            6.27,
-            11.55,
-            3.5
-          ],
-          "momentum": 28.2
-        },
-        {
-          "name": "IDEXX Labs",
-          "ticker": "IDXX",
-          "sector": "바이오/헬스",
-          "close": 562.09,
-          "chg_pct": 2.93,
-          "vol_surge": 2.2,
-          "streak": 1,
-          "hist5": [
-            0.53,
-            1.63,
-            0.53,
-            -4.7,
-            2.93
-          ],
-          "momentum": 16.7
-        },
-        {
-          "name": "Illumina",
-          "ticker": "ILMN",
-          "sector": "바이오/헬스",
-          "close": 161.93,
-          "chg_pct": 1.79,
-          "vol_surge": 1.9,
-          "streak": 1,
-          "hist5": [
-            -3.15,
-            3.68,
-            -1.56,
-            -3.16,
-            1.79
-          ],
-          "momentum": 13.2
-        },
-        {
-          "name": "DexCom",
-          "ticker": "DXCM",
-          "sector": "바이오/헬스",
-          "close": 72.47,
-          "chg_pct": 1.74,
-          "vol_surge": 1.8,
-          "streak": 1,
-          "hist5": [
-            0.16,
-            -1.53,
-            -1.43,
-            -2.64,
-            1.74
-          ],
-          "momentum": 12.7
-        },
-        {
-          "name": "Vertex",
-          "ticker": "VRTX",
-          "sector": "바이오/헬스",
-          "close": 458.99,
-          "chg_pct": 1.28,
-          "vol_surge": 1.2,
-          "streak": 3,
-          "hist5": [
-            2.14,
-            -0.02,
-            1.24,
-            0.6,
-            1.28
-          ],
-          "momentum": 13.4
-        },
-        {
-          "name": "Intuitive Surgical",
-          "ticker": "ISRG",
-          "sector": "바이오/헬스",
-          "close": 406.78,
-          "chg_pct": 1.14,
-          "vol_surge": 2.1,
-          "streak": 1,
-          "hist5": [
-            -0.45,
-            1.34,
-            0.12,
-            -3.57,
-            1.14
-          ],
-          "momentum": 12.7
-        },
-        {
-          "name": "GE HealthCare",
-          "ticker": "GEHC",
-          "sector": "바이오/헬스",
-          "close": 61.59,
-          "chg_pct": 0.72,
-          "vol_surge": 2.2,
-          "streak": 1,
-          "hist5": [
-            1.04,
-            -0.64,
-            -2.36,
-            -3.29,
-            0.72
-          ],
-          "momentum": 12.2
-        },
-        {
-          "name": "Regeneron",
-          "ticker": "REGN",
-          "sector": "바이오/헬스",
-          "close": 609.94,
-          "chg_pct": 0.33,
-          "vol_surge": 2.7,
-          "streak": 1,
-          "hist5": [
-            0.11,
-            0.46,
-            -0.04,
-            -1.11,
-            0.33
-          ],
-          "momentum": 13.5
-        },
-        {
-          "name": "Biogen",
-          "ticker": "BIIB",
-          "sector": "바이오/헬스",
-          "close": 196.58,
-          "chg_pct": -1.05,
-          "vol_surge": 1.8,
-          "streak": -1,
-          "hist5": [
-            0.05,
-            -0.7,
-            -1.53,
-            1.56,
-            -1.05
-          ],
-          "momentum": 3.1
-        },
-        {
-          "name": "Amgen",
-          "ticker": "AMGN",
-          "sector": "바이오/헬스",
-          "close": 337.6,
-          "chg_pct": -1.19,
-          "vol_surge": 2.2,
-          "streak": -4,
-          "hist5": [
-            0.32,
-            -1.31,
-            -0.77,
-            -1.78,
-            -1.19
-          ],
-          "momentum": -1.6
-        },
-        {
-          "name": "Gilead",
-          "ticker": "GILD",
-          "sector": "바이오/헬스",
-          "close": 123.76,
-          "chg_pct": -1.35,
-          "vol_surge": 1.9,
-          "streak": -2,
-          "hist5": [
-            -0.22,
-            -0.38,
-            2.36,
-            -1.4,
-            -1.35
-          ],
-          "momentum": 0.9
-        }
-      ]
-    },
-    {
       "sector": "미디어/통신",
       "avg_chg": 0.77,
       "stocks": [
@@ -4764,8 +4571,201 @@
       ]
     },
     {
+      "sector": "바이오/헬스",
+      "avg_chg": 0.23,
+      "stocks": [
+        {
+          "name": "Moderna",
+          "ticker": "MRNA",
+          "sector": "바이오/헬스",
+          "close": 63.96,
+          "chg_pct": 3.5,
+          "vol_surge": 2.8,
+          "streak": 6,
+          "hist5": [
+            0.54,
+            4.45,
+            6.27,
+            11.55,
+            3.5
+          ],
+          "momentum": 28.2
+        },
+        {
+          "name": "IDEXX Labs",
+          "ticker": "IDXX",
+          "sector": "바이오/헬스",
+          "close": 562.09,
+          "chg_pct": 2.93,
+          "vol_surge": 2.2,
+          "streak": 1,
+          "hist5": [
+            0.53,
+            1.63,
+            0.53,
+            -4.7,
+            2.93
+          ],
+          "momentum": 16.7
+        },
+        {
+          "name": "Illumina",
+          "ticker": "ILMN",
+          "sector": "바이오/헬스",
+          "close": 161.93,
+          "chg_pct": 1.79,
+          "vol_surge": 1.9,
+          "streak": 1,
+          "hist5": [
+            -3.15,
+            3.68,
+            -1.56,
+            -3.16,
+            1.79
+          ],
+          "momentum": 13.2
+        },
+        {
+          "name": "Intuitive Surgical",
+          "ticker": "ISRG",
+          "sector": "바이오/헬스",
+          "close": 406.78,
+          "chg_pct": 1.14,
+          "vol_surge": 2.1,
+          "streak": 1,
+          "hist5": [
+            -0.45,
+            1.34,
+            0.12,
+            -3.57,
+            1.14
+          ],
+          "momentum": 12.7
+        },
+        {
+          "name": "GE HealthCare",
+          "ticker": "GEHC",
+          "sector": "바이오/헬스",
+          "close": 61.59,
+          "chg_pct": 0.72,
+          "vol_surge": 2.2,
+          "streak": 1,
+          "hist5": [
+            1.04,
+            -0.64,
+            -2.36,
+            -3.29,
+            0.72
+          ],
+          "momentum": 12.2
+        },
+        {
+          "name": "Regeneron",
+          "ticker": "REGN",
+          "sector": "바이오/헬스",
+          "close": 609.94,
+          "chg_pct": 0.33,
+          "vol_surge": 2.7,
+          "streak": 1,
+          "hist5": [
+            0.11,
+            0.46,
+            -0.04,
+            -1.11,
+            0.33
+          ],
+          "momentum": 13.5
+        },
+        {
+          "name": "Biogen",
+          "ticker": "BIIB",
+          "sector": "바이오/헬스",
+          "close": 196.58,
+          "chg_pct": -1.05,
+          "vol_surge": 1.8,
+          "streak": -1,
+          "hist5": [
+            0.05,
+            -0.7,
+            -1.53,
+            1.56,
+            -1.05
+          ],
+          "momentum": 3.1
+        },
+        {
+          "name": "Amgen",
+          "ticker": "AMGN",
+          "sector": "바이오/헬스",
+          "close": 337.6,
+          "chg_pct": -1.19,
+          "vol_surge": 2.2,
+          "streak": -4,
+          "hist5": [
+            0.32,
+            -1.31,
+            -0.77,
+            -1.78,
+            -1.19
+          ],
+          "momentum": -1.6
+        },
+        {
+          "name": "Gilead",
+          "ticker": "GILD",
+          "sector": "바이오/헬스",
+          "close": 123.76,
+          "chg_pct": -1.35,
+          "vol_surge": 1.9,
+          "streak": -2,
+          "hist5": [
+            -0.22,
+            -0.38,
+            2.36,
+            -1.4,
+            -1.35
+          ],
+          "momentum": 0.9
+        },
+        {
+          "name": "Vertex",
+          "ticker": "VRTX",
+          "sector": "바이오/헬스",
+          "close": 451.63,
+          "chg_pct": -1.6,
+          "vol_surge": 2.2,
+          "streak": -1,
+          "hist5": [
+            -0.02,
+            1.24,
+            0.6,
+            1.28,
+            -1.6
+          ],
+          "momentum": 3.6
+        },
+        {
+          "name": "DexCom",
+          "ticker": "DXCM",
+          "sector": "바이오/헬스",
+          "close": 71.23,
+          "chg_pct": -2.64,
+          "vol_surge": 0.9,
+          "streak": -3,
+          "hist5": [
+            0.64,
+            0.16,
+            -1.53,
+            -1.43,
+            -2.64
+          ],
+          "momentum": -7.7
+        }
+      ]
+    },
+    {
       "sector": "AI/소프트웨어",
-      "avg_chg": -0.56,
+      "avg_chg": -0.28,
       "stocks": [
         {
           "name": "Okta",
@@ -4783,6 +4783,23 @@
             4.23
           ],
           "momentum": 22.5
+        },
+        {
+          "name": "DocuSign",
+          "ticker": "DOCU",
+          "sector": "AI/소프트웨어",
+          "close": 43.47,
+          "chg_pct": 2.09,
+          "vol_surge": 2.1,
+          "streak": 1,
+          "hist5": [
+            1.08,
+            -1.85,
+            0.53,
+            -4.16,
+            2.09
+          ],
+          "momentum": 14.6
         },
         {
           "name": "Palo Alto",
@@ -5123,23 +5140,6 @@
             -4.02
           ],
           "momentum": -7.2
-        },
-        {
-          "name": "DocuSign",
-          "ticker": "DOCU",
-          "sector": "AI/소프트웨어",
-          "close": 42.58,
-          "chg_pct": -4.16,
-          "vol_surge": 1.2,
-          "streak": -1,
-          "hist5": [
-            -1.29,
-            1.08,
-            -1.85,
-            0.53,
-            -4.16
-          ],
-          "momentum": -5.5
         }
       ]
     }
