@@ -1,7 +1,7 @@
 {
   "date": "2026-07-20",
-  "updated_at": "2026-07-21 07:02",
-  "fng": 38,
+  "updated_at": "2026-07-21 09:23",
+  "fng": 37,
   "fng_label": "fear",
   "fng_prev": 38,
   "kospi_index": 6820.6,
@@ -682,23 +682,6 @@
       "momentum": 9.6
     },
     {
-      "name": "Broadcom",
-      "ticker": "AVGO",
-      "sector": "반도체",
-      "close": 378.16,
-      "chg_pct": 1.98,
-      "vol_surge": 0.7,
-      "streak": 1,
-      "hist5": [
-        1.32,
-        1.33,
-        -5.03,
-        -0.97,
-        1.98
-      ],
-      "momentum": 8.8
-    },
-    {
       "name": "Micron",
       "ticker": "MU",
       "sector": "반도체",
@@ -765,6 +748,23 @@
         1.87
       ],
       "momentum": 9.3
+    },
+    {
+      "name": "Datadog",
+      "ticker": "DDOG",
+      "sector": "AI/소프트웨어",
+      "close": 263.2,
+      "chg_pct": 1.74,
+      "vol_surge": 0.9,
+      "streak": 1,
+      "hist5": [
+        4.03,
+        -2.32,
+        -0.81,
+        -1.38,
+        1.74
+      ],
+      "momentum": 9.1
     }
   ],
   "nasdaq_down": [
@@ -3471,7 +3471,7 @@
     },
     {
       "sector": "반도체",
-      "avg_chg": 0.46,
+      "avg_chg": 0.38,
       "stocks": [
         {
           "name": "Marvell",
@@ -3523,23 +3523,6 @@
             2.13
           ],
           "momentum": 9.5
-        },
-        {
-          "name": "Broadcom",
-          "ticker": "AVGO",
-          "sector": "반도체",
-          "close": 378.16,
-          "chg_pct": 1.98,
-          "vol_surge": 0.7,
-          "streak": 1,
-          "hist5": [
-            1.32,
-            1.33,
-            -5.03,
-            -0.97,
-            1.98
-          ],
-          "momentum": 8.8
         },
         {
           "name": "Micron",
