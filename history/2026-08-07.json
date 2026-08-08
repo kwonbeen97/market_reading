@@ -1,11 +1,11 @@
 {
   "date": "2026-08-07",
-  "updated_at": "2026-08-07 22:29",
+  "updated_at": "2026-08-08 07:01",
   "fng": 64,
   "fng_label": "greed",
   "fng_prev": 60,
-  "kospi_index": 6296.38,
-  "kospi_chg": -4.58,
+  "kospi_index": 6258.77,
+  "kospi_chg": -0.6,
   "nasdaq_index": 26690.62,
   "nasdaq_chg": 1.3,
   "kospi_up": [
@@ -546,7 +546,7 @@
       "sector": "소비재/유통",
       "close": 178.07,
       "chg_pct": 17.43,
-      "vol_surge": 3.9,
+      "vol_surge": 4.0,
       "streak": 1,
       "hist5": [
         -0.58,
@@ -555,7 +555,7 @@
         -0.56,
         17.43
       ],
-      "momentum": 37.6
+      "momentum": 38.0
     },
     {
       "name": "Microchip Tech",
@@ -563,7 +563,7 @@
       "sector": "반도체",
       "close": 84.69,
       "chg_pct": 13.89,
-      "vol_surge": 1.5,
+      "vol_surge": 1.6,
       "streak": 1,
       "hist5": [
         1.25,
@@ -572,7 +572,7 @@
         -4.41,
         13.89
       ],
-      "momentum": 28.0
+      "momentum": 28.4
     },
     {
       "name": "Palantir",
@@ -631,7 +631,7 @@
       "sector": "AI/소프트웨어",
       "close": 398.8,
       "chg_pct": 7.78,
-      "vol_surge": 1.0,
+      "vol_surge": 1.1,
       "streak": 1,
       "hist5": [
         6.07,
@@ -640,7 +640,7 @@
         -1.69,
         7.78
       ],
-      "momentum": 21.6
+      "momentum": 22.0
     },
     {
       "name": "ServiceNow",
@@ -648,7 +648,7 @@
       "sector": "AI/소프트웨어",
       "close": 124.88,
       "chg_pct": 6.42,
-      "vol_surge": 1.3,
+      "vol_surge": 1.4,
       "streak": 2,
       "hist5": [
         2.66,
@@ -657,7 +657,7 @@
         0.11,
         6.42
       ],
-      "momentum": 22.0
+      "momentum": 22.4
     },
     {
       "name": "Super Micro",
@@ -682,7 +682,7 @@
       "sector": "AI/소프트웨어",
       "close": 60.26,
       "chg_pct": 5.91,
-      "vol_surge": 1.2,
+      "vol_surge": 1.3,
       "streak": 1,
       "hist5": [
         0.55,
@@ -691,7 +691,7 @@
         -1.03,
         5.91
       ],
-      "momentum": 18.6
+      "momentum": 19.0
     },
     {
       "name": "ChargePoint",
@@ -733,7 +733,7 @@
       "sector": "AI/소프트웨어",
       "close": 300.27,
       "chg_pct": 5.57,
-      "vol_surge": 1.9,
+      "vol_surge": 2.0,
       "streak": 1,
       "hist5": [
         1.35,
@@ -742,7 +742,7 @@
         -2.91,
         5.57
       ],
-      "momentum": 20.7
+      "momentum": 21.1
     },
     {
       "name": "Enphase",
@@ -854,7 +854,7 @@
       "sector": "미디어/통신",
       "close": 177.19,
       "chg_pct": -1.54,
-      "vol_surge": 0.7,
+      "vol_surge": 0.9,
       "streak": -1,
       "hist5": [
         2.54,
@@ -863,7 +863,7 @@
         3.75,
         -1.54
       ],
-      "momentum": -2.3
+      "momentum": -1.5
     },
     {
       "name": "Arm Holdings",
@@ -888,7 +888,7 @@
       "sector": "반도체",
       "close": 483.36,
       "chg_pct": -1.21,
-      "vol_surge": 0.7,
+      "vol_surge": 0.8,
       "streak": -1,
       "hist5": [
         1.78,
@@ -897,7 +897,7 @@
         1.5,
         -1.21
       ],
-      "momentum": -1.6
+      "momentum": -1.2
     },
     {
       "name": "Keurig Dr Pepper",
@@ -922,7 +922,7 @@
       "sector": "금융/핀테크",
       "close": 59.07,
       "chg_pct": -1.19,
-      "vol_surge": 0.8,
+      "vol_surge": 0.9,
       "streak": -1,
       "hist5": [
         1.15,
@@ -931,7 +931,7 @@
         3.19,
         -1.19
       ],
-      "momentum": -1.2
+      "momentum": -0.8
     },
     {
       "name": "Alphabet",
@@ -1024,7 +1024,7 @@
       "sector": "AI/소프트웨어",
       "close": 159.64,
       "chg_pct": -0.29,
-      "vol_surge": 0.7,
+      "vol_surge": 0.9,
       "streak": -3,
       "hist5": [
         0.78,
@@ -1033,7 +1033,7 @@
         -2.45,
         -0.29
       ],
-      "momentum": -3.8
+      "momentum": -3.0
     }
   ],
   "kospi_sectors": [
@@ -3490,7 +3490,7 @@
           "sector": "AI/소프트웨어",
           "close": 398.8,
           "chg_pct": 7.78,
-          "vol_surge": 1.0,
+          "vol_surge": 1.1,
           "streak": 1,
           "hist5": [
             6.07,
@@ -3499,7 +3499,7 @@
             -1.69,
             7.78
           ],
-          "momentum": 21.6
+          "momentum": 22.0
         },
         {
           "name": "ServiceNow",
@@ -3507,7 +3507,7 @@
           "sector": "AI/소프트웨어",
           "close": 124.88,
           "chg_pct": 6.42,
-          "vol_surge": 1.3,
+          "vol_surge": 1.4,
           "streak": 2,
           "hist5": [
             2.66,
@@ -3516,7 +3516,7 @@
             0.11,
             6.42
           ],
-          "momentum": 22.0
+          "momentum": 22.4
         },
         {
           "name": "DocuSign",
@@ -3524,7 +3524,7 @@
           "sector": "AI/소프트웨어",
           "close": 60.26,
           "chg_pct": 5.91,
-          "vol_surge": 1.2,
+          "vol_surge": 1.3,
           "streak": 1,
           "hist5": [
             0.55,
@@ -3533,7 +3533,7 @@
             -1.03,
             5.91
           ],
-          "momentum": 18.6
+          "momentum": 19.0
         },
         {
           "name": "Cloudflare",
@@ -3541,7 +3541,7 @@
           "sector": "AI/소프트웨어",
           "close": 300.27,
           "chg_pct": 5.57,
-          "vol_surge": 1.9,
+          "vol_surge": 2.0,
           "streak": 1,
           "hist5": [
             1.35,
@@ -3550,7 +3550,7 @@
             -2.91,
             5.57
           ],
-          "momentum": 20.7
+          "momentum": 21.1
         },
         {
           "name": "Workday",
@@ -3575,7 +3575,7 @@
           "sector": "AI/소프트웨어",
           "close": 210.45,
           "chg_pct": 3.96,
-          "vol_surge": 0.9,
+          "vol_surge": 1.0,
           "streak": 1,
           "hist5": [
             1.08,
@@ -3584,7 +3584,7 @@
             -19.1,
             3.96
           ],
-          "momentum": 13.5
+          "momentum": 13.9
         },
         {
           "name": "Snowflake",
@@ -3592,7 +3592,7 @@
           "sector": "AI/소프트웨어",
           "close": 330.49,
           "chg_pct": 3.93,
-          "vol_surge": 0.9,
+          "vol_surge": 1.0,
           "streak": 5,
           "hist5": [
             4.86,
@@ -3601,7 +3601,7 @@
             0.37,
             3.93
           ],
-          "momentum": 21.5
+          "momentum": 21.9
         },
         {
           "name": "Zscaler",
@@ -3677,7 +3677,7 @@
           "sector": "AI/소프트웨어",
           "close": 21.4,
           "chg_pct": 3.08,
-          "vol_surge": 0.9,
+          "vol_surge": 1.0,
           "streak": 1,
           "hist5": [
             5.19,
@@ -3686,7 +3686,7 @@
             -1.14,
             3.08
           ],
-          "momentum": 11.8
+          "momentum": 12.2
         },
         {
           "name": "Synopsys",
@@ -3745,7 +3745,7 @@
           "sector": "AI/소프트웨어",
           "close": 363.86,
           "chg_pct": 1.22,
-          "vol_surge": 0.7,
+          "vol_surge": 0.8,
           "streak": 1,
           "hist5": [
             4.61,
@@ -3754,7 +3754,7 @@
             -0.87,
             1.22
           ],
-          "momentum": 7.2
+          "momentum": 7.6
         },
         {
           "name": "Intuit",
@@ -3779,7 +3779,7 @@
           "sector": "AI/소프트웨어",
           "close": 339.24,
           "chg_pct": 0.24,
-          "vol_surge": 1.0,
+          "vol_surge": 1.1,
           "streak": 2,
           "hist5": [
             -1.14,
@@ -3788,7 +3788,7 @@
             0.4,
             0.24
           ],
-          "momentum": 8.5
+          "momentum": 8.9
         },
         {
           "name": "Fortinet",
@@ -3796,7 +3796,7 @@
           "sector": "AI/소프트웨어",
           "close": 159.64,
           "chg_pct": -0.29,
-          "vol_surge": 0.7,
+          "vol_surge": 0.9,
           "streak": -3,
           "hist5": [
             0.78,
@@ -3805,7 +3805,7 @@
             -2.45,
             -0.29
           ],
-          "momentum": -3.8
+          "momentum": -3.0
         }
       ]
     },
@@ -3910,7 +3910,7 @@
           "sector": "반도체",
           "close": 84.69,
           "chg_pct": 13.89,
-          "vol_surge": 1.5,
+          "vol_surge": 1.6,
           "streak": 1,
           "hist5": [
             1.25,
@@ -3919,7 +3919,7 @@
             -4.41,
             13.89
           ],
-          "momentum": 28.0
+          "momentum": 28.4
         },
         {
           "name": "Qualcomm",
@@ -3927,7 +3927,7 @@
           "sector": "반도체",
           "close": 167.86,
           "chg_pct": 4.66,
-          "vol_surge": 0.7,
+          "vol_surge": 0.8,
           "streak": 2,
           "hist5": [
             2.68,
@@ -3936,7 +3936,7 @@
             1.82,
             4.66
           ],
-          "momentum": 16.1
+          "momentum": 16.5
         },
         {
           "name": "Marvell",
@@ -3961,7 +3961,7 @@
           "sector": "반도체",
           "close": 81.17,
           "chg_pct": 3.63,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": 2,
           "hist5": [
             -1.48,
@@ -3970,7 +3970,7 @@
             1.85,
             3.63
           ],
-          "momentum": 13.7
+          "momentum": 14.1
         },
         {
           "name": "NXP Semi",
@@ -4029,7 +4029,7 @@
           "sector": "반도체",
           "close": 198.11,
           "chg_pct": 2.53,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": 2,
           "hist5": [
             -0.04,
@@ -4038,7 +4038,7 @@
             0.22,
             2.53
           ],
-          "momentum": 11.5
+          "momentum": 11.9
         },
         {
           "name": "NVIDIA",
@@ -4063,7 +4063,7 @@
           "sector": "반도체",
           "close": 539.14,
           "chg_pct": 2.21,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             2.08,
@@ -4072,7 +4072,7 @@
             -1.27,
             2.21
           ],
-          "momentum": 8.8
+          "momentum": 9.2
         },
         {
           "name": "ASML",
@@ -4131,7 +4131,7 @@
           "sector": "반도체",
           "close": 427.76,
           "chg_pct": 1.71,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": 7,
           "hist5": [
             0.76,
@@ -4140,7 +4140,7 @@
             0.55,
             1.71
           ],
-          "momentum": 15.8
+          "momentum": 16.2
         },
         {
           "name": "TSMC",
@@ -4182,7 +4182,7 @@
           "sector": "반도체",
           "close": 483.36,
           "chg_pct": -1.21,
-          "vol_surge": 0.7,
+          "vol_surge": 0.8,
           "streak": -1,
           "hist5": [
             1.78,
@@ -4191,7 +4191,7 @@
             1.5,
             -1.21
           ],
-          "momentum": -1.6
+          "momentum": -1.2
         },
         {
           "name": "Arm Holdings",
@@ -4341,7 +4341,7 @@
           "sector": "바이오/헬스",
           "close": 784.36,
           "chg_pct": 1.59,
-          "vol_surge": 0.7,
+          "vol_surge": 1.0,
           "streak": 4,
           "hist5": [
             -0.44,
@@ -4350,7 +4350,7 @@
             0.46,
             1.59
           ],
-          "momentum": 14.0
+          "momentum": 15.2
         },
         {
           "name": "Amgen",
@@ -4358,7 +4358,7 @@
           "sector": "바이오/헬스",
           "close": 410.95,
           "chg_pct": 1.51,
-          "vol_surge": 0.4,
+          "vol_surge": 0.5,
           "streak": 1,
           "hist5": [
             -1.63,
@@ -4367,7 +4367,7 @@
             -0.73,
             1.51
           ],
-          "momentum": 6.6
+          "momentum": 7.0
         },
         {
           "name": "Intuitive Surgical",
@@ -4449,7 +4449,7 @@
           "sector": "소비재/유통",
           "close": 178.07,
           "chg_pct": 17.43,
-          "vol_surge": 3.9,
+          "vol_surge": 4.0,
           "streak": 1,
           "hist5": [
             -0.58,
@@ -4458,7 +4458,7 @@
             -0.56,
             17.43
           ],
-          "momentum": 37.6
+          "momentum": 38.0
         },
         {
           "name": "Booking",
@@ -4483,7 +4483,7 @@
           "sector": "소비재/유통",
           "close": 128.58,
           "chg_pct": 3.09,
-          "vol_surge": 1.2,
+          "vol_surge": 1.3,
           "streak": 3,
           "hist5": [
             4.04,
@@ -4492,7 +4492,7 @@
             0.99,
             3.09
           ],
-          "momentum": 17.0
+          "momentum": 17.4
         },
         {
           "name": "Copart",
@@ -4534,7 +4534,7 @@
           "sector": "소비재/유통",
           "close": 310.68,
           "chg_pct": 1.34,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             1.12,
@@ -4543,7 +4543,7 @@
             -4.09,
             1.34
           ],
-          "momentum": 7.1
+          "momentum": 7.5
         },
         {
           "name": "Dollar Tree",
@@ -4551,7 +4551,7 @@
           "sector": "소비재/유통",
           "close": 130.9,
           "chg_pct": 0.94,
-          "vol_surge": 0.8,
+          "vol_surge": 0.9,
           "streak": 2,
           "hist5": [
             1.68,
@@ -4560,7 +4560,7 @@
             0.71,
             0.94
           ],
-          "momentum": 9.1
+          "momentum": 9.5
         },
         {
           "name": "Amazon",
@@ -4568,7 +4568,7 @@
           "sector": "소비재/유통",
           "close": 274.48,
           "chg_pct": 0.82,
-          "vol_surge": 0.4,
+          "vol_surge": 0.5,
           "streak": 1,
           "hist5": [
             4.58,
@@ -4577,7 +4577,7 @@
             -0.14,
             0.82
           ],
-          "momentum": 5.2
+          "momentum": 5.6
         },
         {
           "name": "PepsiCo",
@@ -4602,7 +4602,7 @@
           "sector": "소비재/유통",
           "close": 105.58,
           "chg_pct": 0.4,
-          "vol_surge": 0.5,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             -1.79,
@@ -4611,7 +4611,7 @@
             -0.79,
             0.4
           ],
-          "momentum": 4.8
+          "momentum": 5.6
         },
         {
           "name": "Ross Stores",
@@ -4636,7 +4636,7 @@
           "sector": "소비재/유통",
           "close": 93.53,
           "chg_pct": 0.17,
-          "vol_surge": 0.7,
+          "vol_surge": 0.8,
           "streak": 1,
           "hist5": [
             0.46,
@@ -4645,7 +4645,7 @@
             -0.07,
             0.17
           ],
-          "momentum": 5.1
+          "momentum": 5.5
         },
         {
           "name": "Costco",
@@ -4653,7 +4653,7 @@
           "sector": "소비재/유통",
           "close": 947.82,
           "chg_pct": -0.14,
-          "vol_surge": 0.6,
+          "vol_surge": 0.8,
           "streak": -1,
           "hist5": [
             0.23,
@@ -4662,7 +4662,7 @@
             0.76,
             -0.14
           ],
-          "momentum": 0.1
+          "momentum": 0.9
         },
         {
           "name": "Mondelez",
@@ -4761,7 +4761,7 @@
           "sector": "빅테크",
           "close": 147.02,
           "chg_pct": 2.47,
-          "vol_surge": 0.5,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             9.22,
@@ -4770,7 +4770,7 @@
             -0.64,
             2.47
           ],
-          "momentum": 8.9
+          "momentum": 9.7
         },
         {
           "name": "IBM",
@@ -4778,7 +4778,7 @@
           "sector": "빅테크",
           "close": 237.28,
           "chg_pct": 1.65,
-          "vol_surge": 0.5,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             1.19,
@@ -4787,7 +4787,7 @@
             -1.06,
             1.65
           ],
-          "momentum": 7.3
+          "momentum": 8.1
         },
         {
           "name": "HPE",
@@ -4812,7 +4812,7 @@
           "sector": "빅테크",
           "close": 274.48,
           "chg_pct": 0.82,
-          "vol_surge": 0.4,
+          "vol_surge": 0.5,
           "streak": 1,
           "hist5": [
             4.58,
@@ -4821,7 +4821,7 @@
             -0.14,
             0.82
           ],
-          "momentum": 5.2
+          "momentum": 5.6
         },
         {
           "name": "Meta",
@@ -4863,7 +4863,7 @@
           "sector": "빅테크",
           "close": 499.99,
           "chg_pct": 0.03,
-          "vol_surge": 0.5,
+          "vol_surge": 0.6,
           "streak": 2,
           "hist5": [
             4.93,
@@ -4872,7 +4872,7 @@
             2.54,
             0.03
           ],
-          "momentum": 6.1
+          "momentum": 6.5
         },
         {
           "name": "Alphabet",
@@ -4988,7 +4988,7 @@
           "sector": "금융/핀테크",
           "close": 59.07,
           "chg_pct": -1.19,
-          "vol_surge": 0.8,
+          "vol_surge": 0.9,
           "streak": -1,
           "hist5": [
             1.15,
@@ -4997,7 +4997,7 @@
             3.19,
             -1.19
           ],
-          "momentum": -1.2
+          "momentum": -0.8
         }
       ]
     },
@@ -5011,7 +5011,7 @@
           "sector": "미디어/통신",
           "close": 216.36,
           "chg_pct": 2.34,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             -0.29,
@@ -5020,7 +5020,7 @@
             -1.88,
             2.34
           ],
-          "momentum": 9.1
+          "momentum": 9.5
         },
         {
           "name": "Fastenal",
@@ -5028,7 +5028,7 @@
           "sector": "미디어/통신",
           "close": 51.84,
           "chg_pct": 2.05,
-          "vol_surge": 1.2,
+          "vol_surge": 1.3,
           "streak": 6,
           "hist5": [
             0.84,
@@ -5037,7 +5037,7 @@
             1.62,
             2.05
           ],
-          "momentum": 18.9
+          "momentum": 19.3
         },
         {
           "name": "Warner Bros Discovery",
@@ -5062,7 +5062,7 @@
           "sector": "미디어/통신",
           "close": 133.11,
           "chg_pct": 0.8,
-          "vol_surge": 0.5,
+          "vol_surge": 0.7,
           "streak": 1,
           "hist5": [
             -0.47,
@@ -5071,7 +5071,7 @@
             -0.96,
             0.8
           ],
-          "momentum": 5.6
+          "momentum": 6.4
         },
         {
           "name": "Comcast",
@@ -5130,7 +5130,7 @@
           "sector": "미디어/통신",
           "close": 177.19,
           "chg_pct": -1.54,
-          "vol_surge": 0.7,
+          "vol_surge": 0.9,
           "streak": -1,
           "hist5": [
             2.54,
@@ -5139,7 +5139,7 @@
             3.75,
             -1.54
           ],
-          "momentum": -2.3
+          "momentum": -1.5
         }
       ]
     }
