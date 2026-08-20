@@ -1,0 +1,2920 @@
+{
+  "date": "2026-08-20",
+  "updated_at": "2026-08-20 07:01",
+  "fng": 56,
+  "fng_label": "greed",
+  "fng_prev": 56,
+  "kospi_index": 6852.58,
+  "kospi_chg": 5.89,
+  "nasdaq_index": null,
+  "nasdaq_chg": null,
+  "kospi_up": [
+    {
+      "name": "바이오니아",
+      "ticker": "064550.KS",
+      "sector": "바이오/제약",
+      "close": 9190.0,
+      "chg_pct": 29.99,
+      "vol_surge": 17.3,
+      "streak": 1,
+      "hist5": [
+        -0.81,
+        -0.54,
+        -1.23,
+        -2.08,
+        29.99
+      ],
+      "momentum": 42
+    },
+    {
+      "name": "SK하이닉스",
+      "ticker": "000660.KS",
+      "sector": "반도체",
+      "close": 1691000.0,
+      "chg_pct": 12.73,
+      "vol_surge": 1.3,
+      "streak": 1,
+      "hist5": [
+        5.92,
+        3.26,
+        1.03,
+        -9.75,
+        12.73
+      ],
+      "momentum": 27.2
+    },
+    {
+      "name": "삼성전자",
+      "ticker": "005930.KS",
+      "sector": "반도체",
+      "close": 271000.0,
+      "chg_pct": 9.49,
+      "vol_surge": 1.1,
+      "streak": 1,
+      "hist5": [
+        4.89,
+        2.43,
+        -2.19,
+        -7.82,
+        9.49
+      ],
+      "momentum": 25.4
+    },
+    {
+      "name": "삼성증권",
+      "ticker": "016360.KS",
+      "sector": "금융/보험",
+      "close": 92400.0,
+      "chg_pct": 8.71,
+      "vol_surge": 1.8,
+      "streak": 1,
+      "hist5": [
+        -0.64,
+        0.54,
+        -4.52,
+        -4.28,
+        8.71
+      ],
+      "momentum": 26.6
+    },
+    {
+      "name": "KCC",
+      "ticker": "002380.KS",
+      "sector": "소재/철강/화학",
+      "close": 474500.0,
+      "chg_pct": 8.46,
+      "vol_surge": 2.2,
+      "streak": 1,
+      "hist5": [
+        0.44,
+        2.08,
+        -2.36,
+        -3.74,
+        8.46
+      ],
+      "momentum": 27.7
+    },
+    {
+      "name": "고려아연",
+      "ticker": "010130.KS",
+      "sector": "소재/철강/화학",
+      "close": 1238000.0,
+      "chg_pct": 8.12,
+      "vol_surge": 2.5,
+      "streak": 1,
+      "hist5": [
+        1.48,
+        -3.0,
+        1.92,
+        -5.68,
+        8.12
+      ],
+      "momentum": 28.2
+    },
+    {
+      "name": "삼성물산",
+      "ticker": "028260.KS",
+      "sector": "통신/건설/유통",
+      "close": 374000.0,
+      "chg_pct": 7.78,
+      "vol_surge": 1.3,
+      "streak": 1,
+      "hist5": [
+        2.1,
+        1.1,
+        0.0,
+        -5.96,
+        7.78
+      ],
+      "momentum": 22.8
+    },
+    {
+      "name": "삼성생명",
+      "ticker": "032830.KS",
+      "sector": "금융/보험",
+      "close": 297000.0,
+      "chg_pct": 7.61,
+      "vol_surge": 1.3,
+      "streak": 1,
+      "hist5": [
+        -3.64,
+        3.26,
+        3.16,
+        -11.11,
+        7.61
+      ],
+      "momentum": 22.4
+    },
+    {
+      "name": "한올바이오파마",
+      "ticker": "009420.KS",
+      "sector": "바이오/제약",
+      "close": 62600.0,
+      "chg_pct": 5.74,
+      "vol_surge": 1.4,
+      "streak": 2,
+      "hist5": [
+        8.44,
+        -1.16,
+        -1.68,
+        0.85,
+        5.74
+      ],
+      "momentum": 21.1
+    },
+    {
+      "name": "NAVER",
+      "ticker": "035420.KS",
+      "sector": "IT/플랫폼",
+      "close": 219500.0,
+      "chg_pct": 5.53,
+      "vol_surge": 1.0,
+      "streak": 1,
+      "hist5": [
+        5.1,
+        0.66,
+        -4.82,
+        -4.15,
+        5.53
+      ],
+      "momentum": 17.1
+    },
+    {
+      "name": "SK바이오사이언스",
+      "ticker": "302440.KS",
+      "sector": "바이오/제약",
+      "close": 37750.0,
+      "chg_pct": 5.45,
+      "vol_surge": 2.2,
+      "streak": 1,
+      "hist5": [
+        0.96,
+        2.17,
+        -3.05,
+        -1.92,
+        5.45
+      ],
+      "momentum": 21.7
+    },
+    {
+      "name": "유한양행",
+      "ticker": "000100.KS",
+      "sector": "바이오/제약",
+      "close": 83400.0,
+      "chg_pct": 4.77,
+      "vol_surge": 1.2,
+      "streak": 1,
+      "hist5": [
+        -0.72,
+        1.45,
+        -4.9,
+        0.0,
+        4.77
+      ],
+      "momentum": 16.3
+    },
+    {
+      "name": "만도",
+      "ticker": "204320.KS",
+      "sector": "자동차/부품",
+      "close": 54200.0,
+      "chg_pct": 4.23,
+      "vol_surge": 0.7,
+      "streak": 1,
+      "hist5": [
+        2.59,
+        2.88,
+        -6.83,
+        -2.26,
+        4.23
+      ],
+      "momentum": 13.3
+    },
+    {
+      "name": "키움증권",
+      "ticker": "039490.KS",
+      "sector": "금융/보험",
+      "close": 275500.0,
+      "chg_pct": 3.77,
+      "vol_surge": 0.9,
+      "streak": 1,
+      "hist5": [
+        -0.67,
+        1.18,
+        -5.66,
+        -6.35,
+        3.77
+      ],
+      "momentum": 13.1
+    },
+    {
+      "name": "카카오",
+      "ticker": "035720.KS",
+      "sector": "IT/플랫폼",
+      "close": 38700.0,
+      "chg_pct": 3.48,
+      "vol_surge": 1.0,
+      "streak": 1,
+      "hist5": [
+        1.39,
+        -0.25,
+        -4.38,
+        -2.22,
+        3.48
+      ],
+      "momentum": 13.0
+    }
+  ],
+  "kospi_down": [
+    {
+      "name": "브이원텍",
+      "ticker": "217190.KS",
+      "sector": "반도체",
+      "close": 6620.0,
+      "chg_pct": -6.89,
+      "vol_surge": 0.8,
+      "streak": -1,
+      "hist5": [
+        0.37,
+        7.92,
+        2.39,
+        18.5,
+        -6.89
+      ],
+      "momentum": -12.6
+    },
+    {
+      "name": "S-Oil",
+      "ticker": "010950.KS",
+      "sector": "소재/에너지",
+      "close": 142600.0,
+      "chg_pct": -5.94,
+      "vol_surge": 0.8,
+      "streak": -2,
+      "hist5": [
+        -0.42,
+        4.76,
+        4.07,
+        -1.3,
+        -5.94
+      ],
+      "momentum": -12.7
+    },
+    {
+      "name": "LS",
+      "ticker": "006260.KS",
+      "sector": "소재/철강/화학",
+      "close": 313500.0,
+      "chg_pct": -5.86,
+      "vol_surge": 1.1,
+      "streak": -2,
+      "hist5": [
+        -3.26,
+        -0.77,
+        6.18,
+        -3.06,
+        -5.86
+      ],
+      "momentum": -11.3
+    },
+    {
+      "name": "우리금융",
+      "ticker": "316140.KS",
+      "sector": "금융/보험",
+      "close": 31550.0,
+      "chg_pct": -5.82,
+      "vol_surge": 1.8,
+      "streak": -2,
+      "hist5": [
+        0.91,
+        1.2,
+        0.15,
+        -0.74,
+        -5.82
+      ],
+      "momentum": -8.4
+    },
+    {
+      "name": "DB손보",
+      "ticker": "005830.KS",
+      "sector": "금융/보험",
+      "close": 177400.0,
+      "chg_pct": -5.39,
+      "vol_surge": 0.9,
+      "streak": -1,
+      "hist5": [
+        4.78,
+        6.12,
+        2.94,
+        3.02,
+        -5.39
+      ],
+      "momentum": -9.2
+    },
+    {
+      "name": "GS",
+      "ticker": "078930.KS",
+      "sector": "소재/에너지",
+      "close": 113600.0,
+      "chg_pct": -5.1,
+      "vol_surge": 0.8,
+      "streak": -1,
+      "hist5": [
+        6.34,
+        8.94,
+        1.97,
+        0.34,
+        -5.1
+      ],
+      "momentum": -9.0
+    },
+    {
+      "name": "이스트소프트",
+      "ticker": "047560.KS",
+      "sector": "IT/플랫폼",
+      "close": 7330.0,
+      "chg_pct": -4.56,
+      "vol_surge": 0.7,
+      "streak": -2,
+      "hist5": [
+        -3.48,
+        -2.05,
+        0.98,
+        -6.57,
+        -4.56
+      ],
+      "momentum": -10.3
+    },
+    {
+      "name": "KB금융",
+      "ticker": "105560.KS",
+      "sector": "금융/보험",
+      "close": 160000.0,
+      "chg_pct": -3.85,
+      "vol_surge": 1.4,
+      "streak": -3,
+      "hist5": [
+        1.27,
+        0.24,
+        0.0,
+        -1.25,
+        -3.85
+      ],
+      "momentum": -8.1
+    },
+    {
+      "name": "엑세스바이오",
+      "ticker": "950130.KS",
+      "sector": "바이오/제약",
+      "close": 2195.0,
+      "chg_pct": -3.73,
+      "vol_surge": 0.4,
+      "streak": -4,
+      "hist5": [
+        0.85,
+        -2.12,
+        0.0,
+        -1.3,
+        -3.73
+      ],
+      "momentum": -13.9
+    },
+    {
+      "name": "신한지주",
+      "ticker": "055550.KS",
+      "sector": "금융/보험",
+      "close": 101100.0,
+      "chg_pct": -3.71,
+      "vol_surge": 1.0,
+      "streak": -3,
+      "hist5": [
+        2.7,
+        0.75,
+        -0.84,
+        -1.41,
+        -3.71
+      ],
+      "momentum": -9.4
+    },
+    {
+      "name": "고영",
+      "ticker": "098460.KS",
+      "sector": "반도체",
+      "close": 29250.0,
+      "chg_pct": -3.47,
+      "vol_surge": 0.7,
+      "streak": -2,
+      "hist5": [
+        -3.05,
+        0.31,
+        1.41,
+        -6.34,
+        -3.47
+      ],
+      "momentum": -8.1
+    },
+    {
+      "name": "에코앤드림",
+      "ticker": "272110.KS",
+      "sector": "이차전지",
+      "close": 25100.0,
+      "chg_pct": -3.28,
+      "vol_surge": 0.6,
+      "streak": -4,
+      "hist5": [
+        0.99,
+        -8.79,
+        -6.07,
+        -1.33,
+        -3.28
+      ],
+      "momentum": -12.2
+    },
+    {
+      "name": "하나금융",
+      "ticker": "086790.KS",
+      "sector": "금융/보험",
+      "close": 123400.0,
+      "chg_pct": -3.22,
+      "vol_surge": 1.2,
+      "streak": -3,
+      "hist5": [
+        2.42,
+        1.53,
+        -1.73,
+        -2.45,
+        -3.22
+      ],
+      "momentum": -7.6
+    },
+    {
+      "name": "금호석유",
+      "ticker": "011780.KS",
+      "sector": "소재/철강/화학",
+      "close": 120000.0,
+      "chg_pct": -2.91,
+      "vol_surge": 1.2,
+      "streak": -3,
+      "hist5": [
+        2.06,
+        1.32,
+        -3.14,
+        -2.29,
+        -2.91
+      ],
+      "momentum": -7.0
+    },
+    {
+      "name": "HD현대",
+      "ticker": "267250.KS",
+      "sector": "조선/해운/항공",
+      "close": 221500.0,
+      "chg_pct": -2.85,
+      "vol_surge": 1.0,
+      "streak": -3,
+      "hist5": [
+        -0.65,
+        2.84,
+        -0.42,
+        -2.77,
+        -2.85
+      ],
+      "momentum": -7.7
+    }
+  ],
+  "nasdaq_up": [],
+  "nasdaq_down": [],
+  "kospi_sectors": [
+    {
+      "sector": "바이오/제약",
+      "avg_chg": 3.03,
+      "stocks": [
+        {
+          "name": "바이오니아",
+          "ticker": "064550.KS",
+          "sector": "바이오/제약",
+          "close": 9190.0,
+          "chg_pct": 29.99,
+          "vol_surge": 17.3,
+          "streak": 1,
+          "hist5": [
+            -0.81,
+            -0.54,
+            -1.23,
+            -2.08,
+            29.99
+          ],
+          "momentum": 42
+        },
+        {
+          "name": "한올바이오파마",
+          "ticker": "009420.KS",
+          "sector": "바이오/제약",
+          "close": 62600.0,
+          "chg_pct": 5.74,
+          "vol_surge": 1.4,
+          "streak": 2,
+          "hist5": [
+            8.44,
+            -1.16,
+            -1.68,
+            0.85,
+            5.74
+          ],
+          "momentum": 21.1
+        },
+        {
+          "name": "SK바이오사이언스",
+          "ticker": "302440.KS",
+          "sector": "바이오/제약",
+          "close": 37750.0,
+          "chg_pct": 5.45,
+          "vol_surge": 2.2,
+          "streak": 1,
+          "hist5": [
+            0.96,
+            2.17,
+            -3.05,
+            -1.92,
+            5.45
+          ],
+          "momentum": 21.7
+        },
+        {
+          "name": "유한양행",
+          "ticker": "000100.KS",
+          "sector": "바이오/제약",
+          "close": 83400.0,
+          "chg_pct": 4.77,
+          "vol_surge": 1.2,
+          "streak": 1,
+          "hist5": [
+            -0.72,
+            1.45,
+            -4.9,
+            0.0,
+            4.77
+          ],
+          "momentum": 16.3
+        },
+        {
+          "name": "한미약품",
+          "ticker": "128940.KS",
+          "sector": "바이오/제약",
+          "close": 399000.0,
+          "chg_pct": 2.7,
+          "vol_surge": 1.4,
+          "streak": 1,
+          "hist5": [
+            0.63,
+            0.0,
+            -1.63,
+            -0.89,
+            2.7
+          ],
+          "momentum": 13.0
+        },
+        {
+          "name": "삼성바이오로직스",
+          "ticker": "207940.KS",
+          "sector": "바이오/제약",
+          "close": 1574000.0,
+          "chg_pct": 1.94,
+          "vol_surge": 1.5,
+          "streak": 2,
+          "hist5": [
+            0.97,
+            -1.02,
+            -1.1,
+            0.85,
+            1.94
+          ],
+          "momentum": 13.9
+        },
+        {
+          "name": "알테오젠",
+          "ticker": "196170.KS",
+          "sector": "바이오/제약",
+          "close": 303500.0,
+          "chg_pct": 1.85,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -3.05,
+            0.0,
+            -1.1,
+            -5.1,
+            1.85
+          ],
+          "momentum": 8.5
+        },
+        {
+          "name": "계양전기",
+          "ticker": "012200.KS",
+          "sector": "바이오/제약",
+          "close": 4270.0,
+          "chg_pct": 1.43,
+          "vol_surge": 0.3,
+          "streak": 1,
+          "hist5": [
+            1.18,
+            1.52,
+            5.07,
+            -7.57,
+            1.43
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "SK바이오팜",
+          "ticker": "326030.KS",
+          "sector": "바이오/제약",
+          "close": 86500.0,
+          "chg_pct": 1.41,
+          "vol_surge": 1.5,
+          "streak": 2,
+          "hist5": [
+            -0.68,
+            -0.34,
+            -2.41,
+            0.12,
+            1.41
+          ],
+          "momentum": 12.8
+        },
+        {
+          "name": "셀트리온",
+          "ticker": "068270.KS",
+          "sector": "바이오/제약",
+          "close": 194100.0,
+          "chg_pct": 0.0,
+          "vol_surge": 0.9,
+          "streak": -6,
+          "hist5": [
+            0.0,
+            -0.5,
+            -2.74,
+            -0.72,
+            0.0
+          ],
+          "momentum": -6.4
+        },
+        {
+          "name": "종근당",
+          "ticker": "185750.KS",
+          "sector": "바이오/제약",
+          "close": 67200.0,
+          "chg_pct": 0.0,
+          "vol_surge": 0.7,
+          "streak": -1,
+          "hist5": [
+            -1.3,
+            0.15,
+            -2.34,
+            0.75,
+            0.0
+          ],
+          "momentum": 0.8
+        },
+        {
+          "name": "휴젤",
+          "ticker": "145020.KS",
+          "sector": "바이오/제약",
+          "close": 247000.0,
+          "chg_pct": -0.4,
+          "vol_surge": 1.1,
+          "streak": -5,
+          "hist5": [
+            -4.96,
+            -2.23,
+            -2.48,
+            -3.12,
+            -0.4
+          ],
+          "momentum": -6.4
+        },
+        {
+          "name": "리가켐바이오",
+          "ticker": "141080.KS",
+          "sector": "바이오/제약",
+          "close": 104400.0,
+          "chg_pct": -0.67,
+          "vol_surge": 0.6,
+          "streak": -6,
+          "hist5": [
+            -1.54,
+            -0.61,
+            -0.44,
+            -7.73,
+            -0.67
+          ],
+          "momentum": -8.9
+        },
+        {
+          "name": "씨젠",
+          "ticker": "096530.KS",
+          "sector": "바이오/제약",
+          "close": 30000.0,
+          "chg_pct": -0.99,
+          "vol_surge": 0.4,
+          "streak": -2,
+          "hist5": [
+            -1.84,
+            -0.16,
+            0.78,
+            -5.75,
+            -0.99
+          ],
+          "momentum": -4.4
+        },
+        {
+          "name": "오리엔트바이오",
+          "ticker": "311690.KS",
+          "sector": "바이오/제약",
+          "close": 3795.0,
+          "chg_pct": -1.04,
+          "vol_surge": 0.4,
+          "streak": -3,
+          "hist5": [
+            0.25,
+            0.5,
+            -1.85,
+            -3.52,
+            -1.04
+          ],
+          "momentum": -6.5
+        },
+        {
+          "name": "엑세스바이오",
+          "ticker": "950130.KS",
+          "sector": "바이오/제약",
+          "close": 2195.0,
+          "chg_pct": -3.73,
+          "vol_surge": 0.4,
+          "streak": -4,
+          "hist5": [
+            0.85,
+            -2.12,
+            0.0,
+            -1.3,
+            -3.73
+          ],
+          "momentum": -13.9
+        }
+      ]
+    },
+    {
+      "sector": "지주/기타",
+      "avg_chg": 1.41,
+      "stocks": [
+        {
+          "name": "SK",
+          "ticker": "034730.KS",
+          "sector": "지주/기타",
+          "close": 568000.0,
+          "chg_pct": 3.09,
+          "vol_surge": 1.2,
+          "streak": 1,
+          "hist5": [
+            1.47,
+            6.07,
+            0.85,
+            -6.61,
+            3.09
+          ],
+          "momentum": 13.0
+        },
+        {
+          "name": "CJ제일제당",
+          "ticker": "097950.KS",
+          "sector": "지주/기타",
+          "close": 184800.0,
+          "chg_pct": 2.61,
+          "vol_surge": 1.3,
+          "streak": 1,
+          "hist5": [
+            -2.35,
+            1.59,
+            -1.08,
+            -1.8,
+            2.61
+          ],
+          "momentum": 12.4
+        },
+        {
+          "name": "농심",
+          "ticker": "004370.KS",
+          "sector": "지주/기타",
+          "close": 441000.0,
+          "chg_pct": 1.97,
+          "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            -0.13,
+            12.32,
+            -4.0,
+            2.98,
+            1.97
+          ],
+          "momentum": 11.1
+        },
+        {
+          "name": "한화솔루션",
+          "ticker": "009830.KS",
+          "sector": "지주/기타",
+          "close": 35200.0,
+          "chg_pct": 1.59,
+          "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            2.38,
+            -3.15,
+            -3.95,
+            1.91,
+            1.59
+          ],
+          "momentum": 10.4
+        },
+        {
+          "name": "오리온",
+          "ticker": "271560.KS",
+          "sector": "지주/기타",
+          "close": 124600.0,
+          "chg_pct": 0.4,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            -0.75,
+            1.67,
+            -6.64,
+            -0.8,
+            0.4
+          ],
+          "momentum": 6.8
+        },
+        {
+          "name": "LG",
+          "ticker": "003550.KS",
+          "sector": "지주/기타",
+          "close": 110400.0,
+          "chg_pct": 0.18,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            3.74,
+            5.54,
+            -6.08,
+            -2.22,
+            0.18
+          ],
+          "momentum": 5.2
+        },
+        {
+          "name": "메리츠금융지주",
+          "ticker": "138040.KS",
+          "sector": "지주/기타",
+          "close": 115200.0,
+          "chg_pct": 0.0,
+          "vol_surge": 1.0,
+          "streak": -2,
+          "hist5": [
+            -0.34,
+            -1.6,
+            0.43,
+            -1.71,
+            0.0
+          ],
+          "momentum": 0.0
+        }
+      ]
+    },
+    {
+      "sector": "소재/철강/화학",
+      "avg_chg": 1.21,
+      "stocks": [
+        {
+          "name": "KCC",
+          "ticker": "002380.KS",
+          "sector": "소재/철강/화학",
+          "close": 474500.0,
+          "chg_pct": 8.46,
+          "vol_surge": 2.2,
+          "streak": 1,
+          "hist5": [
+            0.44,
+            2.08,
+            -2.36,
+            -3.74,
+            8.46
+          ],
+          "momentum": 27.7
+        },
+        {
+          "name": "고려아연",
+          "ticker": "010130.KS",
+          "sector": "소재/철강/화학",
+          "close": 1238000.0,
+          "chg_pct": 8.12,
+          "vol_surge": 2.5,
+          "streak": 1,
+          "hist5": [
+            1.48,
+            -3.0,
+            1.92,
+            -5.68,
+            8.12
+          ],
+          "momentum": 28.2
+        },
+        {
+          "name": "롯데케미칼",
+          "ticker": "011170.KS",
+          "sector": "소재/철강/화학",
+          "close": 55300.0,
+          "chg_pct": 2.98,
+          "vol_surge": 1.4,
+          "streak": 1,
+          "hist5": [
+            -0.86,
+            -0.35,
+            -2.62,
+            -3.59,
+            2.98
+          ],
+          "momentum": 13.6
+        },
+        {
+          "name": "CJ대한통운",
+          "ticker": "000120.KS",
+          "sector": "소재/철강/화학",
+          "close": 73500.0,
+          "chg_pct": 0.68,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            -0.13,
+            4.32,
+            -2.46,
+            -3.05,
+            0.68
+          ],
+          "momentum": 5.4
+        },
+        {
+          "name": "POSCO홀딩스",
+          "ticker": "005490.KS",
+          "sector": "소재/철강/화학",
+          "close": 321500.0,
+          "chg_pct": 0.47,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            0.15,
+            2.61,
+            -2.84,
+            -1.39,
+            0.47
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "현대제철",
+          "ticker": "004020.KS",
+          "sector": "소재/철강/화학",
+          "close": 28050.0,
+          "chg_pct": 0.0,
+          "vol_surge": 0.8,
+          "streak": -3,
+          "hist5": [
+            0.35,
+            3.82,
+            -4.18,
+            -2.09,
+            0.0
+          ],
+          "momentum": -2.8
+        },
+        {
+          "name": "세방전지",
+          "ticker": "004490.KS",
+          "sector": "소재/철강/화학",
+          "close": 55100.0,
+          "chg_pct": -1.08,
+          "vol_surge": 0.6,
+          "streak": -1,
+          "hist5": [
+            -0.72,
+            4.88,
+            -5.0,
+            1.09,
+            -1.08
+          ],
+          "momentum": -1.8
+        },
+        {
+          "name": "금호석유",
+          "ticker": "011780.KS",
+          "sector": "소재/철강/화학",
+          "close": 120000.0,
+          "chg_pct": -2.91,
+          "vol_surge": 1.2,
+          "streak": -3,
+          "hist5": [
+            2.06,
+            1.32,
+            -3.14,
+            -2.29,
+            -2.91
+          ],
+          "momentum": -7.0
+        },
+        {
+          "name": "LS",
+          "ticker": "006260.KS",
+          "sector": "소재/철강/화학",
+          "close": 313500.0,
+          "chg_pct": -5.86,
+          "vol_surge": 1.1,
+          "streak": -2,
+          "hist5": [
+            -3.26,
+            -0.77,
+            6.18,
+            -3.06,
+            -5.86
+          ],
+          "momentum": -11.3
+        }
+      ]
+    },
+    {
+      "sector": "IT/플랫폼",
+      "avg_chg": 0.88,
+      "stocks": [
+        {
+          "name": "NAVER",
+          "ticker": "035420.KS",
+          "sector": "IT/플랫폼",
+          "close": 219500.0,
+          "chg_pct": 5.53,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            5.1,
+            0.66,
+            -4.82,
+            -4.15,
+            5.53
+          ],
+          "momentum": 17.1
+        },
+        {
+          "name": "카카오",
+          "ticker": "035720.KS",
+          "sector": "IT/플랫폼",
+          "close": 38700.0,
+          "chg_pct": 3.48,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            1.39,
+            -0.25,
+            -4.38,
+            -2.22,
+            3.48
+          ],
+          "momentum": 13.0
+        },
+        {
+          "name": "삼성SDS",
+          "ticker": "018260.KS",
+          "sector": "IT/플랫폼",
+          "close": 233000.0,
+          "chg_pct": 3.1,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            0.64,
+            2.74,
+            -6.16,
+            -1.09,
+            3.1
+          ],
+          "momentum": 10.6
+        },
+        {
+          "name": "LG디스플레이",
+          "ticker": "034220.KS",
+          "sector": "IT/플랫폼",
+          "close": 9650.0,
+          "chg_pct": 0.63,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -1.78,
+            3.32,
+            -4.77,
+            -1.94,
+            0.63
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "LG전자",
+          "ticker": "066570.KS",
+          "sector": "IT/플랫폼",
+          "close": 202500.0,
+          "chg_pct": 0.5,
+          "vol_surge": 0.4,
+          "streak": 1,
+          "hist5": [
+            0.73,
+            4.12,
+            -3.26,
+            -3.12,
+            0.5
+          ],
+          "momentum": 4.6
+        },
+        {
+          "name": "카카오페이",
+          "ticker": "293490.KS",
+          "sector": "IT/플랫폼",
+          "close": 8850.0,
+          "chg_pct": 0.45,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            1.38,
+            2.6,
+            -0.88,
+            -2.0,
+            0.45
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "안랩",
+          "ticker": "053800.KS",
+          "sector": "IT/플랫폼",
+          "close": 57000.0,
+          "chg_pct": -0.35,
+          "vol_surge": 0.5,
+          "streak": -5,
+          "hist5": [
+            -2.64,
+            -3.66,
+            -1.98,
+            -3.54,
+            -0.35
+          ],
+          "momentum": -8.7
+        },
+        {
+          "name": "카카오뱅크",
+          "ticker": "950170.KS",
+          "sector": "IT/플랫폼",
+          "close": 4255.0,
+          "chg_pct": -0.82,
+          "vol_surge": 1.3,
+          "streak": -1,
+          "hist5": [
+            0.36,
+            2.04,
+            0.0,
+            0.7,
+            -0.82
+          ],
+          "momentum": 1.6
+        },
+        {
+          "name": "이스트소프트",
+          "ticker": "047560.KS",
+          "sector": "IT/플랫폼",
+          "close": 7330.0,
+          "chg_pct": -4.56,
+          "vol_surge": 0.7,
+          "streak": -2,
+          "hist5": [
+            -3.48,
+            -2.05,
+            0.98,
+            -6.57,
+            -4.56
+          ],
+          "momentum": -10.3
+        }
+      ]
+    },
+    {
+      "sector": "게임/엔터",
+      "avg_chg": 0.78,
+      "stocks": [
+        {
+          "name": "에스엠",
+          "ticker": "041510.KS",
+          "sector": "게임/엔터",
+          "close": 72800.0,
+          "chg_pct": 2.54,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -1.05,
+            -4.77,
+            2.09,
+            -3.27,
+            2.54
+          ],
+          "momentum": 9.9
+        },
+        {
+          "name": "와이지엔터",
+          "ticker": "122870.KS",
+          "sector": "게임/엔터",
+          "close": 39450.0,
+          "chg_pct": 2.07,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -1.85,
+            -6.59,
+            3.4,
+            -5.85,
+            2.07
+          ],
+          "momentum": 8.9
+        },
+        {
+          "name": "넥슨게임즈",
+          "ticker": "225570.KS",
+          "sector": "게임/엔터",
+          "close": 9130.0,
+          "chg_pct": 1.9,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            -1.82,
+            -0.65,
+            3.95,
+            -5.49,
+            1.9
+          ],
+          "momentum": 8.2
+        },
+        {
+          "name": "JYP엔터",
+          "ticker": "035900.KS",
+          "sector": "게임/엔터",
+          "close": 39950.0,
+          "chg_pct": 1.52,
+          "vol_surge": 0.4,
+          "streak": 1,
+          "hist5": [
+            -1.18,
+            -11.2,
+            0.49,
+            -4.14,
+            1.52
+          ],
+          "momentum": 6.6
+        },
+        {
+          "name": "하이브",
+          "ticker": "352820.KS",
+          "sector": "게임/엔터",
+          "close": 173400.0,
+          "chg_pct": 0.7,
+          "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            -1.73,
+            1.7,
+            -4.24,
+            0.23,
+            0.7
+          ],
+          "momentum": 8.6
+        },
+        {
+          "name": "펄어비스",
+          "ticker": "263750.KS",
+          "sector": "게임/엔터",
+          "close": 30700.0,
+          "chg_pct": 0.49,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            -14.5,
+            -0.16,
+            -0.79,
+            -2.24,
+            0.49
+          ],
+          "momentum": 5.4
+        },
+        {
+          "name": "엔씨소프트",
+          "ticker": "036570.KS",
+          "sector": "게임/엔터",
+          "close": 220500.0,
+          "chg_pct": 0.46,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            -1.22,
+            1.64,
+            -7.07,
+            -4.57,
+            0.46
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "크래프톤",
+          "ticker": "259960.KS",
+          "sector": "게임/엔터",
+          "close": 222500.0,
+          "chg_pct": 0.45,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            -0.21,
+            1.49,
+            -4.83,
+            -2.21,
+            0.45
+          ],
+          "momentum": 6.9
+        },
+        {
+          "name": "넷마블",
+          "ticker": "251270.KS",
+          "sector": "게임/엔터",
+          "close": 37500.0,
+          "chg_pct": 0.4,
+          "vol_surge": 1.4,
+          "streak": 1,
+          "hist5": [
+            -2.26,
+            0.64,
+            -2.94,
+            -1.58,
+            0.4
+          ],
+          "momentum": 8.4
+        },
+        {
+          "name": "데브시스터즈",
+          "ticker": "194480.KS",
+          "sector": "게임/엔터",
+          "close": 17280.0,
+          "chg_pct": -2.7,
+          "vol_surge": 1.1,
+          "streak": -6,
+          "hist5": [
+            0.0,
+            -2.95,
+            -7.96,
+            -9.62,
+            -2.7
+          ],
+          "momentum": -11.0
+        }
+      ]
+    },
+    {
+      "sector": "반도체",
+      "avg_chg": 0.66,
+      "stocks": [
+        {
+          "name": "SK하이닉스",
+          "ticker": "000660.KS",
+          "sector": "반도체",
+          "close": 1691000.0,
+          "chg_pct": 12.73,
+          "vol_surge": 1.3,
+          "streak": 1,
+          "hist5": [
+            5.92,
+            3.26,
+            1.03,
+            -9.75,
+            12.73
+          ],
+          "momentum": 27.2
+        },
+        {
+          "name": "삼성전자",
+          "ticker": "005930.KS",
+          "sector": "반도체",
+          "close": 271000.0,
+          "chg_pct": 9.49,
+          "vol_surge": 1.1,
+          "streak": 1,
+          "hist5": [
+            4.89,
+            2.43,
+            -2.19,
+            -7.82,
+            9.49
+          ],
+          "momentum": 25.4
+        },
+        {
+          "name": "한미반도체",
+          "ticker": "042700.KS",
+          "sector": "반도체",
+          "close": 225500.0,
+          "chg_pct": 2.04,
+          "vol_surge": 1.1,
+          "streak": 1,
+          "hist5": [
+            3.91,
+            1.33,
+            0.0,
+            -3.49,
+            2.04
+          ],
+          "momentum": 10.5
+        },
+        {
+          "name": "솔브레인",
+          "ticker": "357780.KS",
+          "sector": "반도체",
+          "close": 330500.0,
+          "chg_pct": 1.23,
+          "vol_surge": 0.7,
+          "streak": 2,
+          "hist5": [
+            4.3,
+            0.15,
+            -1.83,
+            1.4,
+            1.23
+          ],
+          "momentum": 9.3
+        },
+        {
+          "name": "삼성전기",
+          "ticker": "009150.KS",
+          "sector": "반도체",
+          "close": 1396000.0,
+          "chg_pct": 0.65,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            12.58,
+            3.66,
+            -7.57,
+            -3.68,
+            0.65
+          ],
+          "momentum": 6.5
+        },
+        {
+          "name": "리노공업",
+          "ticker": "058470.KS",
+          "sector": "반도체",
+          "close": 67900.0,
+          "chg_pct": 0.15,
+          "vol_surge": 1.2,
+          "streak": 1,
+          "hist5": [
+            -0.14,
+            -0.14,
+            -0.7,
+            -4.24,
+            0.15
+          ],
+          "momentum": 7.1
+        },
+        {
+          "name": "LIG넥스원",
+          "ticker": "079550.KS",
+          "sector": "반도체",
+          "close": 787000.0,
+          "chg_pct": -1.13,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            6.22,
+            -2.63,
+            -2.45,
+            0.13,
+            -1.13
+          ],
+          "momentum": -1.1
+        },
+        {
+          "name": "솔브레인홀딩스",
+          "ticker": "036830.KS",
+          "sector": "반도체",
+          "close": 38600.0,
+          "chg_pct": -1.4,
+          "vol_surge": 0.7,
+          "streak": -4,
+          "hist5": [
+            0.98,
+            -2.19,
+            -0.75,
+            -2.0,
+            -1.4
+          ],
+          "momentum": -8.0
+        },
+        {
+          "name": "파크시스템스",
+          "ticker": "140860.KS",
+          "sector": "반도체",
+          "close": 272000.0,
+          "chg_pct": -2.68,
+          "vol_surge": 0.7,
+          "streak": -4,
+          "hist5": [
+            2.65,
+            -2.92,
+            -1.06,
+            0.0,
+            -2.68
+          ],
+          "momentum": -10.6
+        },
+        {
+          "name": "원익IPS",
+          "ticker": "240810.KS",
+          "sector": "반도체",
+          "close": 109300.0,
+          "chg_pct": -2.76,
+          "vol_surge": 0.5,
+          "streak": -3,
+          "hist5": [
+            6.49,
+            7.62,
+            -2.83,
+            -3.6,
+            -2.76
+          ],
+          "momentum": -9.5
+        },
+        {
+          "name": "고영",
+          "ticker": "098460.KS",
+          "sector": "반도체",
+          "close": 29250.0,
+          "chg_pct": -3.47,
+          "vol_surge": 0.7,
+          "streak": -2,
+          "hist5": [
+            -3.05,
+            0.31,
+            1.41,
+            -6.34,
+            -3.47
+          ],
+          "momentum": -8.1
+        },
+        {
+          "name": "브이원텍",
+          "ticker": "217190.KS",
+          "sector": "반도체",
+          "close": 6620.0,
+          "chg_pct": -6.89,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            0.37,
+            7.92,
+            2.39,
+            18.5,
+            -6.89
+          ],
+          "momentum": -12.6
+        }
+      ]
+    },
+    {
+      "sector": "금융/보험",
+      "avg_chg": 0.06,
+      "stocks": [
+        {
+          "name": "삼성증권",
+          "ticker": "016360.KS",
+          "sector": "금융/보험",
+          "close": 92400.0,
+          "chg_pct": 8.71,
+          "vol_surge": 1.8,
+          "streak": 1,
+          "hist5": [
+            -0.64,
+            0.54,
+            -4.52,
+            -4.28,
+            8.71
+          ],
+          "momentum": 26.6
+        },
+        {
+          "name": "삼성생명",
+          "ticker": "032830.KS",
+          "sector": "금융/보험",
+          "close": 297000.0,
+          "chg_pct": 7.61,
+          "vol_surge": 1.3,
+          "streak": 1,
+          "hist5": [
+            -3.64,
+            3.26,
+            3.16,
+            -11.11,
+            7.61
+          ],
+          "momentum": 22.4
+        },
+        {
+          "name": "키움증권",
+          "ticker": "039490.KS",
+          "sector": "금융/보험",
+          "close": 275500.0,
+          "chg_pct": 3.77,
+          "vol_surge": 0.9,
+          "streak": 1,
+          "hist5": [
+            -0.67,
+            1.18,
+            -5.66,
+            -6.35,
+            3.77
+          ],
+          "momentum": 13.1
+        },
+        {
+          "name": "한화생명",
+          "ticker": "088350.KS",
+          "sector": "금융/보험",
+          "close": 5510.0,
+          "chg_pct": 3.18,
+          "vol_surge": 0.4,
+          "streak": 1,
+          "hist5": [
+            7.02,
+            11.93,
+            -1.95,
+            -3.26,
+            3.18
+          ],
+          "momentum": 10.0
+        },
+        {
+          "name": "한국금융지주",
+          "ticker": "071050.KS",
+          "sector": "금융/보험",
+          "close": 186800.0,
+          "chg_pct": 2.02,
+          "vol_surge": 0.9,
+          "streak": 1,
+          "hist5": [
+            -0.4,
+            2.15,
+            -6.08,
+            -4.44,
+            2.02
+          ],
+          "momentum": 9.6
+        },
+        {
+          "name": "NH투자증권",
+          "ticker": "005940.KS",
+          "sector": "금융/보험",
+          "close": 26500.0,
+          "chg_pct": 1.73,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            -0.7,
+            1.41,
+            -4.35,
+            -5.27,
+            1.73
+          ],
+          "momentum": 9.5
+        },
+        {
+          "name": "삼성화재",
+          "ticker": "000810.KS",
+          "sector": "금융/보험",
+          "close": 622000.0,
+          "chg_pct": 1.47,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            -2.71,
+            0.65,
+            1.79,
+            -2.08,
+            1.47
+          ],
+          "momentum": 6.9
+        },
+        {
+          "name": "한화손해보험",
+          "ticker": "000370.KS",
+          "sector": "금융/보험",
+          "close": 7360.0,
+          "chg_pct": 0.82,
+          "vol_surge": 0.6,
+          "streak": 8,
+          "hist5": [
+            3.39,
+            9.05,
+            0.43,
+            3.99,
+            0.82
+          ],
+          "momentum": 14.0
+        },
+        {
+          "name": "동양생명",
+          "ticker": "082640.KS",
+          "sector": "금융/보험",
+          "close": 8250.0,
+          "chg_pct": 0.0,
+          "vol_surge": 1.0,
+          "streak": -9,
+          "hist5": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "momentum": -6.0
+        },
+        {
+          "name": "기업은행",
+          "ticker": "024110.KS",
+          "sector": "금융/보험",
+          "close": 19950.0,
+          "chg_pct": -1.72,
+          "vol_surge": 1.4,
+          "streak": -2,
+          "hist5": [
+            -0.74,
+            2.0,
+            0.25,
+            -0.73,
+            -1.72
+          ],
+          "momentum": -1.8
+        },
+        {
+          "name": "DGB금융",
+          "ticker": "139130.KS",
+          "sector": "금융/보험",
+          "close": 17000.0,
+          "chg_pct": -2.07,
+          "vol_surge": 0.9,
+          "streak": -3,
+          "hist5": [
+            1.01,
+            2.95,
+            -0.52,
+            -0.12,
+            -2.07
+          ],
+          "momentum": -6.5
+        },
+        {
+          "name": "BNK금융",
+          "ticker": "138930.KS",
+          "sector": "금융/보험",
+          "close": 14300.0,
+          "chg_pct": -2.46,
+          "vol_surge": 1.0,
+          "streak": -3,
+          "hist5": [
+            1.16,
+            1.89,
+            -2.05,
+            -1.08,
+            -2.46
+          ],
+          "momentum": -6.9
+        },
+        {
+          "name": "하나금융",
+          "ticker": "086790.KS",
+          "sector": "금융/보험",
+          "close": 123400.0,
+          "chg_pct": -3.22,
+          "vol_surge": 1.2,
+          "streak": -3,
+          "hist5": [
+            2.42,
+            1.53,
+            -1.73,
+            -2.45,
+            -3.22
+          ],
+          "momentum": -7.6
+        },
+        {
+          "name": "신한지주",
+          "ticker": "055550.KS",
+          "sector": "금융/보험",
+          "close": 101100.0,
+          "chg_pct": -3.71,
+          "vol_surge": 1.0,
+          "streak": -3,
+          "hist5": [
+            2.7,
+            0.75,
+            -0.84,
+            -1.41,
+            -3.71
+          ],
+          "momentum": -9.4
+        },
+        {
+          "name": "KB금융",
+          "ticker": "105560.KS",
+          "sector": "금융/보험",
+          "close": 160000.0,
+          "chg_pct": -3.85,
+          "vol_surge": 1.4,
+          "streak": -3,
+          "hist5": [
+            1.27,
+            0.24,
+            0.0,
+            -1.25,
+            -3.85
+          ],
+          "momentum": -8.1
+        },
+        {
+          "name": "DB손보",
+          "ticker": "005830.KS",
+          "sector": "금융/보험",
+          "close": 177400.0,
+          "chg_pct": -5.39,
+          "vol_surge": 0.9,
+          "streak": -1,
+          "hist5": [
+            4.78,
+            6.12,
+            2.94,
+            3.02,
+            -5.39
+          ],
+          "momentum": -9.2
+        },
+        {
+          "name": "우리금융",
+          "ticker": "316140.KS",
+          "sector": "금융/보험",
+          "close": 31550.0,
+          "chg_pct": -5.82,
+          "vol_surge": 1.8,
+          "streak": -2,
+          "hist5": [
+            0.91,
+            1.2,
+            0.15,
+            -0.74,
+            -5.82
+          ],
+          "momentum": -8.4
+        }
+      ]
+    },
+    {
+      "sector": "이차전지",
+      "avg_chg": 0.03,
+      "stocks": [
+        {
+          "name": "삼성SDI",
+          "ticker": "006400.KS",
+          "sector": "이차전지",
+          "close": 499500.0,
+          "chg_pct": 2.57,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            0.31,
+            5.95,
+            -5.43,
+            -0.2,
+            2.57
+          ],
+          "momentum": 11.1
+        },
+        {
+          "name": "포스코퓨처엠",
+          "ticker": "003670.KS",
+          "sector": "이차전지",
+          "close": 163300.0,
+          "chg_pct": 1.87,
+          "vol_surge": 0.9,
+          "streak": 1,
+          "hist5": [
+            3.69,
+            2.77,
+            -5.92,
+            -0.06,
+            1.87
+          ],
+          "momentum": 9.3
+        },
+        {
+          "name": "OCI홀딩스",
+          "ticker": "456040.KS",
+          "sector": "이차전지",
+          "close": 80800.0,
+          "chg_pct": 1.38,
+          "vol_surge": 1.1,
+          "streak": 1,
+          "hist5": [
+            1.9,
+            0.5,
+            -1.36,
+            -0.13,
+            1.38
+          ],
+          "momentum": 9.2
+        },
+        {
+          "name": "효성첨단소재",
+          "ticker": "298050.KS",
+          "sector": "이차전지",
+          "close": 166400.0,
+          "chg_pct": 1.09,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            -2.27,
+            2.95,
+            -4.28,
+            -3.23,
+            1.09
+          ],
+          "momentum": 6.6
+        },
+        {
+          "name": "에코프로비엠",
+          "ticker": "247540.KS",
+          "sector": "이차전지",
+          "close": 109800.0,
+          "chg_pct": 0.64,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            4.19,
+            0.09,
+            1.92,
+            -6.51,
+            0.64
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "LG에너지솔루션",
+          "ticker": "373220.KS",
+          "sector": "이차전지",
+          "close": 358000.0,
+          "chg_pct": 0.14,
+          "vol_surge": 1.0,
+          "streak": 2,
+          "hist5": [
+            1.95,
+            1.09,
+            -5.01,
+            1.85,
+            0.14
+          ],
+          "momentum": 8.3
+        },
+        {
+          "name": "SNT모티브",
+          "ticker": "064960.KS",
+          "sector": "이차전지",
+          "close": 27000.0,
+          "chg_pct": 0.0,
+          "vol_surge": 0.9,
+          "streak": -3,
+          "hist5": [
+            -0.54,
+            3.08,
+            -1.41,
+            -3.74,
+            0.0
+          ],
+          "momentum": -2.4
+        },
+        {
+          "name": "LG화학",
+          "ticker": "051910.KS",
+          "sector": "이차전지",
+          "close": 264000.0,
+          "chg_pct": -0.75,
+          "vol_surge": 1.1,
+          "streak": -3,
+          "hist5": [
+            0.0,
+            1.81,
+            -3.57,
+            -1.66,
+            -0.75
+          ],
+          "momentum": -3.1
+        },
+        {
+          "name": "에코프로",
+          "ticker": "086520.KS",
+          "sector": "이차전지",
+          "close": 86200.0,
+          "chg_pct": -1.03,
+          "vol_surge": 0.7,
+          "streak": -2,
+          "hist5": [
+            1.11,
+            0.88,
+            1.63,
+            -6.94,
+            -1.03
+          ],
+          "momentum": -3.3
+        },
+        {
+          "name": "SK이노베이션",
+          "ticker": "096770.KS",
+          "sector": "이차전지",
+          "close": 125900.0,
+          "chg_pct": -2.33,
+          "vol_surge": 0.7,
+          "streak": -2,
+          "hist5": [
+            -0.57,
+            5.75,
+            2.18,
+            -1.98,
+            -2.33
+          ],
+          "momentum": -5.9
+        },
+        {
+          "name": "에코앤드림",
+          "ticker": "272110.KS",
+          "sector": "이차전지",
+          "close": 25100.0,
+          "chg_pct": -3.28,
+          "vol_surge": 0.6,
+          "streak": -4,
+          "hist5": [
+            0.99,
+            -8.79,
+            -6.07,
+            -1.33,
+            -3.28
+          ],
+          "momentum": -12.2
+        }
+      ]
+    },
+    {
+      "sector": "자동차/부품",
+      "avg_chg": -0.02,
+      "stocks": [
+        {
+          "name": "만도",
+          "ticker": "204320.KS",
+          "sector": "자동차/부품",
+          "close": 54200.0,
+          "chg_pct": 4.23,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            2.59,
+            2.88,
+            -6.83,
+            -2.26,
+            4.23
+          ],
+          "momentum": 13.3
+        },
+        {
+          "name": "에이치디씨",
+          "ticker": "010820.KS",
+          "sector": "자동차/부품",
+          "close": 6180.0,
+          "chg_pct": 1.48,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            0.15,
+            1.85,
+            -2.58,
+            -5.14,
+            1.48
+          ],
+          "momentum": 7.4
+        },
+        {
+          "name": "현대차",
+          "ticker": "005380.KS",
+          "sector": "자동차/부품",
+          "close": 417500.0,
+          "chg_pct": 0.85,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            2.2,
+            8.24,
+            -3.97,
+            -4.83,
+            0.85
+          ],
+          "momentum": 6.1
+        },
+        {
+          "name": "한온시스템",
+          "ticker": "018880.KS",
+          "sector": "자동차/부품",
+          "close": 3515.0,
+          "chg_pct": 0.72,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -1.55,
+            0.39,
+            -4.32,
+            -4.51,
+            0.72
+          ],
+          "momentum": 6.2
+        },
+        {
+          "name": "현대위아",
+          "ticker": "011210.KS",
+          "sector": "자동차/부품",
+          "close": 61400.0,
+          "chg_pct": 0.0,
+          "vol_surge": 1.0,
+          "streak": -3,
+          "hist5": [
+            1.85,
+            2.42,
+            -5.75,
+            -3.91,
+            0.0
+          ],
+          "momentum": -2.0
+        },
+        {
+          "name": "현대모비스",
+          "ticker": "012330.KS",
+          "sector": "자동차/부품",
+          "close": 507000.0,
+          "chg_pct": -0.39,
+          "vol_surge": 0.8,
+          "streak": -3,
+          "hist5": [
+            2.51,
+            7.05,
+            -5.3,
+            -1.74,
+            -0.39
+          ],
+          "momentum": -3.6
+        },
+        {
+          "name": "한국타이어앤테크놀로지",
+          "ticker": "000240.KS",
+          "sector": "자동차/부품",
+          "close": 23600.0,
+          "chg_pct": -0.92,
+          "vol_surge": 1.0,
+          "streak": -3,
+          "hist5": [
+            2.36,
+            0.96,
+            -4.19,
+            -3.98,
+            -0.92
+          ],
+          "momentum": -3.8
+        },
+        {
+          "name": "기아",
+          "ticker": "000270.KS",
+          "sector": "자동차/부품",
+          "close": 131100.0,
+          "chg_pct": -1.43,
+          "vol_surge": 1.3,
+          "streak": -3,
+          "hist5": [
+            1.33,
+            3.13,
+            -3.18,
+            -3.06,
+            -1.43
+          ],
+          "momentum": -3.7
+        },
+        {
+          "name": "한국타이어",
+          "ticker": "161390.KS",
+          "sector": "자동차/부품",
+          "close": 66500.0,
+          "chg_pct": -2.35,
+          "vol_surge": 1.1,
+          "streak": -3,
+          "hist5": [
+            2.0,
+            0.14,
+            -3.49,
+            -1.45,
+            -2.35
+          ],
+          "momentum": -6.3
+        },
+        {
+          "name": "금호타이어",
+          "ticker": "073240.KS",
+          "sector": "자동차/부품",
+          "close": 7420.0,
+          "chg_pct": -2.37,
+          "vol_surge": 0.6,
+          "streak": -4,
+          "hist5": [
+            9.7,
+            0.0,
+            -4.3,
+            -2.44,
+            -2.37
+          ],
+          "momentum": -10.3
+        }
+      ]
+    },
+    {
+      "sector": "통신/건설/유통",
+      "avg_chg": -0.02,
+      "stocks": [
+        {
+          "name": "삼성물산",
+          "ticker": "028260.KS",
+          "sector": "통신/건설/유통",
+          "close": 374000.0,
+          "chg_pct": 7.78,
+          "vol_surge": 1.3,
+          "streak": 1,
+          "hist5": [
+            2.1,
+            1.1,
+            0.0,
+            -5.96,
+            7.78
+          ],
+          "momentum": 22.8
+        },
+        {
+          "name": "신세계",
+          "ticker": "004170.KS",
+          "sector": "통신/건설/유통",
+          "close": 404500.0,
+          "chg_pct": 1.0,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            5.14,
+            1.79,
+            -0.59,
+            -5.65,
+            1.0
+          ],
+          "momentum": 6.0
+        },
+        {
+          "name": "롯데쇼핑",
+          "ticker": "023530.KS",
+          "sector": "통신/건설/유통",
+          "close": 97200.0,
+          "chg_pct": 0.1,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            2.26,
+            3.42,
+            0.1,
+            -5.73,
+            0.1
+          ],
+          "momentum": 4.2
+        },
+        {
+          "name": "BGF리테일",
+          "ticker": "282330.KS",
+          "sector": "통신/건설/유통",
+          "close": 142800.0,
+          "chg_pct": 0.0,
+          "vol_surge": 1.5,
+          "streak": -3,
+          "hist5": [
+            -1.92,
+            1.75,
+            -1.38,
+            -0.28,
+            0.0
+          ],
+          "momentum": 0.0
+        },
+        {
+          "name": "한화",
+          "ticker": "000880.KS",
+          "sector": "통신/건설/유통",
+          "close": 83800.0,
+          "chg_pct": 0.0,
+          "vol_surge": 1.0,
+          "streak": -9,
+          "hist5": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "momentum": -6.0
+        },
+        {
+          "name": "이마트",
+          "ticker": "139480.KS",
+          "sector": "통신/건설/유통",
+          "close": 72500.0,
+          "chg_pct": 0.0,
+          "vol_surge": 0.7,
+          "streak": -3,
+          "hist5": [
+            -2.25,
+            1.02,
+            -3.55,
+            -4.73,
+            0.0
+          ],
+          "momentum": -3.2
+        },
+        {
+          "name": "현대백화점",
+          "ticker": "069960.KS",
+          "sector": "통신/건설/유통",
+          "close": 94500.0,
+          "chg_pct": -0.32,
+          "vol_surge": 0.6,
+          "streak": -3,
+          "hist5": [
+            1.94,
+            2.51,
+            -2.15,
+            -5.2,
+            -0.32
+          ],
+          "momentum": -4.2
+        },
+        {
+          "name": "LG유플러스",
+          "ticker": "032640.KS",
+          "sector": "통신/건설/유통",
+          "close": 14660.0,
+          "chg_pct": -0.48,
+          "vol_surge": 0.7,
+          "streak": -3,
+          "hist5": [
+            -1.21,
+            2.45,
+            -0.86,
+            -1.34,
+            -0.48
+          ],
+          "momentum": -4.2
+        },
+        {
+          "name": "GS리테일",
+          "ticker": "007070.KS",
+          "sector": "통신/건설/유통",
+          "close": 26700.0,
+          "chg_pct": -0.74,
+          "vol_surge": 0.6,
+          "streak": -3,
+          "hist5": [
+            -0.93,
+            3.55,
+            -1.62,
+            -1.28,
+            -0.74
+          ],
+          "momentum": -5.1
+        },
+        {
+          "name": "KT",
+          "ticker": "030200.KS",
+          "sector": "통신/건설/유통",
+          "close": 52100.0,
+          "chg_pct": -0.95,
+          "vol_surge": 0.5,
+          "streak": -2,
+          "hist5": [
+            -0.38,
+            1.71,
+            1.69,
+            -3.13,
+            -0.95
+          ],
+          "momentum": -3.9
+        },
+        {
+          "name": "SK텔레콤",
+          "ticker": "017670.KS",
+          "sector": "통신/건설/유통",
+          "close": 96600.0,
+          "chg_pct": -1.43,
+          "vol_surge": 0.7,
+          "streak": -3,
+          "hist5": [
+            3.76,
+            10.32,
+            -0.7,
+            -1.8,
+            -1.43
+          ],
+          "momentum": -6.1
+        },
+        {
+          "name": "현대건설",
+          "ticker": "000720.KS",
+          "sector": "통신/건설/유통",
+          "close": 113800.0,
+          "chg_pct": -2.32,
+          "vol_surge": 1.0,
+          "streak": -1,
+          "hist5": [
+            -0.09,
+            1.85,
+            -4.92,
+            5.81,
+            -2.32
+          ],
+          "momentum": -2.6
+        },
+        {
+          "name": "대우건설",
+          "ticker": "047040.KS",
+          "sector": "통신/건설/유통",
+          "close": 16710.0,
+          "chg_pct": -2.85,
+          "vol_surge": 0.7,
+          "streak": -1,
+          "hist5": [
+            3.2,
+            -2.12,
+            -4.66,
+            0.17,
+            -2.85
+          ],
+          "momentum": -4.9
+        }
+      ]
+    },
+    {
+      "sector": "방산/전력",
+      "avg_chg": -0.04,
+      "stocks": [
+        {
+          "name": "한국전력",
+          "ticker": "015760.KS",
+          "sector": "방산/전력",
+          "close": 31800.0,
+          "chg_pct": 3.08,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            -6.63,
+            0.45,
+            -1.95,
+            -5.37,
+            3.08
+          ],
+          "momentum": 10.2
+        },
+        {
+          "name": "GS건설",
+          "ticker": "006360.KS",
+          "sector": "방산/전력",
+          "close": 35600.0,
+          "chg_pct": 1.86,
+          "vol_surge": 0.9,
+          "streak": 2,
+          "hist5": [
+            1.42,
+            -0.98,
+            -3.39,
+            2.34,
+            1.86
+          ],
+          "momentum": 11.3
+        },
+        {
+          "name": "현대로템",
+          "ticker": "064350.KS",
+          "sector": "방산/전력",
+          "close": 137200.0,
+          "chg_pct": 0.66,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            0.75,
+            -0.47,
+            -2.52,
+            -4.82,
+            0.66
+          ],
+          "momentum": 7.3
+        },
+        {
+          "name": "두산에너빌리티",
+          "ticker": "034020.KS",
+          "sector": "방산/전력",
+          "close": 75900.0,
+          "chg_pct": -0.39,
+          "vol_surge": 0.7,
+          "streak": -3,
+          "hist5": [
+            0.75,
+            2.1,
+            -5.69,
+            -2.18,
+            -0.39
+          ],
+          "momentum": -4.0
+        },
+        {
+          "name": "한국항공우주",
+          "ticker": "047810.KS",
+          "sector": "방산/전력",
+          "close": 134700.0,
+          "chg_pct": -0.74,
+          "vol_surge": 0.5,
+          "streak": -4,
+          "hist5": [
+            4.93,
+            -3.17,
+            -4.37,
+            -3.07,
+            -0.74
+          ],
+          "momentum": -7.5
+        },
+        {
+          "name": "현대일렉트릭",
+          "ticker": "267260.KS",
+          "sector": "방산/전력",
+          "close": 746000.0,
+          "chg_pct": -0.8,
+          "vol_surge": 1.0,
+          "streak": -3,
+          "hist5": [
+            0.38,
+            2.29,
+            -2.24,
+            -4.2,
+            -0.8
+          ],
+          "momentum": -3.6
+        },
+        {
+          "name": "한화에어로스페이스",
+          "ticker": "012450.KS",
+          "sector": "방산/전력",
+          "close": 1167000.0,
+          "chg_pct": -0.85,
+          "vol_surge": 1.0,
+          "streak": -1,
+          "hist5": [
+            2.51,
+            -2.11,
+            -1.21,
+            2.71,
+            -0.85
+          ],
+          "momentum": 0.3
+        },
+        {
+          "name": "LS ELECTRIC",
+          "ticker": "010120.KS",
+          "sector": "방산/전력",
+          "close": 199200.0,
+          "chg_pct": -1.39,
+          "vol_surge": 1.0,
+          "streak": -2,
+          "hist5": [
+            2.64,
+            -3.5,
+            1.21,
+            -3.35,
+            -1.39
+          ],
+          "momentum": -2.8
+        },
+        {
+          "name": "효성중공업",
+          "ticker": "298040.KS",
+          "sector": "방산/전력",
+          "close": 2857000.0,
+          "chg_pct": -1.75,
+          "vol_surge": 0.9,
+          "streak": -2,
+          "hist5": [
+            4.32,
+            -2.09,
+            1.02,
+            -2.55,
+            -1.75
+          ],
+          "momentum": -3.9
+        }
+      ]
+    },
+    {
+      "sector": "조선/해운/항공",
+      "avg_chg": -0.49,
+      "stocks": [
+        {
+          "name": "삼성중공업",
+          "ticker": "010140.KS",
+          "sector": "조선/해운/항공",
+          "close": 20800.0,
+          "chg_pct": 0.97,
+          "vol_surge": 0.6,
+          "streak": 1,
+          "hist5": [
+            1.15,
+            1.36,
+            -4.71,
+            -3.06,
+            0.97
+          ],
+          "momentum": 6.3
+        },
+        {
+          "name": "아시아나항공",
+          "ticker": "020560.KS",
+          "sector": "조선/해운/항공",
+          "close": 6910.0,
+          "chg_pct": 0.58,
+          "vol_surge": 0.4,
+          "streak": 1,
+          "hist5": [
+            -2.08,
+            1.99,
+            -4.31,
+            -0.15,
+            0.58
+          ],
+          "momentum": 4.8
+        },
+        {
+          "name": "한화오션",
+          "ticker": "042660.KS",
+          "sector": "조선/해운/항공",
+          "close": 88500.0,
+          "chg_pct": 0.45,
+          "vol_surge": 0.5,
+          "streak": 1,
+          "hist5": [
+            0.67,
+            5.62,
+            -5.11,
+            -3.08,
+            0.45
+          ],
+          "momentum": 4.9
+        },
+        {
+          "name": "현대중공업",
+          "ticker": "329180.KS",
+          "sector": "조선/해운/항공",
+          "close": 475500.0,
+          "chg_pct": 0.32,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            0.0,
+            2.82,
+            -4.02,
+            -3.17,
+            0.32
+          ],
+          "momentum": 5.4
+        },
+        {
+          "name": "성창기업지주",
+          "ticker": "000180.KS",
+          "sector": "조선/해운/항공",
+          "close": 5300.0,
+          "chg_pct": 0.19,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -0.18,
+            0.18,
+            0.0,
+            -2.76,
+            0.19
+          ],
+          "momentum": 5.2
+        },
+        {
+          "name": "대한항공",
+          "ticker": "003490.KS",
+          "sector": "조선/해운/항공",
+          "close": 25050.0,
+          "chg_pct": 0.0,
+          "vol_surge": 0.8,
+          "streak": -3,
+          "hist5": [
+            -1.51,
+            0.77,
+            -3.99,
+            -0.79,
+            0.0
+          ],
+          "momentum": -2.8
+        },
+        {
+          "name": "HD한국조선해양",
+          "ticker": "009540.KS",
+          "sector": "조선/해운/항공",
+          "close": 360500.0,
+          "chg_pct": -1.77,
+          "vol_surge": 0.6,
+          "streak": -3,
+          "hist5": [
+            -2.37,
+            3.9,
+            -2.98,
+            -2.0,
+            -1.77
+          ],
+          "momentum": -7.1
+        },
+        {
+          "name": "HMM",
+          "ticker": "011200.KS",
+          "sector": "조선/해운/항공",
+          "close": 21200.0,
+          "chg_pct": -2.3,
+          "vol_surge": 0.6,
+          "streak": -2,
+          "hist5": [
+            -1.41,
+            0.95,
+            6.59,
+            -4.19,
+            -2.3
+          ],
+          "momentum": -6.2
+        },
+        {
+          "name": "HD현대",
+          "ticker": "267250.KS",
+          "sector": "조선/해운/항공",
+          "close": 221500.0,
+          "chg_pct": -2.85,
+          "vol_surge": 1.0,
+          "streak": -3,
+          "hist5": [
+            -0.65,
+            2.84,
+            -0.42,
+            -2.77,
+            -2.85
+          ],
+          "momentum": -7.7
+        }
+      ]
+    },
+    {
+      "sector": "소재/에너지",
+      "avg_chg": -1.95,
+      "stocks": [
+        {
+          "name": "포스코인터내셔널",
+          "ticker": "047050.KS",
+          "sector": "소재/에너지",
+          "close": 52300.0,
+          "chg_pct": 3.16,
+          "vol_surge": 1.6,
+          "streak": 1,
+          "hist5": [
+            -2.69,
+            0.91,
+            -3.56,
+            -1.36,
+            3.16
+          ],
+          "momentum": 14.7
+        },
+        {
+          "name": "CJ",
+          "ticker": "001040.KS",
+          "sector": "소재/에너지",
+          "close": 122900.0,
+          "chg_pct": 0.08,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            -0.51,
+            0.36,
+            -8.11,
+            -3.23,
+            0.08
+          ],
+          "momentum": 5.4
+        },
+        {
+          "name": "GS",
+          "ticker": "078930.KS",
+          "sector": "소재/에너지",
+          "close": 113600.0,
+          "chg_pct": -5.1,
+          "vol_surge": 0.8,
+          "streak": -1,
+          "hist5": [
+            6.34,
+            8.94,
+            1.97,
+            0.34,
+            -5.1
+          ],
+          "momentum": -9.0
+        },
+        {
+          "name": "S-Oil",
+          "ticker": "010950.KS",
+          "sector": "소재/에너지",
+          "close": 142600.0,
+          "chg_pct": -5.94,
+          "vol_surge": 0.8,
+          "streak": -2,
+          "hist5": [
+            -0.42,
+            4.76,
+            4.07,
+            -1.3,
+            -5.94
+          ],
+          "momentum": -12.7
+        }
+      ]
+    }
+  ],
+  "nasdaq_sectors": []
+}
