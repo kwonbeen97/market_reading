@@ -1,9 +1,9 @@
 {
   "date": "2026-08-20",
-  "updated_at": "2026-08-20 22:21",
+  "updated_at": "2026-08-21 07:01",
   "fng": 52,
   "fng_label": "neutral",
-  "fng_prev": 56,
+  "fng_prev": 52,
   "kospi_index": 6471.17,
   "kospi_chg": -5.8,
   "nasdaq_index": 26067.17,
@@ -3539,7 +3539,7 @@
     },
     {
       "sector": "반도체",
-      "avg_chg": 0.4,
+      "avg_chg": 0.41,
       "stocks": [
         {
           "name": "Marvell",
@@ -3647,7 +3647,7 @@
           "name": "AMD",
           "ticker": "AMD",
           "sector": "반도체",
-          "close": 469.45,
+          "close": 469.46,
           "chg_pct": 0.65,
           "vol_surge": 0.7,
           "streak": 1,
@@ -3699,7 +3699,7 @@
           "ticker": "AMAT",
           "sector": "반도체",
           "close": 496.21,
-          "chg_pct": 0.01,
+          "chg_pct": 0.11,
           "vol_surge": 0.6,
           "streak": 1,
           "hist5": [
@@ -3707,9 +3707,9 @@
             5.55,
             -3.92,
             -3.53,
-            0.01
+            0.11
           ],
-          "momentum": 4.4
+          "momentum": 4.6
         },
         {
           "name": "ASML",
@@ -4322,7 +4322,7 @@
     },
     {
       "sector": "빅테크",
-      "avg_chg": -1.01,
+      "avg_chg": -0.99,
       "stocks": [
         {
           "name": "Meta",
@@ -4380,7 +4380,7 @@
           "ticker": "MSFT",
           "sector": "빅테크",
           "close": 481.15,
-          "chg_pct": -0.65,
+          "chg_pct": -0.47,
           "vol_surge": 0.9,
           "streak": -1,
           "hist5": [
@@ -4388,9 +4388,9 @@
             -3.04,
             0.27,
             0.56,
-            -0.65
+            -0.47
           ],
-          "momentum": 0.3
+          "momentum": 0.7
         },
         {
           "name": "Alphabet",
