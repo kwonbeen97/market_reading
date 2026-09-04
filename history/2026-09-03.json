@@ -1,9 +1,9 @@
 {
   "date": "2026-09-03",
-  "updated_at": "2026-09-03 23:45",
+  "updated_at": "2026-09-04 07:01",
   "fng": 35,
   "fng_label": "fear",
-  "fng_prev": 33,
+  "fng_prev": 35,
   "kospi_index": 6562.72,
   "kospi_chg": -3.99,
   "nasdaq_index": 26584.06,
@@ -529,7 +529,7 @@
       "sector": "전기차/에너지",
       "close": 9.08,
       "chg_pct": 74.95,
-      "vol_surge": 64.3,
+      "vol_surge": 64.5,
       "streak": 1,
       "hist5": [
         -4.46,
@@ -663,7 +663,7 @@
       "name": "Tesla",
       "ticker": "TSLA",
       "sector": "전기차/에너지",
-      "close": 376.36,
+      "close": 376.37,
       "chg_pct": 5.42,
       "vol_surge": 1.6,
       "streak": 2,
@@ -1002,23 +1002,6 @@
       "momentum": -0.9
     },
     {
-      "name": "Qualcomm",
-      "ticker": "QCOM",
-      "sector": "반도체",
-      "close": 168.57,
-      "chg_pct": -0.82,
-      "vol_surge": 0.7,
-      "streak": -1,
-      "hist5": [
-        -0.36,
-        3.83,
-        -2.27,
-        2.01,
-        -0.82
-      ],
-      "momentum": -0.8
-    },
-    {
       "name": "eBay",
       "ticker": "EBAY",
       "sector": "소비재/유통",
@@ -1034,6 +1017,23 @@
         -0.79
       ],
       "momentum": -0.8
+    },
+    {
+      "name": "Cisco",
+      "ticker": "CSCO",
+      "sector": "미디어/통신",
+      "close": 108.61,
+      "chg_pct": -0.78,
+      "vol_surge": 1.0,
+      "streak": -3,
+      "hist5": [
+        -1.98,
+        0.51,
+        -0.68,
+        -0.26,
+        -0.78
+      ],
+      "momentum": -3.6
     }
   ],
   "kospi_sectors": [
@@ -3439,7 +3439,7 @@
           "sector": "전기차/에너지",
           "close": 9.08,
           "chg_pct": 74.95,
-          "vol_surge": 64.3,
+          "vol_surge": 64.5,
           "streak": 1,
           "hist5": [
             -4.46,
@@ -3454,7 +3454,7 @@
           "name": "Tesla",
           "ticker": "TSLA",
           "sector": "전기차/에너지",
-          "close": 376.36,
+          "close": 376.37,
           "chg_pct": 5.42,
           "vol_surge": 1.6,
           "streak": 2,
@@ -3994,7 +3994,7 @@
           "ticker": "CDNS",
           "sector": "AI/소프트웨어",
           "close": 304.88,
-          "chg_pct": -0.59,
+          "chg_pct": -0.58,
           "vol_surge": 1.0,
           "streak": -5,
           "hist5": [
@@ -4002,7 +4002,7 @@
             -0.47,
             -7.6,
             -2.03,
-            -0.59
+            -0.58
           ],
           "momentum": -7.2
         }
@@ -4311,7 +4311,7 @@
     },
     {
       "sector": "반도체",
-      "avg_chg": 0.17,
+      "avg_chg": 0.2,
       "stocks": [
         {
           "name": "Arm Holdings",
@@ -4535,6 +4535,23 @@
           "momentum": -2.4
         },
         {
+          "name": "Qualcomm",
+          "ticker": "QCOM",
+          "sector": "반도체",
+          "close": 168.57,
+          "chg_pct": -0.28,
+          "vol_surge": 0.7,
+          "streak": -1,
+          "hist5": [
+            -0.36,
+            3.83,
+            -2.27,
+            2.01,
+            -0.28
+          ],
+          "momentum": 0.2
+        },
+        {
           "name": "Texas Instruments",
           "ticker": "TXN",
           "sector": "반도체",
@@ -4567,23 +4584,6 @@
             -0.58
           ],
           "momentum": -7.6
-        },
-        {
-          "name": "Qualcomm",
-          "ticker": "QCOM",
-          "sector": "반도체",
-          "close": 168.57,
-          "chg_pct": -0.82,
-          "vol_surge": 0.7,
-          "streak": -1,
-          "hist5": [
-            -0.36,
-            3.83,
-            -2.27,
-            2.01,
-            -0.82
-          ],
-          "momentum": -0.8
         },
         {
           "name": "Seagate",
@@ -4892,7 +4892,7 @@
           "sector": "소비재/유통",
           "close": 121.77,
           "chg_pct": 1.42,
-          "vol_surge": 2.8,
+          "vol_surge": 2.9,
           "streak": 2,
           "hist5": [
             5.05,
@@ -4901,7 +4901,7 @@
             1.75,
             1.42
           ],
-          "momentum": 18.0
+          "momentum": 18.4
         },
         {
           "name": "Airbnb",
