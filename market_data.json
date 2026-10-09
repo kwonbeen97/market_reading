@@ -1,9 +1,9 @@
 {
   "date": "2026-10-08",
-  "updated_at": "2026-10-09 01:38",
+  "updated_at": "2026-10-09 07:01",
   "fng": 38,
   "fng_label": "fear",
-  "fng_prev": 45,
+  "fng_prev": 38,
   "kospi_index": 6625.93,
   "kospi_chg": -2.62,
   "nasdaq_index": 27193.34,
@@ -3175,131 +3175,6 @@
   ],
   "nasdaq_sectors": [
     {
-      "sector": "미디어/통신",
-      "avg_chg": 1.63,
-      "stocks": [
-        {
-          "name": "Old Dominion",
-          "ticker": "ODFL",
-          "sector": "미디어/통신",
-          "close": 181.65,
-          "chg_pct": 3.44,
-          "vol_surge": 0.8,
-          "streak": 1,
-          "hist5": [
-            1.34,
-            -0.62,
-            -0.75,
-            -1.35,
-            3.44
-          ],
-          "momentum": 12.1
-        },
-        {
-          "name": "Netflix",
-          "ticker": "NFLX",
-          "sector": "미디어/통신",
-          "close": 71.57,
-          "chg_pct": 2.68,
-          "vol_surge": 1.3,
-          "streak": 4,
-          "hist5": [
-            -1.16,
-            0.66,
-            1.76,
-            1.47,
-            2.68
-          ],
-          "momentum": 18.6
-        },
-        {
-          "name": "PACCAR",
-          "ticker": "PCAR",
-          "sector": "미디어/통신",
-          "close": 109.66,
-          "chg_pct": 2.62,
-          "vol_surge": 1.0,
-          "streak": 1,
-          "hist5": [
-            -0.24,
-            -0.29,
-            -0.04,
-            -2.25,
-            2.62
-          ],
-          "momentum": 11.2
-        },
-        {
-          "name": "T-Mobile",
-          "ticker": "TMUS",
-          "sector": "미디어/통신",
-          "close": 171.31,
-          "chg_pct": 2.18,
-          "vol_surge": 1.1,
-          "streak": 5,
-          "hist5": [
-            1.18,
-            0.61,
-            0.78,
-            1.04,
-            2.18
-          ],
-          "momentum": 18.8
-        },
-        {
-          "name": "Fastenal",
-          "ticker": "FAST",
-          "sector": "미디어/통신",
-          "close": 50.49,
-          "chg_pct": 1.32,
-          "vol_surge": 1.1,
-          "streak": 1,
-          "hist5": [
-            1.04,
-            -0.12,
-            0.24,
-            -1.93,
-            1.32
-          ],
-          "momentum": 9.0
-        },
-        {
-          "name": "Comcast",
-          "ticker": "CMCSA",
-          "sector": "미디어/통신",
-          "close": 21.21,
-          "chg_pct": 1.29,
-          "vol_surge": 1.8,
-          "streak": 1,
-          "hist5": [
-            -0.6,
-            0.0,
-            -0.05,
-            -1.37,
-            1.29
-          ],
-          "momentum": 11.8
-        },
-        {
-          "name": "Cisco",
-          "ticker": "CSCO",
-          "sector": "미디어/통신",
-          "close": 114.89,
-          "chg_pct": -2.13,
-          "vol_surge": 0.7,
-          "streak": -2,
-          "hist5": [
-            3.56,
-            0.55,
-            4.54,
-            -0.47,
-            -2.13
-          ],
-          "momentum": -5.5
-        }
-      ]
-    },
-    {
       "sector": "소비재/유통",
       "avg_chg": 1.61,
       "stocks": [
@@ -3971,6 +3846,148 @@
             -2.04
           ],
           "momentum": -5.3
+        }
+      ]
+    },
+    {
+      "sector": "미디어/통신",
+      "avg_chg": 1.42,
+      "stocks": [
+        {
+          "name": "Old Dominion",
+          "ticker": "ODFL",
+          "sector": "미디어/통신",
+          "close": 181.65,
+          "chg_pct": 3.44,
+          "vol_surge": 0.8,
+          "streak": 1,
+          "hist5": [
+            1.34,
+            -0.62,
+            -0.75,
+            -1.35,
+            3.44
+          ],
+          "momentum": 12.1
+        },
+        {
+          "name": "Netflix",
+          "ticker": "NFLX",
+          "sector": "미디어/통신",
+          "close": 71.57,
+          "chg_pct": 2.68,
+          "vol_surge": 1.3,
+          "streak": 4,
+          "hist5": [
+            -1.16,
+            0.66,
+            1.76,
+            1.47,
+            2.68
+          ],
+          "momentum": 18.6
+        },
+        {
+          "name": "PACCAR",
+          "ticker": "PCAR",
+          "sector": "미디어/통신",
+          "close": 109.66,
+          "chg_pct": 2.62,
+          "vol_surge": 1.0,
+          "streak": 1,
+          "hist5": [
+            -0.24,
+            -0.29,
+            -0.04,
+            -2.25,
+            2.62
+          ],
+          "momentum": 11.2
+        },
+        {
+          "name": "T-Mobile",
+          "ticker": "TMUS",
+          "sector": "미디어/통신",
+          "close": 171.31,
+          "chg_pct": 2.18,
+          "vol_surge": 1.1,
+          "streak": 5,
+          "hist5": [
+            1.18,
+            0.61,
+            0.78,
+            1.04,
+            2.18
+          ],
+          "momentum": 18.8
+        },
+        {
+          "name": "Fastenal",
+          "ticker": "FAST",
+          "sector": "미디어/통신",
+          "close": 50.49,
+          "chg_pct": 1.32,
+          "vol_surge": 1.1,
+          "streak": 1,
+          "hist5": [
+            1.04,
+            -0.12,
+            0.24,
+            -1.93,
+            1.32
+          ],
+          "momentum": 9.0
+        },
+        {
+          "name": "Comcast",
+          "ticker": "CMCSA",
+          "sector": "미디어/통신",
+          "close": 21.21,
+          "chg_pct": 1.29,
+          "vol_surge": 1.8,
+          "streak": 1,
+          "hist5": [
+            -0.6,
+            0.0,
+            -0.05,
+            -1.37,
+            1.29
+          ],
+          "momentum": 11.8
+        },
+        {
+          "name": "Warner Bros Discovery",
+          "ticker": "WBD",
+          "sector": "미디어/통신",
+          "close": 30.95,
+          "chg_pct": 0.0,
+          "vol_surge": 0.0,
+          "streak": -1,
+          "hist5": [
+            0.32,
+            0.0,
+            -0.03,
+            0.03,
+            0.0
+          ],
+          "momentum": -2.0
+        },
+        {
+          "name": "Cisco",
+          "ticker": "CSCO",
+          "sector": "미디어/통신",
+          "close": 114.89,
+          "chg_pct": -2.13,
+          "vol_surge": 0.7,
+          "streak": -2,
+          "hist5": [
+            3.56,
+            0.55,
+            4.54,
+            -0.47,
+            -2.13
+          ],
+          "momentum": -5.5
         }
       ]
     },
