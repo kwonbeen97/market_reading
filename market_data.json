@@ -1,11 +1,11 @@
 {
   "date": "2026-10-08",
-  "updated_at": "2026-10-08 22:01",
+  "updated_at": "2026-10-09 01:38",
   "fng": 38,
   "fng_label": "fear",
   "fng_prev": 45,
-  "kospi_index": 6803.9,
-  "kospi_chg": -1.98,
+  "kospi_index": 6625.93,
+  "kospi_chg": -2.62,
   "nasdaq_index": 27193.34,
   "nasdaq_chg": -1.25,
   "kospi_up": [
@@ -762,21 +762,21 @@
       "momentum": 13.1
     },
     {
-      "name": "Netflix",
-      "ticker": "NFLX",
-      "sector": "미디어/통신",
-      "close": 71.57,
-      "chg_pct": 2.68,
-      "vol_surge": 1.3,
+      "name": "Intuit",
+      "ticker": "INTU",
+      "sector": "AI/소프트웨어",
+      "close": 303.88,
+      "chg_pct": 2.71,
+      "vol_surge": 1.6,
       "streak": 4,
       "hist5": [
-        -1.16,
-        0.66,
-        1.76,
-        1.47,
-        2.68
+        -0.6,
+        1.28,
+        1.8,
+        2.56,
+        2.71
       ],
-      "momentum": 18.6
+      "momentum": 19.8
     }
   ],
   "nasdaq_down": [
@@ -922,7 +922,7 @@
       "sector": "반도체",
       "close": 620.68,
       "chg_pct": -3.9,
-      "vol_surge": 1.2,
+      "vol_surge": 1.3,
       "streak": -2,
       "hist5": [
         2.95,
@@ -931,7 +931,7 @@
         -0.55,
         -3.9
       ],
-      "momentum": -7.0
+      "momentum": -6.6
     },
     {
       "name": "ON Semi",
@@ -3428,7 +3428,7 @@
           "sector": "소비재/유통",
           "close": 118.62,
           "chg_pct": 1.99,
-          "vol_surge": 1.1,
+          "vol_surge": 1.2,
           "streak": 4,
           "hist5": [
             -1.98,
@@ -3437,7 +3437,7 @@
             0.09,
             1.99
           ],
-          "momentum": 16.4
+          "momentum": 16.8
         },
         {
           "name": "Monster Beverage",
@@ -3462,7 +3462,7 @@
           "sector": "소비재/유통",
           "close": 86.01,
           "chg_pct": 1.65,
-          "vol_surge": 0.8,
+          "vol_surge": 1.3,
           "streak": 1,
           "hist5": [
             -0.15,
@@ -3471,7 +3471,7 @@
             -0.62,
             1.65
           ],
-          "momentum": 8.5
+          "momentum": 10.5
         },
         {
           "name": "Airbnb",
@@ -3513,7 +3513,7 @@
           "sector": "소비재/유통",
           "close": 947.92,
           "chg_pct": 0.6,
-          "vol_surge": 1.1,
+          "vol_surge": 1.2,
           "streak": 6,
           "hist5": [
             0.62,
@@ -3522,7 +3522,7 @@
             0.7,
             0.6
           ],
-          "momentum": 15.6
+          "momentum": 16.0
         },
         {
           "name": "Ross Stores",
@@ -3596,7 +3596,7 @@
     },
     {
       "sector": "AI/소프트웨어",
-      "avg_chg": 1.42,
+      "avg_chg": 1.44,
       "stocks": [
         {
           "name": "HubSpot",
@@ -3701,6 +3701,23 @@
           "momentum": 13.1
         },
         {
+          "name": "Intuit",
+          "ticker": "INTU",
+          "sector": "AI/소프트웨어",
+          "close": 303.88,
+          "chg_pct": 2.71,
+          "vol_surge": 1.6,
+          "streak": 4,
+          "hist5": [
+            -0.6,
+            1.28,
+            1.8,
+            2.56,
+            2.71
+          ],
+          "momentum": 19.8
+        },
+        {
           "name": "Palantir",
           "ticker": "PLTR",
           "sector": "AI/소프트웨어",
@@ -3733,23 +3750,6 @@
             2.29
           ],
           "momentum": 17.8
-        },
-        {
-          "name": "Intuit",
-          "ticker": "INTU",
-          "sector": "AI/소프트웨어",
-          "close": 303.88,
-          "chg_pct": 2.23,
-          "vol_surge": 1.5,
-          "streak": 4,
-          "hist5": [
-            -0.6,
-            1.28,
-            1.8,
-            2.56,
-            2.23
-          ],
-          "momentum": 18.5
         },
         {
           "name": "Workday",
@@ -3859,7 +3859,7 @@
           "sector": "AI/소프트웨어",
           "close": 189.1,
           "chg_pct": -0.1,
-          "vol_surge": 0.8,
+          "vol_surge": 1.3,
           "streak": -2,
           "hist5": [
             1.25,
@@ -3868,7 +3868,7 @@
             -1.04,
             -0.1
           ],
-          "momentum": -1.0
+          "momentum": 1.0
         },
         {
           "name": "Zoom",
@@ -4018,7 +4018,7 @@
           "sector": "금융/핀테크",
           "close": 270.73,
           "chg_pct": 2.55,
-          "vol_surge": 1.0,
+          "vol_surge": 1.1,
           "streak": 4,
           "hist5": [
             -2.38,
@@ -4027,7 +4027,7 @@
             0.63,
             2.55
           ],
-          "momentum": 17.1
+          "momentum": 17.5
         },
         {
           "name": "PayPal",
@@ -4552,7 +4552,7 @@
           "sector": "반도체",
           "close": 288.2,
           "chg_pct": -0.27,
-          "vol_surge": 1.4,
+          "vol_surge": 1.5,
           "streak": -2,
           "hist5": [
             4.44,
@@ -4561,7 +4561,7 @@
             -2.78,
             -0.27
           ],
-          "momentum": 1.1
+          "momentum": 1.5
         },
         {
           "name": "Qualcomm",
@@ -4756,7 +4756,7 @@
           "sector": "반도체",
           "close": 620.68,
           "chg_pct": -3.9,
-          "vol_surge": 1.2,
+          "vol_surge": 1.3,
           "streak": -2,
           "hist5": [
             2.95,
@@ -4765,7 +4765,7 @@
             -0.55,
             -3.9
           ],
-          "momentum": -7.0
+          "momentum": -6.6
         },
         {
           "name": "Seagate",
