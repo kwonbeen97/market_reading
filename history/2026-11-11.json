@@ -1,6 +1,6 @@
 {
   "date": "2026-11-11",
-  "updated_at": "2026-11-11 22:01",
+  "updated_at": "2026-11-12 02:39",
   "fng": 37,
   "fng_label": "fear",
   "fng_prev": 33,
@@ -597,7 +597,7 @@
       "sector": "빅테크",
       "close": 30.43,
       "chg_pct": 9.5,
-      "vol_surge": 0.7,
+      "vol_surge": 0.8,
       "streak": 1,
       "hist5": [
         -8.51,
@@ -606,7 +606,7 @@
         -2.83,
         9.5
       ],
-      "momentum": 23.8
+      "momentum": 24.2
     },
     {
       "name": "Marvell",
@@ -818,7 +818,7 @@
       "name": "Microsoft",
       "ticker": "MSFT",
       "sector": "빅테크",
-      "close": 521.12,
+      "close": 521.13,
       "chg_pct": -2.26,
       "vol_surge": 0.8,
       "streak": -2,
@@ -917,23 +917,6 @@
       "momentum": -4.1
     },
     {
-      "name": "Plug Power",
-      "ticker": "PLUG",
-      "sector": "전기차/에너지",
-      "close": 1.36,
-      "chg_pct": -1.09,
-      "vol_surge": 0.3,
-      "streak": -2,
-      "hist5": [
-        -7.53,
-        7.41,
-        3.45,
-        -8.67,
-        -1.09
-      ],
-      "momentum": -5.0
-    },
-    {
       "name": "Illumina",
       "ticker": "ILMN",
       "sector": "바이오/헬스",
@@ -966,6 +949,23 @@
         -0.85
       ],
       "momentum": -3.3
+    },
+    {
+      "name": "Plug Power",
+      "ticker": "PLUG",
+      "sector": "전기차/에너지",
+      "close": 1.36,
+      "chg_pct": -0.73,
+      "vol_surge": 0.3,
+      "streak": -2,
+      "hist5": [
+        -7.53,
+        7.41,
+        3.45,
+        -8.67,
+        -0.73
+      ],
+      "momentum": -4.3
     },
     {
       "name": "Cadence",
@@ -3473,7 +3473,7 @@
           "sector": "반도체",
           "close": 173.73,
           "chg_pct": 2.87,
-          "vol_surge": 0.9,
+          "vol_surge": 1.0,
           "streak": 1,
           "hist5": [
             -9.26,
@@ -3482,7 +3482,7 @@
             -5.47,
             2.87
           ],
-          "momentum": 11.3
+          "momentum": 11.7
         },
         {
           "name": "ASML",
@@ -3530,7 +3530,7 @@
           "sector": "빅테크",
           "close": 30.43,
           "chg_pct": 9.5,
-          "vol_surge": 0.7,
+          "vol_surge": 0.8,
           "streak": 1,
           "hist5": [
             -8.51,
@@ -3539,7 +3539,7 @@
             -2.83,
             9.5
           ],
-          "momentum": 23.8
+          "momentum": 24.2
         },
         {
           "name": "Oracle",
@@ -3664,7 +3664,7 @@
           "name": "Microsoft",
           "ticker": "MSFT",
           "sector": "빅테크",
-          "close": 521.12,
+          "close": 521.13,
           "chg_pct": -2.26,
           "vol_surge": 0.8,
           "streak": -2,
@@ -3706,7 +3706,7 @@
           "sector": "AI/소프트웨어",
           "close": 128.1,
           "chg_pct": 3.67,
-          "vol_surge": 0.7,
+          "vol_surge": 0.8,
           "streak": 3,
           "hist5": [
             -5.32,
@@ -3715,7 +3715,7 @@
             0.9,
             3.67
           ],
-          "momentum": 16.1
+          "momentum": 16.5
         },
         {
           "name": "Datadog",
@@ -4120,7 +4120,7 @@
           "sector": "미디어/통신",
           "close": 172.16,
           "chg_pct": 1.82,
-          "vol_surge": 0.8,
+          "vol_surge": 0.9,
           "streak": 6,
           "hist5": [
             0.89,
@@ -4129,7 +4129,7 @@
             0.22,
             1.82
           ],
-          "momentum": 16.8
+          "momentum": 17.2
         },
         {
           "name": "Old Dominion",
@@ -4137,7 +4137,7 @@
           "sector": "미디어/통신",
           "close": 170.5,
           "chg_pct": 1.48,
-          "vol_surge": 0.5,
+          "vol_surge": 0.6,
           "streak": 1,
           "hist5": [
             -4.92,
@@ -4146,7 +4146,7 @@
             -1.68,
             1.48
           ],
-          "momentum": 7.0
+          "momentum": 7.4
         },
         {
           "name": "Fastenal",
@@ -4294,7 +4294,7 @@
     },
     {
       "sector": "전기차/에너지",
-      "avg_chg": 0.95,
+      "avg_chg": 1.02,
       "stocks": [
         {
           "name": "Tesla",
@@ -4352,7 +4352,7 @@
           "ticker": "PLUG",
           "sector": "전기차/에너지",
           "close": 1.36,
-          "chg_pct": -1.09,
+          "chg_pct": -0.73,
           "vol_surge": 0.3,
           "streak": -2,
           "hist5": [
@@ -4360,9 +4360,9 @@
             7.41,
             3.45,
             -8.67,
-            -1.09
+            -0.73
           ],
-          "momentum": -5.0
+          "momentum": -4.3
         },
         {
           "name": "First Solar",
@@ -4443,7 +4443,7 @@
           "ticker": "DXCM",
           "sector": "바이오/헬스",
           "close": 80.35,
-          "chg_pct": 0.53,
+          "chg_pct": 0.54,
           "vol_surge": 0.8,
           "streak": 1,
           "hist5": [
@@ -4451,7 +4451,7 @@
             -5.98,
             2.09,
             -1.42,
-            0.53
+            0.54
           ],
           "momentum": 6.3
         },
@@ -4495,7 +4495,7 @@
           "sector": "바이오/헬스",
           "close": 547.03,
           "chg_pct": -0.16,
-          "vol_surge": 0.6,
+          "vol_surge": 0.7,
           "streak": -2,
           "hist5": [
             -1.19,
@@ -4504,7 +4504,7 @@
             -0.54,
             -0.16
           ],
-          "momentum": -1.9
+          "momentum": -1.5
         },
         {
           "name": "Gilead",
@@ -4671,7 +4671,7 @@
           "sector": "소비재/유통",
           "close": 90.54,
           "chg_pct": 1.29,
-          "vol_surge": 0.7,
+          "vol_surge": 0.9,
           "streak": 1,
           "hist5": [
             -0.92,
@@ -4680,7 +4680,7 @@
             -0.45,
             1.29
           ],
-          "momentum": 7.4
+          "momentum": 8.2
         },
         {
           "name": "Ross Stores",
