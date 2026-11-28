@@ -1,11 +1,11 @@
 {
   "date": "2026-11-27",
-  "updated_at": "2026-11-27 22:01",
+  "updated_at": "2026-11-28 03:41",
   "fng": 25,
   "fng_label": "extreme fear",
   "fng_prev": 16,
-  "kospi_index": 4711.21,
-  "kospi_chg": 0.29,
+  "kospi_index": 4915.68,
+  "kospi_chg": 4.34,
   "nasdaq_index": 24129.5,
   "nasdaq_chg": 2.31,
   "kospi_up": [
@@ -527,8 +527,8 @@
       "name": "Plug Power",
       "ticker": "PLUG",
       "sector": "전기차/에너지",
-      "close": 1.15,
-      "chg_pct": 7.94,
+      "close": 1.16,
+      "chg_pct": 8.41,
       "vol_surge": 0.3,
       "streak": 2,
       "hist5": [
@@ -536,9 +536,9 @@
         3.13,
         -6.06,
         15.05,
-        7.94
+        8.41
       ],
-      "momentum": 21.1
+      "momentum": 22.0
     },
     {
       "name": "Seagate",
@@ -796,23 +796,6 @@
       "momentum": -20.0
     },
     {
-      "name": "SanDisk",
-      "ticker": "SNDK",
-      "sector": "반도체",
-      "close": 85.36,
-      "chg_pct": -9.57,
-      "vol_surge": 0.9,
-      "streak": -6,
-      "hist5": [
-        -8.58,
-        -1.47,
-        -2.64,
-        -2.71,
-        -9.57
-      ],
-      "momentum": -25.5
-    },
-    {
       "name": "Vertex",
       "ticker": "VRTX",
       "sector": "바이오/헬스",
@@ -828,6 +811,23 @@
         -5.24
       ],
       "momentum": -6.9
+    },
+    {
+      "name": "SanDisk",
+      "ticker": "SNDK",
+      "sector": "반도체",
+      "close": 94.39,
+      "chg_pct": -2.71,
+      "vol_surge": 1.1,
+      "streak": -5,
+      "hist5": [
+        -5.59,
+        -8.58,
+        -1.47,
+        -2.64,
+        -2.71
+      ],
+      "momentum": -11.0
     },
     {
       "name": "Dollar Tree",
@@ -869,7 +869,7 @@
       "sector": "AI/소프트웨어",
       "close": 207.45,
       "chg_pct": -1.31,
-      "vol_surge": 0.3,
+      "vol_surge": 0.4,
       "streak": -1,
       "hist5": [
         0.98,
@@ -878,7 +878,7 @@
         2.4,
         -1.31
       ],
-      "momentum": -3.4
+      "momentum": -3.0
     },
     {
       "name": "Keurig Dr Pepper",
@@ -3173,99 +3173,8 @@
   ],
   "nasdaq_sectors": [
     {
-      "sector": "전기차/에너지",
-      "avg_chg": 4.12,
-      "stocks": [
-        {
-          "name": "Plug Power",
-          "ticker": "PLUG",
-          "sector": "전기차/에너지",
-          "close": 1.15,
-          "chg_pct": 7.94,
-          "vol_surge": 0.3,
-          "streak": 2,
-          "hist5": [
-            -6.8,
-            3.13,
-            -6.06,
-            15.05,
-            7.94
-          ],
-          "momentum": 21.1
-        },
-        {
-          "name": "Tesla",
-          "ticker": "TSLA",
-          "sector": "전기차/에너지",
-          "close": 400.0,
-          "chg_pct": 5.22,
-          "vol_surge": 0.7,
-          "streak": 1,
-          "hist5": [
-            -7.64,
-            11.46,
-            -0.2,
-            -1.18,
-            5.22
-          ],
-          "momentum": 15.2
-        },
-        {
-          "name": "Enphase",
-          "ticker": "ENPH",
-          "sector": "전기차/에너지",
-          "close": 21.69,
-          "chg_pct": 3.98,
-          "vol_surge": 0.8,
-          "streak": 2,
-          "hist5": [
-            -10.69,
-            6.32,
-            -2.4,
-            2.41,
-            3.98
-          ],
-          "momentum": 15.2
-        },
-        {
-          "name": "ChargePoint",
-          "ticker": "CHPT",
-          "sector": "전기차/에너지",
-          "close": 8.96,
-          "chg_pct": 2.17,
-          "vol_surge": 0.5,
-          "streak": 2,
-          "hist5": [
-            -9.45,
-            5.62,
-            -6.51,
-            1.86,
-            2.17
-          ],
-          "momentum": 10.3
-        },
-        {
-          "name": "First Solar",
-          "ticker": "FSLR",
-          "sector": "전기차/에너지",
-          "close": 149.77,
-          "chg_pct": 1.28,
-          "vol_surge": 0.4,
-          "streak": 1,
-          "hist5": [
-            -9.45,
-            6.5,
-            1.0,
-            -0.08,
-            1.28
-          ],
-          "momentum": 6.2
-        }
-      ]
-    },
-    {
       "sector": "반도체",
-      "avg_chg": 4.05,
+      "avg_chg": 4.39,
       "stocks": [
         {
           "name": "Seagate",
@@ -3528,7 +3437,7 @@
           "sector": "반도체",
           "close": 322.04,
           "chg_pct": 3.49,
-          "vol_surge": 0.4,
+          "vol_surge": 0.5,
           "streak": 1,
           "hist5": [
             -10.71,
@@ -3537,7 +3446,7 @@
             -3.89,
             3.49
           ],
-          "momentum": 10.6
+          "momentum": 11.0
         },
         {
           "name": "TSMC",
@@ -3594,18 +3503,109 @@
           "name": "SanDisk",
           "ticker": "SNDK",
           "sector": "반도체",
-          "close": 85.36,
-          "chg_pct": -9.57,
-          "vol_surge": 0.9,
-          "streak": -6,
+          "close": 94.39,
+          "chg_pct": -2.71,
+          "vol_surge": 1.1,
+          "streak": -5,
           "hist5": [
+            -5.59,
             -8.58,
             -1.47,
             -2.64,
-            -2.71,
-            -9.57
+            -2.71
           ],
-          "momentum": -25.5
+          "momentum": -11.0
+        }
+      ]
+    },
+    {
+      "sector": "전기차/에너지",
+      "avg_chg": 4.21,
+      "stocks": [
+        {
+          "name": "Plug Power",
+          "ticker": "PLUG",
+          "sector": "전기차/에너지",
+          "close": 1.16,
+          "chg_pct": 8.41,
+          "vol_surge": 0.3,
+          "streak": 2,
+          "hist5": [
+            -6.8,
+            3.13,
+            -6.06,
+            15.05,
+            8.41
+          ],
+          "momentum": 22.0
+        },
+        {
+          "name": "Tesla",
+          "ticker": "TSLA",
+          "sector": "전기차/에너지",
+          "close": 400.0,
+          "chg_pct": 5.22,
+          "vol_surge": 0.7,
+          "streak": 1,
+          "hist5": [
+            -7.64,
+            11.46,
+            -0.2,
+            -1.18,
+            5.22
+          ],
+          "momentum": 15.2
+        },
+        {
+          "name": "Enphase",
+          "ticker": "ENPH",
+          "sector": "전기차/에너지",
+          "close": 21.69,
+          "chg_pct": 3.98,
+          "vol_surge": 0.8,
+          "streak": 2,
+          "hist5": [
+            -10.69,
+            6.32,
+            -2.4,
+            2.41,
+            3.98
+          ],
+          "momentum": 15.2
+        },
+        {
+          "name": "ChargePoint",
+          "ticker": "CHPT",
+          "sector": "전기차/에너지",
+          "close": 8.96,
+          "chg_pct": 2.17,
+          "vol_surge": 0.5,
+          "streak": 2,
+          "hist5": [
+            -9.45,
+            5.62,
+            -6.51,
+            1.86,
+            2.17
+          ],
+          "momentum": 10.3
+        },
+        {
+          "name": "First Solar",
+          "ticker": "FSLR",
+          "sector": "전기차/에너지",
+          "close": 149.77,
+          "chg_pct": 1.28,
+          "vol_surge": 0.4,
+          "streak": 1,
+          "hist5": [
+            -9.45,
+            6.5,
+            1.0,
+            -0.08,
+            1.28
+          ],
+          "momentum": 6.2
         }
       ]
     },
@@ -3971,7 +3971,7 @@
           "sector": "AI/소프트웨어",
           "close": 217.2,
           "chg_pct": 3.77,
-          "vol_surge": 0.4,
+          "vol_surge": 0.5,
           "streak": 1,
           "hist5": [
             -5.76,
@@ -3980,7 +3980,7 @@
             -0.74,
             3.77
           ],
-          "momentum": 11.1
+          "momentum": 11.5
         },
         {
           "name": "Zscaler",
@@ -4022,7 +4022,7 @@
           "sector": "AI/소프트웨어",
           "close": 139.48,
           "chg_pct": 3.35,
-          "vol_surge": 0.3,
+          "vol_surge": 0.4,
           "streak": 4,
           "hist5": [
             -5.25,
@@ -4031,7 +4031,7 @@
             1.86,
             3.35
           ],
-          "momentum": 15.9
+          "momentum": 16.3
         },
         {
           "name": "Snowflake",
@@ -4158,7 +4158,7 @@
           "sector": "AI/소프트웨어",
           "close": 89.44,
           "chg_pct": 0.99,
-          "vol_surge": 0.3,
+          "vol_surge": 0.4,
           "streak": 4,
           "hist5": [
             -3.05,
@@ -4167,7 +4167,7 @@
             0.18,
             0.99
           ],
-          "momentum": 11.2
+          "momentum": 11.6
         },
         {
           "name": "Adobe",
@@ -4260,7 +4260,7 @@
           "sector": "AI/소프트웨어",
           "close": 207.45,
           "chg_pct": -1.31,
-          "vol_surge": 0.3,
+          "vol_surge": 0.4,
           "streak": -1,
           "hist5": [
             0.98,
@@ -4269,7 +4269,7 @@
             2.4,
             -1.31
           ],
-          "momentum": -3.4
+          "momentum": -3.0
         },
         {
           "name": "ANSYS",
@@ -4423,7 +4423,7 @@
           "sector": "소비재/유통",
           "close": 179.16,
           "chg_pct": 4.07,
-          "vol_surge": 1.2,
+          "vol_surge": 1.4,
           "streak": 1,
           "hist5": [
             -1.41,
@@ -4432,7 +4432,7 @@
             -0.72,
             4.07
           ],
-          "momentum": 14.9
+          "momentum": 15.7
         },
         {
           "name": "Amazon",
@@ -4457,7 +4457,7 @@
           "sector": "소비재/유통",
           "close": 246.62,
           "chg_pct": 2.22,
-          "vol_surge": 0.4,
+          "vol_surge": 0.5,
           "streak": 2,
           "hist5": [
             -1.77,
@@ -4466,7 +4466,7 @@
             0.84,
             2.22
           ],
-          "momentum": 10.0
+          "momentum": 10.4
         },
         {
           "name": "Costco",
@@ -4786,7 +4786,7 @@
           "sector": "바이오/헬스",
           "close": 992.14,
           "chg_pct": 1.05,
-          "vol_surge": 0.5,
+          "vol_surge": 0.6,
           "streak": 1,
           "hist5": [
             -0.19,
@@ -4795,7 +4795,7 @@
             -0.53,
             1.05
           ],
-          "momentum": 6.1
+          "momentum": 6.5
         },
         {
           "name": "Amgen",
